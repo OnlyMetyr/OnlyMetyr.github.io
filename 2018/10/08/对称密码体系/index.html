@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理 流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题 基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数； 同步流密码加密器中记忆元件的存储状态δi">
+<meta name="keywords" content="HelloWorld">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chaotic&#39;s Blogs">
+<meta property="og:url" content="http://arrontao.vip/2018/10/08/对称密码体系/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理 流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题 基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数； 同步流密码加密器中记忆元件的存储状态δi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-10-11%2017.29.12.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/C39F0EAB-55D7-4841-B0A8-82C52E16A667.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/8F3BB816-D66C-4403-8AFB-5AE5644D1F8E.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/C9C8D91F-0312-4B1E-97DE-9048418EDED6.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/85E997CB-6F6D-41C0-993B-E504D8AFBA64.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/4952A6EA-653F-456E-9413-F477926A2DA4.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/Ofb_encryption.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/Ofb_decryption.png">
+<meta property="og:updated_time" content="2018-10-11T10:10:21.816Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chaotic&#39;s Blogs">
+<meta name="twitter:description" content="对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理 流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题 基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数； 同步流密码加密器中记忆元件的存储状态δi">
+<meta name="twitter:image" content="http://arrontao.vip/2018/10/08/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-10-11%2017.29.12.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2018/10/08/对称密码体系/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/08/对称密码体系/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arrontao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-08 08:09:55" itemprop="dateCreated datePublished" datetime="2018-10-08T08:09:55+08:00">2018-10-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-11 18:10:21" itemprop="dateModified" datetime="2018-10-11T18:10:21+08:00">2018-10-11</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="对称密码体系"><a href="#对称密码体系" class="headerlink" title="对称密码体系"></a>对称密码体系</h1><p><strong>主要特征</strong>：加密密钥和解密密钥相同<br><strong>主要研究课题</strong>：密钥的产生/管理</p>
+<h2 id="流密码"><a href="#流密码" class="headerlink" title="流密码"></a>流密码</h2><p>流密码的安全强度完全取决于密钥的<strong>随机性</strong>和<strong>不可预测性</strong><br>核心问题是：<strong>密钥流的产生</strong><br>保持收发两端密钥流的精确同步是关键问题</p>
+<p><strong>基本思想</strong>：利用<strong>密钥k</strong>和<strong>密钥流发生器f</strong>生成一个<strong>密钥流</strong><br><strong>密钥流</strong>：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数；</p>
+<p><strong>同步流密码</strong><br>加密器中记忆元件的存储状态δi独立于明文字符<br>加密器：1、密钥流产生器 2、加密变换器</p>
+<p>密钥流生成器的设计原则：</p>
+<ul>
+<li>足够长的周期</li>
+<li>高线性复杂度</li>
+<li>统计性能良好</li>
+<li>足够的“混乱”</li>
+<li>足够的“扩散”</li>
+<li>抵抗不同形式的攻击</li>
+</ul>
+<p><strong>在对称密码中，最重要的部分就是非线性部件</strong></p>
+<p><strong>LFSR</strong>：线性反馈移位寄存器——流密码中产生密钥流的重要部分<br>级数stages：存储单元数n<br>状态state：n个存储单元的存数<br>反馈函数：f(state)<br>线性反馈移位寄存器：f是线性函数<br>非线性反馈移位寄存器：f是非线性函数</p>
+<p><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-10-11%2017.29.12.png" alt=""></p>
+<p><strong>非线性序列</strong><br>LFSR的输出不能直接作为函数，但是可以驱动一个非线性组合函数来产生密钥流：LFSR用了保证密钥的周期长度，平衡性等因素/非线性组合函数用来保证密钥流的各种密码性质，以抵抗各种可能的攻击</p>
+<p><strong>J-K触发器</strong>：是一个非线性的器件，输出不仅依赖于输入还依赖于前一个输出位<br><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/C39F0EAB-55D7-4841-B0A8-82C52E16A667.png" alt=""><br><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/8F3BB816-D66C-4403-8AFB-5AE5644D1F8E.png" alt=""></p>
+<p>密钥流的生成方式如图所示：<br><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/C9C8D91F-0312-4B1E-97DE-9048418EDED6.png" alt=""></p>
+<p><strong>多路选择序列</strong><br><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/85E997CB-6F6D-41C0-993B-E504D8AFBA64.png" alt=""></p>
+<h2 id="序列密码算法RC4"><a href="#序列密码算法RC4" class="headerlink" title="序列密码算法RC4"></a>序列密码算法RC4</h2><p><strong>RC4的工作模式（OFB模式）</strong></p>
+<p><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/4952A6EA-653F-456E-9413-F477926A2DA4.png" alt=""><br>输出反馈模式（Output feedback, OFB）可以将块密码变成同步的流密码。它产生密钥流的块，然后将其与明文块进行异或，得到密文。与其它流密码一样，密文中一个位的翻转会使明文中同样位置的位也产生翻转。这种特性使得许多错误校正码，例如奇偶校验位，即使在加密前计算，而在加密后进行校验也可以得出正确结果。<br><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/Ofb_encryption.png" alt=""><br><img src="%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/Ofb_decryption.png" alt=""></p>
+<p><strong>随机密钥</strong><br>1、密钥调度算法KeyScheduleAlgorithm<br>2、伪随机数生成算法PRGA<br><strong>基本流程</strong><br>1、密钥调度算法将一个随机密钥变换成一个<strong>初始置换</strong><br><strong>初始置换</strong>：</p>
+<pre><code>* 初始化S盒，线性填充S0=0, S1=1, …, S255=255
+* S盒置换，交换Si和Sj，不断重复密钥K(L字节长) 
+   j = (j + Si + K(i mod L)位)mod256.   j初始值为0    
+</code></pre><p>2、伪随机数生成算法利用初始置换生成一个伪随机数处序列</p>
+<pre><code>*     伪随机序列的生成：
+伪代码：
+I := 0
+</code></pre><p>j := 0<br>while GeneratingOutput:<br>I := (I + 1) mod 256<br>j := (j + S[I]) mod 256<br>swap values of S[I] and S[j]<br>K := S[(S[I] + S[j]) mod 256]<br>output K<br>endwhile<br>3、用伪随机数处理序列于plaintext进行XOR操作——加密/解密</p>
+<p>#密码学/对称密码体系</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/12/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Arrontao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对称密码体系"><span class="nav-number">1.</span> <span class="nav-text">对称密码体系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流密码"><span class="nav-number">1.1.</span> <span class="nav-text">流密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列密码算法RC4"><span class="nav-number">1.2.</span> <span class="nav-text">序列密码算法RC4</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arrontao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
