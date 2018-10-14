@@ -108,24 +108,28 @@
 
 
 
-  <meta name="description" content="让我们来记录一些东西">
-<meta name="keywords" content="HelloWorld">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Chaotic&#39;s Blogs">
-<meta property="og:url" content="http://arrontao.vip/index.html">
+  <meta name="description" content="进程###顺序执行：  执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  ###并发执行：  执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  ###进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTe">
+<meta name="keywords" content="OperatingSystem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程">
+<meta property="og:url" content="http://arrontao.vip/2018/10/14/进程/index.html">
 <meta property="og:site_name" content="Chaotic&#39;s Blogs">
-<meta property="og:description" content="让我们来记录一些东西">
+<meta property="og:description" content="进程###顺序执行：  执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  ###并发执行：  执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  ###进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTe">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://arrontao.vip/2018/10/14/进程/进程状态转换.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/14/进程/PCB内存映像.png">
+<meta property="og:updated_time" content="2018-10-14T08:49:51.961Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chaotic&#39;s Blogs">
-<meta name="twitter:description" content="让我们来记录一些东西">
+<meta name="twitter:title" content="进程">
+<meta name="twitter:description" content="进程###顺序执行：  执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  ###并发执行：  执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  ###进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTe">
+<meta name="twitter:image" content="http://arrontao.vip/2018/10/14/进程/进程状态转换.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://arrontao.vip/"/>
+  <link rel="canonical" href="http://arrontao.vip/2018/10/14/进程/"/>
 
 
 
@@ -135,7 +139,7 @@
   };
 </script>
 
-  <title>Chaotic's Blogs</title>
+  <title>进程 | Chaotic's Blogs</title>
   
 
 
@@ -182,8 +186,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -224,7 +227,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
     <a href="/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
   </li>
@@ -268,9 +271,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -302,11 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/14/进程/" itemprop="url">
-                  进程
-                </a>
+          <h1 class="post-title" itemprop="name headline">进程
               
             
           </h1>
@@ -369,34 +368,104 @@
       
 
       
-        
-          
-          进程###顺序执行：
+        <h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><p>###顺序执行：</p>
+<ul>
+<li>执行的<strong>顺序性</strong></li>
+<li>资源占用的<strong>封闭性</strong>(程序运行的时候独占资源)</li>
+<li>执行结果的<strong>可再现性</strong></li>
+</ul>
+<p>###并发执行：</p>
+<ul>
+<li>执行的<strong>间断性</strong></li>
+<li>资源占用的<strong>非封闭性</strong></li>
+<li>结果的<strong>不可再现性</strong>（银行余额问题）</li>
+</ul>
+<p>###进程：<br>进程强调的是:</p>
+<ul>
+<li>执行过程，它动态的被创建/执行/消亡</li>
+<li>进程作为资源申请和调度的单位存在</li>
+<li>不同的进程可以来自同一个程序</li>
+</ul>
+<p>进程的状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">New</span><br><span class="line">Ready</span><br><span class="line">Running</span><br><span class="line">Waiting</span><br><span class="line">Terminated</span><br></pre></td></tr></table></figure>
+<img src="/2018/10/14/进程/进程状态转换.png" title="进程状态转换">
+<p><strong>有两种转换是不正确的：</strong></p>
+<ol>
+<li>就绪 -&gt; 阻塞 </li>
+<li>阻塞 -&gt; 执行</li>
+</ol>
+<p><strong>队列类型</strong></p>
+<ul>
+<li>作业队列：在系统中所以进程的集合</li>
+<li>就绪队列：在主内存中，就绪并且等待执行的所有进程的集合</li>
+<li>设备队列：等待某一个I/O设备的队列</li>
+</ul>
+<p><em>？操作系统如何感知进程，控制进程以及其所使用的系统资源：</em><br><strong>PCB：Process Control Block</strong></p>
+<p><em>PCB结构：</em></p>
+<ol>
+<li>进程标识信息：内部标识+外部标识</li>
+<li>进程现场信息：通用寄存器，PSW寄存器，指令计数器，各种指针</li>
+<li>进程控制信息：状态、优先级、阻塞原因、进程和数据地址、资源清单、进程同步和通信机制等信息</li>
+</ol>
+<p><em>PCB的作用</em>：</p>
+<ol>
+<li>PCB可以唯一的标识一个进程</li>
+<li>PCB中的信息为进程的控制提供依据</li>
+<li>PCB将程序变成了进程</li>
+<li>PCB是进程在操作系统中存在的唯一标志</li>
+<li><strong>进程的内存映像</strong></li>
+</ol>
+<img src="/2018/10/14/进程/PCB内存映像.png" title="PCB内存映像">
+<p><em>NEW得到的结果一般放在heap里面，heap中的内容由程序员自行控制</em></p>
+<p>###<strong>PCB表</strong>：<br>操作系统把PCB组织在一起，放在内存的固定区域决定的系统的并发数</p>
+<p><strong>两种组织方式：</strong></p>
+<ol>
+<li>链表结构，相同状态的进程PCB组成一个链表，不同状态对应多个不同的链表</li>
+<li>索引结构：对具有相同状态的进程，分别设置各自的PCB索引表，表明PCB在PCB表中的地址</li>
+</ol>
+<p><strong>三种调度方式</strong></p>
+<ul>
+<li><p>Long-term scheduler( or job scheduler ) ：select which processes should be brought into the ready queue</p>
+</li>
+<li><p>Short-term scheduler( or CPU scheduler)：select which process should be executed next and allocated CPU </p>
+</li>
+<li><p>Medium Term Scheduler:将进程从内存中移除，降低多道程序度，稍后在把进程重新载入内存并且从停止的地方继续运行，这被称为交换<br>在硬盘上单独开辟一段空间，绕过文件系统 -&gt;  从内存中，按位拷贝速度更快</p>
+</li>
+</ul>
+<p>Context Switch<br>save state of the old process and load the saved state for the new process<br>Context-Switch time is Overhead<br>Time dependent no hardware support</p>
+<p>###进程的控制：</p>
+<ol>
+<li>进程的创建和终止</li>
+<li>进程的调度</li>
+<li>进程的阻塞与唤醒</li>
+</ol>
+<p><strong>进程的创建过程：</strong>//实质上就是创建PCB</p>
+<ul>
+<li>申请空白PCB</li>
+<li>分配资源</li>
+<li>初始化PCB</li>
+<li>插入到就绪队列</li>
+</ul>
+<p><strong>进程的终止：</strong></p>
+<ul>
+<li>查找PCB</li>
+<li>中止执行</li>
+<li>归还资源</li>
+<li>移除PCB</li>
+<li>释放PCB</li>
+</ul>
+<p><strong>Linux中3个特殊的进程：</strong></p>
+<ol>
+<li>idle进程：自动创建，在kernel态，唯一没有通过fork/kernel_thread创建的进程</li>
+<li>init进程：idle进程通过kernel_thread创建，系统中用户进程的祖先进程，守护进程监视系统中的其他进程</li>
+<li>Kthreadd进程：idle进程通过kernel_thread创建，负责所有内核进程的调度和管理</li>
+</ol>
+<p><strong>Create Process：</strong></p>
+<ol>
+<li>复制一个与父进程相同的暂存进程，PID不同，PPID指向父进程</li>
+<li>暂存进程以exec方式加载，覆盖其地址空间，加载实际上要执行的程序</li>
+</ol>
 
-执行的顺序性
-资源占用的封闭性(程序运行的时候独占资源)
-执行结果的可再现性
-
-###并发执行：
-
-执行的间断性
-资源占用的非封闭性
-结果的不可再现性（银行余额问题）
-
-###进程：进程强调的是:
-
-执行过程，它动态的被创建/执行/消亡
-进程作为资源申请和调度的单位存在
-不同
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/14/进程/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -414,162 +483,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/14/对称密码体系/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Arrontao">
-      <meta itemprop="description" content="让我们来记录一些东西">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chaotic's Blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/14/对称密码体系/" itemprop="url">
-                  对称密码体系
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-10-14 16:21:26 / Modified: 16:23:20" itemprop="dateCreated datePublished" datetime="2018-10-14T16:21:26+08:00">2018-10-14</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/OperatingSystem/" rel="tag"># OperatingSystem</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          
-          对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理
-流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题
-基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/14/对称密码体系/#more" rel="contents">
-              Read more &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/14/对称密码体系/" rel="next" title="对称密码体系">
+                <i class="fa fa-chevron-left"></i> 对称密码体系
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -579,14 +522,15 @@
   </article>
 
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -607,8 +551,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -668,6 +621,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">1.</span> <span class="nav-text">进程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -798,6 +767,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
 
   
 
