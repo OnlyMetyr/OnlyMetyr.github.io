@@ -124,7 +124,7 @@
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/4952A6EA-653F-456E-9413-F477926A2DA4.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/Ofb_encryption.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/Ofb_decryption.png">
-<meta property="og:updated_time" content="2018-10-14T06:48:43.038Z">
+<meta property="og:updated_time" content="2018-10-14T06:52:42.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对称密码体系">
 <meta name="twitter:description" content="对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理 流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题 基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数； 同步流密码加密器中记忆元件的存储状态δi">
@@ -336,7 +336,7 @@
                 
               
 
-              <time title="Created: 2018-10-14 01:16:07 / Modified: 14:48:43" itemprop="dateCreated datePublished" datetime="2018-10-14T01:16:07+08:00">2018-10-14</time>
+              <time title="Created: 2018-10-14 01:16:07 / Modified: 14:52:42" itemprop="dateCreated datePublished" datetime="2018-10-14T01:16:07+08:00">2018-10-14</time>
             
 
             
@@ -400,7 +400,8 @@
 <pre><code>* 初始化S盒，线性填充S0=0, S1=1, …, S255=255
 * S盒置换，交换Si和Sj，不断重复密钥K(L字节长) 
    j = (j + Si + K(i mod L)位)mod256.   j初始值为0    
-</code></pre><p>2、伪随机数生成算法利用初始置换生成一个伪随机数处序列<br>        *伪随机序列的生成：<br>        伪代码：<br>        I := 0<br>        j := 0<br>        while GeneratingOutput:<br>        I := (I + 1) mod 256<br>        j := (j + S[I]) mod 256<br>        swap values of S[I] and S[j]<br>        K := S[(S[I] + S[j]) mod 256]<br>        output K<br>        endwhile<br>3、用伪随机数处理序列于plaintext进行XOR操作——加密/解密</p>
+</code></pre><p>2、伪随机数生成算法利用初始置换生成一个伪随机数处序列<br>    <em>伪随机序列的生成：
+    </em>伪代码：<br>        I := 0<br>        j := 0<br>        while GeneratingOutput:<br>        I := (I + 1) mod 256<br>        j := (j + S[I]) mod 256<br>        swap values of S[I] and S[j]<br>        K := S[(S[I] + S[j]) mod 256]<br>        output K<br>        endwhile<br>3、用伪随机数处理序列于plaintext进行XOR操作——加密/解密</p>
 <p>#密码学/对称密码体系</p>
 
       
