@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="MySQL基于Mac OS X系统 MySQL的安装和配置首先进入 MySQL 官网，选择免费的Community版：MySQL Community Server。MySQL 官网提供了tar.gz和dmg两种格式的安装包，对于MacOSX用户可以选择dmg用户，下载后安装，按照提示完成安装操作  然后打开Terminal配置相关的环境： 装后直接在命令行输入mysql会提示mysql: comm">
+<meta name="keywords" content="Database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql简单总结">
+<meta property="og:url" content="http://arrontao.vip/2018/10/16/Mysql简单总结/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="MySQL基于Mac OS X系统 MySQL的安装和配置首先进入 MySQL 官网，选择免费的Community版：MySQL Community Server。MySQL 官网提供了tar.gz和dmg两种格式的安装包，对于MacOSX用户可以选择dmg用户，下载后安装，按照提示完成安装操作  然后打开Terminal配置相关的环境： 装后直接在命令行输入mysql会提示mysql: comm">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://arrontao.vip/Users/taoyinrong/Desktop/Markdown/MySQL/Perference.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/16/Mysql简单总结/Perference.png">
+<meta property="og:updated_time" content="2018-10-16T07:35:43.735Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql简单总结">
+<meta name="twitter:description" content="MySQL基于Mac OS X系统 MySQL的安装和配置首先进入 MySQL 官网，选择免费的Community版：MySQL Community Server。MySQL 官网提供了tar.gz和dmg两种格式的安装包，对于MacOSX用户可以选择dmg用户，下载后安装，按照提示完成安装操作  然后打开Terminal配置相关的环境： 装后直接在命令行输入mysql会提示mysql: comm">
+<meta name="twitter:image" content="http://arrontao.vip/Users/taoyinrong/Desktop/Markdown/MySQL/Perference.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2018/10/16/Mysql简单总结/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Mysql简单总结 | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/16/Mysql简单总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arron Tao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mysql简单总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-16 15:32:17 / Modified: 15:35:43" itemprop="dateCreated datePublished" datetime="2018-10-16T15:32:17+08:00">2018-10-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/summarize/" itemprop="url" rel="index"><span itemprop="name">summarize</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p><strong>基于Mac OS X系统</strong></p>
+<h2 id="MySQL的安装和配置"><a href="#MySQL的安装和配置" class="headerlink" title="MySQL的安装和配置"></a>MySQL的安装和配置</h2><p>首先进入 MySQL 官网，选择免费的Community版：MySQL Community Server。MySQL 官网提供了tar.gz和dmg两种格式的安装包，对于MacOSX用户可以选择dmg用户，下载后安装，按照提示完成安装操作</p>
+<p><img src="/Users/taoyinrong/Desktop/Markdown/MySQL/Perference.png" alt="Perference"><br><img src="/2018/10/16/Mysql简单总结/Perference.png" title="Perference"></p>
+<p>然后打开Terminal配置相关的环境：</p>
+<p>装后直接在命令行输入<code>mysql</code>会提示<code>mysql: command not found</code>，需要先将其添加到环境变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>添加以下指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PATH&#125;:/usr/local/mysql/bin</span><br></pre></td></tr></table></figure>
+<p>保存后立即使其生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<h2 id="MySQL管理"><a href="#MySQL管理" class="headerlink" title="MySQL管理"></a>MySQL管理</h2><p><strong>登陆MySQL</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p><strong>USE 数据库名 :</strong></p>
+<p>选择要操作的Mysql数据库，使用该命令后所有Mysql命令都只针对该数据库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use Mysql;</span><br><span class="line">Database changed</span><br></pre></td></tr></table></figure>
+<p><strong>SHOW DATABASES:</strong></p>
+<p>列出 MySQL 数据库管理系统的数据库列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| date               |</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| RUNOOB             |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">6 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure>
+<p><strong>SHOW TABLES:</strong></p>
+<p>显示指定数据库的所有表，使用该命令前需要使用 use 命令来选择要操作的数据库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use date;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+----------------+</span><br><span class="line">| Tables_in_date |</span><br><span class="line">+----------------+</span><br><span class="line">| runoob_tbl     |</span><br><span class="line">+----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p><strong>SHOW COLUMNS FROM 数据表:</strong></p>
+<p>显示数据表的属性，属性类型，主键信息 ，是否为 NULL，默认值等其他信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>SHOW INDEX FROM 数据表:</strong></p>
+<p>显示数据表的详细索引信息，包括PRIMARY KEY（主键）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">**SHOW TABLE STATUS LIKE [FROM db_name] [LIKE &apos;pattern&apos;] \G: **</span><br><span class="line"></span><br><span class="line">该命令将输出Mysql数据库管理系统的性能及统计信息。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 数据库操作</span><br><span class="line"></span><br><span class="line">### 创建数据库</span><br><span class="line"></span><br><span class="line">我们可以在登陆 MySQL 服务后，使用 `create` 命令创建数据库，语法如下:</span><br></pre></td></tr></table></figure>
+<p>CREATE DATABASE 数据库名;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 删除数据库</span><br><span class="line"></span><br><span class="line">使用 root 用户登录，root 用户拥有最高权限。</span><br><span class="line">在删除数据库过程中，务必要十分谨慎，因为在执行删除命令后，所有数据将会消失。</span><br><span class="line">在删除过程中，我们使用`drop`命令进行删除数据库的操作：</span><br></pre></td></tr></table></figure></p>
+<p>drop database 数据库名;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 选择数据库</span><br><span class="line"></span><br><span class="line">在MySQL中可以使用`use`命令实现当前操作数据库的选择</span><br></pre></td></tr></table></figure></p>
+<p>mysql&gt; use Learn;<br>Database changed<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## MySQL数据类型</span><br><span class="line"></span><br><span class="line">### 整数</span><br><span class="line"></span><br><span class="line">|类型 | 大小 | 用途 |</span><br><span class="line">|----|-----|----|</span><br><span class="line">|TINYINT|1 byte |小整数值|</span><br><span class="line">|SMALLINT|2 字节|	大整数值|</span><br><span class="line">|MEDIUMINT|3 字节	|大整数值|</span><br><span class="line">|INT或INTEGER|4 字节|大整数值|</span><br><span class="line">|BIGINT|8 字节|极大整数值|</span><br><span class="line">|FLOAT|4 字节	|单精度浮点数值|</span><br><span class="line">|DOUBLE|8 字节|双精度浮点数值|</span><br><span class="line">|DECIMAL|	对DECIMAL(M,D) ，如果M&gt;D，为M+2否则为D+2|小数值|</span><br><span class="line">*对于MySQL3.23 以前的版本，DECIMAL(M, D) 列的每个值占用M 字节，而符号（如果需要）和小数点包括在M 字节中。因此，类型为DECIMAL(5, 2) 的列，其取值范围为-9.99 到9 9 . 9 9</span><br><span class="line"></span><br><span class="line">而在MySQL3.23 之后的版本中，DECIMAL 值是根据ANSI 规范进行处理的， ANSI 规范规定DECIMAL(M, D) 必须能够表示M 位数字及D 位小数的任何值。</span><br><span class="line"></span><br><span class="line">### 日期和时间类型</span><br><span class="line"></span><br><span class="line">|类型|大小(byte)|范围|格式|用途|</span><br><span class="line">|----|---|---|----|---|</span><br><span class="line">|DATE|3|1000-01-01/9999-12-31|YYYY-MM-DD|日期值|</span><br><span class="line">|TIME|3|&apos;-838:59:59&apos;/&apos;838:59:59&apos;|HH:MM:SS|	时间值或持续时间|</span><br><span class="line">|YEAR|	1	|1901/2155|	YYYY	|年份值|</span><br><span class="line">|DATETIME|	8|	1000-01-01 00:00:00/9999-12-31 23:59:59	|YYYY-MM-DD HH:MM:SS	|混合日期和时间值|</span><br><span class="line">|TIMESTAMP	|4	|1970-01-01 00:00:00/2038结束时间是第 2147483647 秒，北京时间 2038-1-19 11:14:07，格林尼治时间 2038年1月19日 凌晨 03:14:07|YYYY-MM-DD HH:MM:SS|混合日期和时间值，时间戳|</span><br><span class="line">*TIMESTAMP有自动更新的特性</span><br><span class="line"></span><br><span class="line">### 字符串类型</span><br><span class="line"></span><br><span class="line">|类型 | 大小(byte) | 用途 |</span><br><span class="line">|----|-----|----|</span><br><span class="line">|CHAR|0-255|定长字符串|</span><br><span class="line">|VARCHAR|0-65535|变长字符串|</span><br><span class="line">|BINARY| |定长二进制字符串|</span><br><span class="line">|VARBINARY| |变长二进制字符串|</span><br><span class="line">|TINYBLOB|0-255|二进制字符串|</span><br><span class="line">|MEDIUMBLOB|0-16777215|中等长度的二进制文本数据|</span><br><span class="line">|BLOB|0-65535|二进制形式的长文本数据|</span><br><span class="line">|LONGBLOB|0-4294967295|二进制形式的极大文本数据|</span><br><span class="line">|TINYTEXT|0-255|短文本字符串|</span><br><span class="line">|MEDIUMTEXT|0-16777215|中等长度的文本数据|</span><br><span class="line">|TEXT|0-65535|长文本数据|</span><br><span class="line">|LONGTEXT|0-4294967295|极大文本数据|</span><br></pre></td></tr></table></figure></p>
+<p>CHAR 和 VARCHAR 类型类似，但它们保存和检索的方式不同。它们的最大长度和是否尾部空格被保留等方面也不同。在存储或检索过程中不进行大小写转换。</p>
+<p>BINARY 和 VARBINARY 类似于 CHAR 和 VARCHAR，不同的是它们包含二进制字符串而不要非二进制字符串。也就是说，它们包含字节字符串而不是字符字符串。这说明它们没有字符集，并且排序和比较基于列值字节的数值值。</p>
+<p>BLOB 是一个二进制大对象，可以容纳可变数量的数据。有 4 种 BLOB 类型：TINYBLOB、BLOB、MEDIUMBLOB 和 LONGBLOB。它们区别在于可容纳存储范围不同。</p>
+<p>有 4 种 TEXT 类型：TINYTEXT、TEXT、MEDIUMTEXT 和 LONGTEXT。对应的这 4 种 BLOB 类型，可存储的最大长度不同，可根据实际情况选择。</p>
+<p>(此内容来自<a href="http://www.runoob.com/mysql/mysql-data-types.html" target="_blank" rel="noopener">http://www.runoob.com/mysql/mysql-data-types.html</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 数据表操作</span><br><span class="line"></span><br><span class="line">### 创建数据表</span><br><span class="line"></span><br><span class="line">创建MySQL数据表需要以下信息：</span><br><span class="line"></span><br><span class="line">- 表名</span><br><span class="line">- 表字段名</span><br><span class="line">- 定义每个表字段</span><br><span class="line"></span><br><span class="line">**创建数据表的通用语法为：**</span><br></pre></td></tr></table></figure></p>
+<p>CREATE TABLE table_name (column_name column_type);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实例：</span><br></pre></td></tr></table></figure></p>
+<p>mysql&gt; create table table1(<br>    -&gt; num_id int not null auto_increment,<br>    -&gt; num_title varchar(100) not null,<br>    -&gt; num_author varchar(30) not null,<br>    -&gt; mission_date datetime,<br>    -&gt; primary key (num_id)<br>    -&gt; )engine=InnoDB default charset=utf8;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*在命令的最后一行出现了</span><br><span class="line">[engine](https://github.com/jaywcjlove/mysql-tutorial/blob/master/chapter3/3.5.md)</span><br><span class="line">选项，以及[default](https://www.w3schools.com/sql/sql_default.asp)选项，可以通过连接的网站具体了解！</span><br><span class="line"></span><br><span class="line">*关于其中not null 和 null选项可以通过[null or not null](https://blog.csdn.net/fwkjdaghappy1/article/details/7703974)进行具体的了解</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可以通过`show columns from table1`查看创建的结果：</span><br></pre></td></tr></table></figure></p>
+<p>mysql&gt; show columns from table1;<br>+————–+————–+——+—–+———+—————-+<br>| Field        | Type         | Null | Key | Default | Extra          |<br>+————–+————–+——+—–+———+—————-+<br>| num_id       | int(11)      | NO   | PRI | NULL    | auto_increment |<br>| num_title    | varchar(100) | NO   |     | NULL    |                |<br>| num_author   | varchar(30)  | NO   |     | NULL    |                |<br>| mission_date | datetime     | YES  |     | NULL    |                |<br>+————–+————–+——+—–+———+—————-+<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### MySQL 删除数据表</span><br><span class="line">MySQL中删除数据表是非常容易操作的，进行删除表操作时要非常小心，因为执行删除命令后所有数据都会消失。</span><br></pre></td></tr></table></figure></p>
+<p>drop table table_name;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**关于删除操作的几点补充:**</span><br><span class="line"></span><br><span class="line">*删除表内数据*使用`delete`命令</span><br></pre></td></tr></table></figure></p>
+<p>delete from 表名 where 删除条件;<br>e.g<br>delete from  table1 where  num_author = “Alice”;<br>实例：删除table1表内num_author为Alice的记录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">另外，在执行`delete`操作之后，可以使用命令`optimize table table_name`将删除的磁盘空间释放</span><br><span class="line"></span><br><span class="line">*清除表内数据但是保存表结构*用`truncate`命令</span><br></pre></td></tr></table></figure></p>
+<p>truncate table 表名;<br>e.g.<br>truncate  table table1;<br>清楚表table1内的全部数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">### MySQL插入数据</span><br><span class="line"></span><br><span class="line">MySQL 表中使用 `INSERT INTO SQL`语句来插入数据。</span><br><span class="line">插入的具体语法为:</span><br></pre></td></tr></table></figure></p>
+<p>INSERT INTO table_name ( field1, field2,…fieldN )<br>                       VALUES<br>                       ( value1, value2,…valueN );<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">特别地，如果数据是字符型，那么请使用`&apos;&apos;`或者`&quot;&quot;`，如`&quot;value1&quot;`</span><br><span class="line"></span><br><span class="line">**实例**：向table1表中插入一行数据</span><br><span class="line"></span><br><span class="line">```mysql&gt; insert into table1</span><br><span class="line">	-&gt; (num_title,num_author,mission_date)</span><br><span class="line">	-&gt; values</span><br><span class="line">	-&gt; (&quot;MySQL&quot;,&quot;Chaotic&quot;,now());</span><br><span class="line">Query OK, 1 row affected (0.09 sec)</span><br><span class="line"></span><br><span class="line">*NOW() 是一个 MySQL 函数，该函数返回日期和时间。</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>select * from &lt;table_name&gt;</code>命令查看数据表中的内容可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from table1;</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">| num_id | num_title | num_author | mission_date        |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">|      1 | MySQL     | Chaotic    | 2018-10-16 14:38:08 |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="MySQL中查询数据"><a href="#MySQL中查询数据" class="headerlink" title="MySQL中查询数据"></a>MySQL中查询数据</h3><p>MySQL 数据库使用SQL SELECT语句来查询数据</p>
+<p><strong>语法</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">[WHERE Clause]</span><br><span class="line">[LIMIT N][ OFFSET M]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询语句中你可以使用一个或者多个表，表之间使用逗号(,)分割，并使用WHERE语句来设定查询条件。</li>
+<li>可以使用<code>*</code>来 代替命令中的选项，select会返回表中所有的字段数据</li>
+<li>where语句中可以包含任何你想要的条件</li>
+<li>limit可以设定返回值的数量</li>
+<li>offset可以设置偏移量，默认为0</li>
+</ul>
+<p><strong>实例</strong></p>
+<p>使用<code>select * from &lt;table_name&gt;</code>命令查看数据表中的内容可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from table1;</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">| num_id | num_title | num_author | mission_date        |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">|      1 | MySQL     | Chaotic    | 2018-10-16 14:38:08 |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="where字句"><a href="#where字句" class="headerlink" title="where字句"></a>where字句</h4><p>如需有条件地从表中选取数据，可将 WHERE 子句添加到 SELECT 语句中</p>
+<p><strong>在where字句中:</strong></p>
+<ul>
+<li>指定任何条件</li>
+<li>使用 AND 或者 OR 指定一个或多个条件</li>
+<li>子句也可以运用于 SQL 的 DELETE 或者 UPDATE 命令</li>
+<li>类似于程序语言中的 if 条件，根据 MySQL 表中的字段值来读取指定的数据,可以使用 <code>=</code> <code>!=</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code>等逻辑运算符号</li>
+</ul>
+<p><strong>实例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from table1 where num_author=&apos;Chaotic&apos;;</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">| num_id | num_title | num_author | mission_date        |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">|      1 | MySQL     | Chaotic    | 2018-10-16 14:38:08 |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from table1 where num_author=&apos;Arron&apos;;</span><br><span class="line">Empty set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="MySQL-UPDATE字句"><a href="#MySQL-UPDATE字句" class="headerlink" title="MySQL UPDATE字句"></a>MySQL UPDATE字句</h3><p>修改或更新 MySQL 中的数据，使用 <code>SQL UPDATE</code> 命令来操作。</p>
+<p><strong>语法:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPDATE table_name SET field1=new-value1, field2=new-value2</span><br><span class="line">[WHERE Clause]</span><br></pre></td></tr></table></figure>
+<p>对于<code>UPDATE</code>命令，有以下的限定条件：</p>
+<ul>
+<li>同时更新1个或者多个字段</li>
+<li>可以在where中限定任何条件</li>
+<li>在一个单独表中同时更新数据</li>
+</ul>
+<p><strong>实例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">原始表格：</span><br><span class="line">mysql&gt; select * from table1;</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">| num_id | num_title | num_author | mission_date        |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">|      1 | MySQL     | Chaotic    | 2018-10-16 14:38:08 |</span><br><span class="line">|      2 | C++       | Arron      | 2018-10-16 15:00:06 |</span><br><span class="line">|      3 | Python    | Alice      | 2018-10-16 15:00:20 |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line"></span><br><span class="line">使用UPDATE命令：</span><br><span class="line">mysql&gt; update table1 set num_author=&quot;Bob&quot; where num_id =3;</span><br><span class="line"></span><br><span class="line">得到结果:</span><br><span class="line">mysql&gt; select * from table1;</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">| num_id | num_title | num_author | mission_date        |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">|      1 | MySQL     | Chaotic    | 2018-10-16 14:38:08 |</span><br><span class="line">|      2 | C++       | Arron      | 2018-10-16 15:00:06 |</span><br><span class="line">|      3 | Python    | Bob        | 2018-10-16 15:00:20 |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br></pre></td></tr></table></figure>
+<p><strong>使用UPDATE改变其中的某几个字符串:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">update &lt;table_name&gt; set &lt;filed&gt;=replace(filed,&apos;value1&apos;,&apos;value2&apos;) where clause;</span><br><span class="line">例如：</span><br><span class="line">mysql&gt; update table1 set num_author=replace(num_author,&apos;tic&apos;,&apos;s&apos;) where num_id = 1;</span><br><span class="line">结果：</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from table1;                                                 +--------+-----------+------------+---------------------+</span><br><span class="line">| num_id | num_title | num_author | mission_date        |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">|      1 | MySQL     | Chaos      | 2018-10-16 14:38:08 |</span><br><span class="line">|      2 | C++       | Arron      | 2018-10-16 15:00:06 |</span><br><span class="line">|      3 | Python    | Bob        | 2018-10-16 15:00:20 |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br></pre></td></tr></table></figure>
+<h3 id="Like语句"><a href="#Like语句" class="headerlink" title="Like语句"></a>Like语句</h3><p>我们可以在 SELECT 语句中使用 WHERE 子句来获取指定的记录。<br>WHERE 子句中 = 来设定条件，如 “num_author = ‘RUNOOB.COM’”。</p>
+<p>但是当需要获取 num_author 字段含有 “a” 字符的所有记录，这时我们就需要在 WHERE 子句中使用 SQL LIKE 子句。</p>
+<p>SQL LIKE 子句中使用百分号 %字符来表示任意字符，类似于UNIX或正则表达式中的星号 *。<br>如果没有使用百分号 %, LIKE 子句与等号 = 的效果是一样的。</p>
+<p><strong>实例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from table1 where num_author like &apos;Cha%&apos;;</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">| num_id | num_title | num_author | mission_date        |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br><span class="line">|      1 | MySQL     | Chaos      | 2018-10-16 14:38:08 |</span><br><span class="line">+--------+-----------+------------+---------------------+</span><br></pre></td></tr></table></figure>
+<p>补充,<code>%</code>与<code>_</code>的配合使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&apos;%a&apos;     //以a结尾的数据</span><br><span class="line">&apos;a%&apos;     //以a开头的数据</span><br><span class="line">&apos;%a%&apos;    //含有a的数据</span><br><span class="line">&apos;_a_&apos;    //三位且中间字母是a的</span><br><span class="line">&apos;_a&apos;     //两位且结尾字母是a的</span><br><span class="line">&apos;a_&apos;     //两位且开头字母是a的</span><br></pre></td></tr></table></figure>
+<h3 id="MySQL-UNION操作符"><a href="#MySQL-UNION操作符" class="headerlink" title="MySQL UNION操作符"></a>MySQL UNION操作符</h3><p>MySQL <code>UNION</code> 操作符用于连接2个以上的 <code>SELECT</code> 语句的结果组合到一个结果集合中。其中多个 <code>SELECT</code>语句会删除重复的数据。</p>
+<p><strong>其语法为：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name1, column_name2, ... column_name_n</span><br><span class="line">FROM tables</span><br><span class="line">[WHERE conditions]</span><br><span class="line">UNION [ALL | DISTINCT]</span><br><span class="line">SELECT column_name1, column_name2, ... column_name_n</span><br><span class="line">FROM tables</span><br><span class="line">[WHERE conditions];</span><br><span class="line"></span><br><span class="line">其中：</span><br><span class="line">1、DISTINCT：删除结果集中重复的数据</span><br><span class="line">2、ALL：返回所有结果，包含重复数据</span><br></pre></td></tr></table></figure>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><h3 id="连接的使用"><a href="#连接的使用" class="headerlink" title="连接的使用"></a>连接的使用</h3><h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><h3 id="ALTER"><a href="#ALTER" class="headerlink" title="ALTER"></a>ALTER</h3><h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><h3 id="复制表"><a href="#复制表" class="headerlink" title="复制表"></a>复制表</h3><h3 id="序列使用"><a href="#序列使用" class="headerlink" title="序列使用"></a>序列使用</h3>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Database/" rel="tag"># Database</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/14/分组密码/" rel="next" title="分组密码">
+                <i class="fa fa-chevron-left"></i> 分组密码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Arron Tao" />
+            
+              <p class="site-author-name" itemprop="name">Arron Tao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/arrontaoyr" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/rong-ye-43-55" target="_blank" title="知乎"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL"><span class="nav-number">1.</span> <span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL的安装和配置"><span class="nav-number">1.1.</span> <span class="nav-text">MySQL的安装和配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL管理"><span class="nav-number">1.2.</span> <span class="nav-text">MySQL管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL中查询数据"><span class="nav-number">1.2.1.</span> <span class="nav-text">MySQL中查询数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#where字句"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">where字句</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-UPDATE字句"><span class="nav-number">1.2.2.</span> <span class="nav-text">MySQL UPDATE字句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Like语句"><span class="nav-number">1.2.3.</span> <span class="nav-text">Like语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-UNION操作符"><span class="nav-number">1.2.4.</span> <span class="nav-text">MySQL UNION操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排序"><span class="nav-number">1.2.5.</span> <span class="nav-text">排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分组"><span class="nav-number">1.2.6.</span> <span class="nav-text">分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接的使用"><span class="nav-number">1.2.7.</span> <span class="nav-text">连接的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务"><span class="nav-number">1.2.8.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALTER"><span class="nav-number">1.2.9.</span> <span class="nav-text">ALTER</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引"><span class="nav-number">1.2.10.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制表"><span class="nav-number">1.2.11.</span> <span class="nav-text">复制表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列使用"><span class="nav-number">1.2.12.</span> <span class="nav-text">序列使用</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arron Tao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
