@@ -125,7 +125,8 @@
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/OFB加密.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/OFB解密.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/DES算法处理流程.png">
-<meta property="og:updated_time" content="2018-10-17T16:11:22.559Z">
+<meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/DES.png">
+<meta property="og:updated_time" content="2018-10-17T17:00:12.480Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对称密码体系">
 <meta name="twitter:description" content="对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理 流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题 基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数； 同步流密码加密器中记忆元件的存储状态δi">
@@ -370,7 +371,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-18 00:11:22" itemprop="dateModified" datetime="2018-10-18T00:11:22+08:00">2018-10-18</time>
+                <time title="Modified: 2018-10-18 01:00:12" itemprop="dateModified" datetime="2018-10-18T01:00:12+08:00">2018-10-18</time>
               
             
           </span>
@@ -512,6 +513,7 @@
 <li>循环移位置换：将上述结果分为两组28bit，分别送入C，D寄存器，在每次的迭代中，C和D寄存器将存数分别进行左循环移位</li>
 <li>置换选择PC2：每次移位之后，将C和D寄存器中的原存数送给置换选择PC2，将C中第9，18，22，25位和D中第7，9，15，26位删除，并将其余数字置换位置后送给48bit作为该轮的子密钥</li>
 </ul>
+<img src="/2018/10/14/对称密码体系/DES.png" title="DES">
 <h3 id="DES的结构-Feistel网络"><a href="#DES的结构-Feistel网络" class="headerlink" title="DES的结构(Feistel网络)"></a>DES的结构(Feistel网络)</h3><p>在Feistel网络中，加密的各个步骤称为 <strong>轮</strong>， </p>
 <p><em>一轮的具体计算步骤</em></p>
 <ol>
