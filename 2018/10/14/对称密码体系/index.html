@@ -124,7 +124,8 @@
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/OFB模式.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/OFB加密.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/OFB解密.png">
-<meta property="og:updated_time" content="2018-10-14T12:08:45.935Z">
+<meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/DES算法处理流程.png">
+<meta property="og:updated_time" content="2018-10-17T16:11:22.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对称密码体系">
 <meta name="twitter:description" content="对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理 流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题 基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数； 同步流密码加密器中记忆元件的存储状态δi">
@@ -352,12 +353,24 @@
                 
               
 
-              <time title="Created: 2018-10-14 16:21:26 / Modified: 20:08:45" itemprop="dateCreated datePublished" datetime="2018-10-14T16:21:26+08:00">2018-10-14</time>
+              <time title="Created: 2018-10-14 16:21:26" itemprop="dateCreated datePublished" datetime="2018-10-14T16:21:26+08:00">2018-10-14</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-18 00:11:22" itemprop="dateModified" datetime="2018-10-18T00:11:22+08:00">2018-10-18</time>
               
             
           </span>
@@ -451,6 +464,54 @@
     endwhile
 </code></pre><p>3、用伪随机数处理序列于plaintext进行XOR操作——加密/解密</p>
 <h2 id="DES（Data-Encryption-Standard）"><a href="#DES（Data-Encryption-Standard）" class="headerlink" title="DES（Data Encryption Standard）"></a>DES（Data Encryption Standard）</h2><p>DES是一种将64bit明文加密为64bit密文的对称密码算法，它的密钥长度是56位（每隔7bit设置一个校验位）DES是以64bit明文为一个单位进行加密的，这64bit单位称为 <strong>分组</strong>，以分组为单位的密码算法称为 <strong>分组密码(block cipher)</strong></p>
+<h3 id="DES：加解密流程"><a href="#DES：加解密流程" class="headerlink" title="DES：加解密流程"></a>DES：加解密流程</h3><ol>
+<li>输入64bit明文数据</li>
+<li>初始置换IP</li>
+<li>Feistel网络，在密钥控制下16轮迭代</li>
+<li>交换左右32bit</li>
+<li>初始逆置换IP^(-1)</li>
+<li>输出64bit密文数据</li>
+</ol>
+<img src="/2018/10/14/对称密码体系/DES算法处理流程.png" title="DES算法处理流程">
+<p><em>此图来自Pro杨秋伟(HNU)在2018年秋季学期密码学的课程PPT</em></p>
+<h4 id="DES-初始置换"><a href="#DES-初始置换" class="headerlink" title="DES:初始置换"></a>DES:初始置换</h4><p>初始置换IP和初始逆置换IP^(-1)在密码意义上作用不大，主要意义在于打乱原来输入的ASCII码字的划分关系</p>
+<p>IP:将原输出的不同位置映射到不同的位置上</p>
+<h4 id="DES-乘积变换"><a href="#DES-乘积变换" class="headerlink" title="DES:乘积变换"></a>DES:乘积变换</h4><p><strong>乘积变换是DES算法的核心部分</strong></p>
+<ul>
+<li>将经过IP置换后的数据分成32bit的左右两组数据</li>
+</ul>
+<p><em>分组：</em><br>按照IP置换后的序列以8 * 8的方式排列<br>将左边4列作为左边，将右边4列作为右边</p>
+<ul>
+<li><p>每次迭代只对右边的32bit进行一系列的加密变换，在此轮迭代即将结束的时候，将左边的32bit与右边的32bit逐位进行XOR运算，作为下一轮迭代时右边的段</p>
+<ul>
+<li>R(32bit)</li>
+<li><p>扩展运算E(48bit)</p>
+<p><em>通过选择扩展运算将输入的32bit扩展为48bit,通过一张扩展表实现</em></p>
+</li>
+<li><p>与此轮的轮密钥进行XOR操作</p>
+</li>
+<li><p>压缩运算S(32bit)</p>
+<p><em>将前面送来的48bit数据自左到右分成8组，每组分为6bit,然后并行送入8个S盒，每个S盒，有6bit输入，4bit输出<br>e.g. 输入：1 0 1 1 0 0<br>将输入的中间四位：0 1 1 0作为该S盒的横坐标，即6<br>将两边的两位 1 0 作为该S盒的纵坐标，即2就可以得到一个十进制数字，将其用4位二进制数表示即可得到输出的4bit</em></p>
+</li>
+<li><p>置换运算P(32bit)</p>
+<p><em>将S1到S8输出的32bit进行坐标置换</em></p>
+</li>
+<li><p>与左边L(32bit)进行XOR操作</p>
+</li>
+<li>得到下一轮的R(32bit)</li>
+<li>将此轮最开始的R(32bit)直接作为下一个的L(32bit)</li>
+</ul>
+</li>
+<li><p>将原来右边未经变换的段直接送到左边的寄存器作为下一轮迭代时左边的段</p>
+</li>
+<li>在每一轮迭代时，右边的段要经过选择扩展运算E，密钥加密运算，选择压缩运算S，置换运算P和左右混合运算</li>
+</ul>
+<h3 id="子密钥产生器"><a href="#子密钥产生器" class="headerlink" title="子密钥产生器"></a>子密钥产生器</h3><p>在初始密钥中，有8bit为校验位</p>
+<ul>
+<li>置换选择PC：将56bit密钥送入置换选择PC1进行坐标置换</li>
+<li>循环移位置换：将上述结果分为两组28bit，分别送入C，D寄存器，在每次的迭代中，C和D寄存器将存数分别进行左循环移位</li>
+<li>置换选择PC2：每次移位之后，将C和D寄存器中的原存数送给置换选择PC2，将C中第9，18，22，25位和D中第7，9，15，26位删除，并将其余数字置换位置后送给48bit作为该轮的子密钥</li>
+</ul>
 <h3 id="DES的结构-Feistel网络"><a href="#DES的结构-Feistel网络" class="headerlink" title="DES的结构(Feistel网络)"></a>DES的结构(Feistel网络)</h3><p>在Feistel网络中，加密的各个步骤称为 <strong>轮</strong>， </p>
 <p><em>一轮的具体计算步骤</em></p>
 <ol>
@@ -467,8 +528,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将明文和密文的一些对应bit进行XOR运算并计算其结果为0的概率</span><br></pre></td></tr></table></figure>
 <p>如果能够找到XOR结果大幅偏离 1/2，则可以获得一些与密钥有关的东西</p>
 <p><strong>三重DES：</strong> 执行三次DES加密，根据使用的密码不同有更加详细的分类</p>
-<h2 id="AES（Advanced-Encryption-Standard）"><a href="#AES（Advanced-Encryption-Standard）" class="headerlink" title="AES（Advanced Encryption Standard）"></a>AES（Advanced Encryption Standard）</h2><p><strong>分组长度：</strong>128bit</p>
-<p><strong>密钥长度：</strong>128bit\192bit\256bit</p>
 <p><strong>AES(Rijndael)</strong>算法也是由多个轮组成的其中每一轮分为：</p>
 <ol>
 <li>SubBytes</li>
@@ -682,7 +741,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对称密码体系"><span class="nav-number">1.</span> <span class="nav-text">对称密码体系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流密码"><span class="nav-number">1.1.</span> <span class="nav-text">流密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列密码算法RC4"><span class="nav-number">1.2.</span> <span class="nav-text">序列密码算法RC4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DES（Data-Encryption-Standard）"><span class="nav-number">1.3.</span> <span class="nav-text">DES（Data Encryption Standard）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DES的结构-Feistel网络"><span class="nav-number">1.3.1.</span> <span class="nav-text">DES的结构(Feistel网络)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES（Advanced-Encryption-Standard）"><span class="nav-number">1.4.</span> <span class="nav-text">AES（Advanced Encryption Standard）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SubBytes"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">SubBytes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ShiftRows"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">ShiftRows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MixColumns"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">MixColumns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AddRoundKey"><span class="nav-number">1.4.0.4.</span> <span class="nav-text">AddRoundKey</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对称密码体系"><span class="nav-number">1.</span> <span class="nav-text">对称密码体系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流密码"><span class="nav-number">1.1.</span> <span class="nav-text">流密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列密码算法RC4"><span class="nav-number">1.2.</span> <span class="nav-text">序列密码算法RC4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DES（Data-Encryption-Standard）"><span class="nav-number">1.3.</span> <span class="nav-text">DES（Data Encryption Standard）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DES：加解密流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">DES：加解密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DES-初始置换"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">DES:初始置换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DES-乘积变换"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">DES:乘积变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子密钥产生器"><span class="nav-number">1.3.2.</span> <span class="nav-text">子密钥产生器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DES的结构-Feistel网络"><span class="nav-number">1.3.3.</span> <span class="nav-text">DES的结构(Feistel网络)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SubBytes"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">SubBytes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ShiftRows"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">ShiftRows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MixColumns"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">MixColumns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AddRoundKey"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">AddRoundKey</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
