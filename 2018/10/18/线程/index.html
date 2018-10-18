@@ -108,28 +108,27 @@
 
 
 
-  <meta name="description" content="进程顺序执行： 执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  并发执行： 执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTerminated  有">
+  <meta name="description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
 <meta name="keywords" content="OperatingSystem">
 <meta property="og:type" content="article">
-<meta property="og:title" content="进程">
-<meta property="og:url" content="http://arrontao.vip/2018/10/14/进程/index.html">
+<meta property="og:title" content="线程">
+<meta property="og:url" content="http://arrontao.vip/2018/10/18/线程/index.html">
 <meta property="og:site_name" content="Chaotic&#39;s Blogs">
-<meta property="og:description" content="进程顺序执行： 执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  并发执行： 执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTerminated  有">
+<meta property="og:description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://arrontao.vip/2018/10/14/进程/进程状态转换.png">
-<meta property="og:image" content="http://arrontao.vip/2018/10/14/进程/PCB内存映像.png">
-<meta property="og:updated_time" content="2018-10-14T09:48:21.635Z">
+<meta property="og:image" content="http://arrontao.vip/2018/10/18/线程/线程状态.png">
+<meta property="og:updated_time" content="2018-10-18T10:16:53.290Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进程">
-<meta name="twitter:description" content="进程顺序执行： 执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  并发执行： 执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTerminated  有">
-<meta name="twitter:image" content="http://arrontao.vip/2018/10/14/进程/进程状态转换.png">
+<meta name="twitter:title" content="线程">
+<meta name="twitter:description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
+<meta name="twitter:image" content="http://arrontao.vip/2018/10/18/线程/线程状态.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://arrontao.vip/2018/10/14/进程/"/>
+  <link rel="canonical" href="http://arrontao.vip/2018/10/18/线程/"/>
 
 
 
@@ -139,7 +138,7 @@
   };
 </script>
 
-  <title>进程 | Chaotic's Blogs</title>
+  <title>线程 | Chaotic's Blogs</title>
   
 
 
@@ -304,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/14/进程/">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/18/线程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Arron Tao">
@@ -321,7 +320,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">进程
+          <h1 class="post-title" itemprop="name headline">线程
               
             
           </h1>
@@ -346,7 +345,7 @@
                 
               
 
-              <time title="Created: 2018-10-14 16:31:55 / Modified: 17:48:21" itemprop="dateCreated datePublished" datetime="2018-10-14T16:31:55+08:00">2018-10-14</time>
+              <time title="Created: 2018-10-18 18:13:58 / Modified: 18:16:53" itemprop="dateCreated datePublished" datetime="2018-10-18T18:13:58+08:00">2018-10-18</time>
             
 
             
@@ -402,100 +401,79 @@
       
 
       
-        <h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h3 id="顺序执行："><a href="#顺序执行：" class="headerlink" title="顺序执行："></a>顺序执行：</h3><ul>
-<li>执行的<strong>顺序性</strong></li>
-<li>资源占用的<strong>封闭性</strong>(程序运行的时候独占资源)</li>
-<li>执行结果的<strong>可再现性</strong></li>
-</ul>
-<h3 id="并发执行："><a href="#并发执行：" class="headerlink" title="并发执行："></a>并发执行：</h3><ul>
-<li>执行的<strong>间断性</strong></li>
-<li>资源占用的<strong>非封闭性</strong></li>
-<li>结果的<strong>不可再现性</strong>（银行余额问题）</li>
-</ul>
-<h3 id="进程："><a href="#进程：" class="headerlink" title="进程："></a>进程：</h3><p>进程强调的是:</p>
+        <h1 id="线程-Threads"><a href="#线程-Threads" class="headerlink" title="线程(Threads)"></a>线程(Threads)</h1><h2 id="线程的基本介绍"><a href="#线程的基本介绍" class="headerlink" title="线程的基本介绍"></a>线程的基本介绍</h2><p><strong>线程的特性:</strong></p>
 <ul>
-<li>执行过程，它动态的被创建/执行/消亡</li>
-<li>进程作为资源申请和调度的单位存在</li>
-<li>不同的进程可以来自同一个程序</li>
+<li>同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈</li>
+<li>线程是CPU使用的基本单位 </li>
 </ul>
-<p>进程的状态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">New</span><br><span class="line">Ready</span><br><span class="line">Running</span><br><span class="line">Waiting</span><br><span class="line">Terminated</span><br></pre></td></tr></table></figure>
-<img src="/2018/10/14/进程/进程状态转换.png" title="进程状态转换">
-<p><strong>有两种转换是不正确的：</strong></p>
-<ol>
-<li>就绪 -&gt; 阻塞 </li>
-<li>阻塞 -&gt; 执行</li>
-</ol>
-<p><strong>队列类型</strong></p>
+<p><em>进程是资源申请和调度的基本单位</em></p>
 <ul>
-<li>作业队列：在系统中所以进程的集合</li>
-<li>就绪队列：在主内存中，就绪并且等待执行的所有进程的集合</li>
-<li>设备队列：等待某一个I/O设备的队列</li>
+<li>（线程是进程的一个属性，是被系统独立调度的基本单位）<ul>
+<li>一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源</li>
+<li>多个线程之间并发执行，切换速度快</li>
 </ul>
-<p><em>？操作系统如何感知进程，控制进程以及其所使用的系统资源：</em><br><strong>PCB：Process Control Block</strong></p>
-<p><em>PCB结构：</em></p>
-<ol>
-<li>进程标识信息：内部标识+外部标识</li>
-<li>进程现场信息：通用寄存器，PSW寄存器，指令计数器，各种指针</li>
-<li>进程控制信息：状态、优先级、阻塞原因、进程和数据地址、资源清单、进程同步和通信机制等信息</li>
-</ol>
-<p><em>PCB的作用</em>：</p>
-<ol>
-<li>PCB可以唯一的标识一个进程</li>
-<li>PCB中的信息为进程的控制提供依据</li>
-<li>PCB将程序变成了进程</li>
-<li>PCB是进程在操作系统中存在的唯一标志</li>
-<li><strong>进程的内存映像</strong></li>
-</ol>
-<img src="/2018/10/14/进程/PCB内存映像.png" title="PCB内存映像">
-<p><em>NEW得到的结果一般放在heap里面，heap中的内容由程序员自行控制</em></p>
-<h3 id="PCB表："><a href="#PCB表：" class="headerlink" title="PCB表："></a><strong>PCB表</strong>：</h3><p>操作系统把PCB组织在一起，放在内存的固定区域决定的系统的并发数</p>
-<p><strong>两种组织方式：</strong></p>
-<ol>
-<li>链表结构，相同状态的进程PCB组成一个链表，不同状态对应多个不同的链表</li>
-<li>索引结构：对具有相同状态的进程，分别设置各自的PCB索引表，表明PCB在PCB表中的地址</li>
-</ol>
-<p><strong>三种调度方式</strong></p>
-<ul>
-<li><p>Long-term scheduler( or job scheduler ) ：select which processes should be brought into the ready queue</p>
-</li>
-<li><p>Short-term scheduler( or CPU scheduler)：select which process should be executed next and allocated CPU </p>
-</li>
-<li><p>Medium Term Scheduler:将进程从内存中移除，降低多道程序度，稍后在把进程重新载入内存并且从停止的地方继续运行，这被称为交换<br>在硬盘上单独开辟一段空间，绕过文件系统 -&gt;  从内存中，按位拷贝速度更快</p>
 </li>
 </ul>
-<p>Context Switch<br>save state of the old process and load the saved state for the new process<br>Context-Switch time is Overhead<br>Time dependent no hardware support</p>
-<h3 id="进程的控制："><a href="#进程的控制：" class="headerlink" title="进程的控制："></a>进程的控制：</h3><ol>
-<li>进程的创建和终止</li>
-<li>进程的调度</li>
-<li>进程的阻塞与唤醒</li>
-</ol>
-<p><strong>进程的创建过程：</strong>//实质上就是创建PCB</p>
+<p><strong>线程的特点</strong></p>
 <ul>
-<li>申请空白PCB</li>
-<li>分配资源</li>
-<li>初始化PCB</li>
-<li>插入到就绪队列</li>
+<li>动态性</li>
+<li>并发性</li>
+<li>独立性</li>
+<li>异步性</li>
 </ul>
-<p><strong>进程的终止：</strong></p>
+<h2 id="线程与进程的比较"><a href="#线程与进程的比较" class="headerlink" title="线程与进程的比较"></a>线程与进程的比较</h2><h3 id="调度"><a href="#调度" class="headerlink" title="调度"></a>调度</h3><ul>
+<li>统一进程的多个线程之间的调度，不引起进程的切换</li>
+<li>不同进程的进程间的调度，需要进程的切换<ul>
+<li>线程上下文的切换和进程上下文的切换最重要的区别是线程的切换虚拟内存空间依然是相同的，但是进程的切换则是不同的。</li>
+<li>进程的切换需要切换页目录以使用新的地址空间，但是线程的切换并不需要</li>
+</ul>
+</li>
+</ul>
+<h3 id="并发性"><a href="#并发性" class="headerlink" title="并发性"></a>并发性</h3><p>一个进程拥有多个线程</p>
+<h3 id="资源的拥有"><a href="#资源的拥有" class="headerlink" title="资源的拥有"></a>资源的拥有</h3><p>线程不拥有系统资源，不拥有代码段和数据段</p>
+<h2 id="Thread-Control-Block-TCB"><a href="#Thread-Control-Block-TCB" class="headerlink" title="Thread Control Block(TCB)"></a>Thread Control Block(TCB)</h2><p><strong>包含</strong></p>
 <ul>
-<li>查找PCB</li>
-<li>中止执行</li>
-<li>归还资源</li>
-<li>移除PCB</li>
-<li>释放PCB</li>
+<li>Thread ID</li>
+<li>Execution State:CPU registers, program counter, pointer to stack space for saving registers</li>
+<li>Scheduling info: State, Priority, CPU time</li>
+<li>Various Pointer</li>
 </ul>
-<p><strong>Linux中3个特殊的进程：</strong></p>
-<ol>
-<li>idle进程：自动创建，在kernel态，唯一没有通过fork/kernel_thread创建的进程</li>
-<li>init进程：idle进程通过kernel_thread创建，系统中用户进程的祖先进程，守护进程监视系统中的其他进程</li>
-<li>Kthreadd进程：idle进程通过kernel_thread创建，负责所有内核进程的调度和管理</li>
-</ol>
-<p><strong>Create Process：</strong></p>
-<ol>
-<li>复制一个与父进程相同的暂存进程，PID不同，PPID指向父进程</li>
-<li>暂存进程以exec方式加载，覆盖其地址空间，加载实际上要执行的程序</li>
-</ol>
+<h2 id="User-vs-Kernel-Threads"><a href="#User-vs-Kernel-Threads" class="headerlink" title="User vs. Kernel Threads"></a>User vs. Kernel Threads</h2><h3 id="User-Level-Threads-Liberary"><a href="#User-Level-Threads-Liberary" class="headerlink" title="User-Level Threads Liberary"></a>User-Level Threads Liberary</h3><ul>
+<li>对用户线程的支持通常在用户态实现</li>
+<li>通过用户级线程库实现，对线程进行创建，调度和处理</li>
+<li>不需要内核的支持</li>
+</ul>
+<p><strong>the advantages of user threads</strong></p>
+<ul>
+<li>performance: low cost thread operation(do not need require crossing protection domains)</li>
+<li>Flexible:scheduling can be application specific</li>
+<li>Portability:user thread library easy to port.</li>
+</ul>
+<p><strong>disadvantage of uesr threads</strong></p>
+<ul>
+<li>if a user_level thread is blocked by kernel the entire process are blocked</li>
+<li>cannot take advantage of multiprocessing(the kernel only assigns one process to only one processor)</li>
+</ul>
+<h3 id="Thread-Management-Supported-by-the-Kernal"><a href="#Thread-Management-Supported-by-the-Kernal" class="headerlink" title="Thread Management Supported by the Kernal"></a>Thread Management Supported by the Kernal</h3><ul>
+<li>由操作系统直接支持</li>
+<li>内核在内核空间实现线程的创建、调度和管理</li>
+</ul>
+<h3 id="多线程模型"><a href="#多线程模型" class="headerlink" title="多线程模型"></a>多线程模型</h3><h4 id="Many-to-One"><a href="#Many-to-One" class="headerlink" title="Many-to-One"></a>Many-to-One</h4><p>多个用户线程对应一个内核线程</p>
+<ul>
+<li>线程在用户空间进行管理，效率高</li>
+<li>一个线程被阻塞，整个进程被阻塞</li>
+</ul>
+<h4 id="One-to-One"><a href="#One-to-One" class="headerlink" title="One-to-One"></a>One-to-One</h4><p>一个用户进程对应一个内核进程</p>
+<p>为创建内核进程的开销会加重应用程序的负担，所以这种模型的大多数实现都会限制系统支持的线程数量</p>
+<h4 id="Many-to-Many"><a href="#Many-to-Many" class="headerlink" title="Many-to-Many"></a>Many-to-Many</h4><p><strong>Advantage</strong></p>
+<p>开发者可以创建所需的用户线程，并且对应的内核线程能够在多处理机环境中并行运行，当一个线程执行导致阻塞的系统调用的时候，内核能够调度其他的线程运行</p>
+<h2 id="Pthreads"><a href="#Pthreads" class="headerlink" title="Pthreads"></a>Pthreads</h2><ul>
+<li>POSIX standard(IEEE 1003.1c)API for thread</li>
+<li>API</li>
+<li>UNIX</li>
+</ul>
+<h2 id="Java中的线程实现"><a href="#Java中的线程实现" class="headerlink" title="Java中的线程实现"></a>Java中的线程实现</h2><p>此处由于笔者不会Java语言，故略去不讲</p>
+<h2 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h2><img src="/2018/10/18/线程/线程状态.png" title="线程状态">
 
       
     </div>
@@ -529,8 +507,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/14/对称密码体系/" rel="next" title="对称密码体系">
-                <i class="fa fa-chevron-left"></i> 对称密码体系
+              <a href="/2018/10/16/Mysql简单总结/" rel="next" title="Mysql简单总结">
+                <i class="fa fa-chevron-left"></i> Mysql简单总结
               </a>
             
           </div>
@@ -538,10 +516,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/14/分组密码/" rel="prev" title="分组密码">
-                分组密码 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -701,7 +675,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">1.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序执行："><span class="nav-number">1.0.1.</span> <span class="nav-text">顺序执行：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发执行："><span class="nav-number">1.0.2.</span> <span class="nav-text">并发执行：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程："><span class="nav-number">1.0.3.</span> <span class="nav-text">进程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCB表："><span class="nav-number">1.0.4.</span> <span class="nav-text">PCB表：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的控制："><span class="nav-number">1.0.5.</span> <span class="nav-text">进程的控制：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程-Threads"><span class="nav-number">1.</span> <span class="nav-text">线程(Threads)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的基本介绍"><span class="nav-number">1.1.</span> <span class="nav-text">线程的基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程与进程的比较"><span class="nav-number">1.2.</span> <span class="nav-text">线程与进程的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调度"><span class="nav-number">1.2.1.</span> <span class="nav-text">调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发性"><span class="nav-number">1.2.2.</span> <span class="nav-text">并发性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源的拥有"><span class="nav-number">1.2.3.</span> <span class="nav-text">资源的拥有</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-Control-Block-TCB"><span class="nav-number">1.3.</span> <span class="nav-text">Thread Control Block(TCB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-vs-Kernel-Threads"><span class="nav-number">1.4.</span> <span class="nav-text">User vs. Kernel Threads</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Level-Threads-Liberary"><span class="nav-number">1.4.1.</span> <span class="nav-text">User-Level Threads Liberary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-Management-Supported-by-the-Kernal"><span class="nav-number">1.4.2.</span> <span class="nav-text">Thread Management Supported by the Kernal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程模型"><span class="nav-number">1.4.3.</span> <span class="nav-text">多线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Many-to-One"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">Many-to-One</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#One-to-One"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">One-to-One</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Many-to-Many"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">Many-to-Many</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pthreads"><span class="nav-number">1.5.</span> <span class="nav-text">Pthreads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中的线程实现"><span class="nav-number">1.6.</span> <span class="nav-text">Java中的线程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的状态"><span class="nav-number">1.7.</span> <span class="nav-text">线程的状态</span></a></li></ol></li></ol></div>
             
 
           </div>
