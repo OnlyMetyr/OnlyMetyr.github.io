@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="操作系统实验1本文共11455个字，预计阅读时间为25m36s Linux系统安装及初级命令熟悉Linux发行版在这里，笔者使用的是CentOS 7，使用的虚拟机软件是MacOSX平台独占的Parallel Desktop软件，自动进行的CentOS 7系统的安装，同时笔者还使用了Ubuntu 16.04.01,本文所讨论的命令在以上两个Linux发行版中的效果相同 Linux初级命令切换进入ro">
+<meta name="keywords" content="OperatingSystem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统实验：Linux初步与文件系统">
+<meta property="og:url" content="http://arrontao.vip/2018/10/21/操作系统实验：Linux初步与文件系统/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="操作系统实验1本文共11455个字，预计阅读时间为25m36s Linux系统安装及初级命令熟悉Linux发行版在这里，笔者使用的是CentOS 7，使用的虚拟机软件是MacOSX平台独占的Parallel Desktop软件，自动进行的CentOS 7系统的安装，同时笔者还使用了Ubuntu 16.04.01,本文所讨论的命令在以上两个Linux发行版中的效果相同 Linux初级命令切换进入ro">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-21T05:36:41.581Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统实验：Linux初步与文件系统">
+<meta name="twitter:description" content="操作系统实验1本文共11455个字，预计阅读时间为25m36s Linux系统安装及初级命令熟悉Linux发行版在这里，笔者使用的是CentOS 7，使用的虚拟机软件是MacOSX平台独占的Parallel Desktop软件，自动进行的CentOS 7系统的安装，同时笔者还使用了Ubuntu 16.04.01,本文所讨论的命令在以上两个Linux发行版中的效果相同 Linux初级命令切换进入ro">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2018/10/21/操作系统实验：Linux初步与文件系统/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>操作系统实验：Linux初步与文件系统 | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/21/操作系统实验：Linux初步与文件系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arron Tao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">操作系统实验：Linux初步与文件系统
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-21 13:35:30 / Modified: 13:36:41" itemprop="dateCreated datePublished" datetime="2018-10-21T13:35:30+08:00">2018-10-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/experiment/" itemprop="url" rel="index"><span itemprop="name">experiment</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="操作系统实验1"><a href="#操作系统实验1" class="headerlink" title="操作系统实验1"></a>操作系统实验1</h1><p><em>本文共11455个字，预计阅读时间为25m36s</em></p>
+<h2 id="Linux系统安装及初级命令熟悉"><a href="#Linux系统安装及初级命令熟悉" class="headerlink" title="Linux系统安装及初级命令熟悉"></a>Linux系统安装及初级命令熟悉</h2><h3 id="Linux发行版"><a href="#Linux发行版" class="headerlink" title="Linux发行版"></a>Linux发行版</h3><p>在这里，笔者使用的是CentOS 7，使用的虚拟机软件是MacOSX平台独占的Parallel Desktop软件，自动进行的CentOS 7系统的安装，同时笔者还使用了Ubuntu 16.04.01,本文所讨论的命令在以上两个Linux发行版中的效果相同</p>
+<h3 id="Linux初级命令"><a href="#Linux初级命令" class="headerlink" title="Linux初级命令"></a>Linux初级命令</h3><p><strong>切换进入root用户</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[parallels@centos-7 ~]$ sudo -i</span><br><span class="line">[sudo] password for parallels: &lt;在这里输入原用户密码&gt;</span><br></pre></td></tr></table></figure>
+<p>即可切换进入root用户</p>
+<h4 id="在终端中创建一个新用户"><a href="#在终端中创建一个新用户" class="headerlink" title="在终端中创建一个新用户"></a>在终端中创建一个新用户</h4><p><strong>使用命令<code>gedit /etc/passwd</code>查看已经存在在系统中的用户</strong></p>
+<p><em>对于 /etc/passwd的解释</em></p>
+<p>从上面的例子我们可以看到，/etc/passwd中一行记录对应着一个用户，每行记录又被冒号(:)分隔为7个字段，其格式和具体含义如下：</p>
+<p><strong>用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell</strong></p>
+<ul>
+<li><p>“用户名”是代表用户账号的字符串。通常长度不超过8个字符，并且由大小写字母和/或数字组成。登录名中不能有冒号(:)，因为冒号在这里是分隔符。为了兼容起见，登录名中最好不要包含点字符(.)，并且不使用连字符(-)和加号(+)打头。</p>
+</li>
+<li><p>“口令”一些系统中，存放着加密后的用户口令字。虽然这个字段存放的只是用户口令的加密串，不是明文，但是由于/etc/passwd文件对所有用户都可读，所以这仍是一个安全隐患。因此，现在许多Linux系统（如SVR4）都使用了shadow技术，把真正的加密后的用户口令字存放到/etc/shadow文件中，而在/etc/passwd文件的口令字段中只存放一个特殊的字符，例如“x”或者“*”。</p>
+</li>
+<li><p>“用户标识号”是一个整数，系统内部用它来标识用户。一般情况下它与用户名是一一对应的。如果几个用户名对应的用户标识号是一样的，系统内部将把它们视为同一个用户，但是它们可以有不同的口令、不同的主目录以及不同的登录Shell等。通常用户标识号的取值范围是0～65535。0是超级用户root的标识号，1～99由系统保留，作为管理账号，普通用户的标识号从100开始。在Linux系统中，这个界限是500。</p>
+</li>
+<li><p>“组标识号”字段记录的是用户所属的用户组。它对应着/etc/group文件中的一条记录。</p>
+</li>
+<li><p>“注释性描述”字段记录着用户的一些个人情况，例如用户的真实姓名、电话、地址等，这个字段并没有什么实际的用途。在不同的Linux系统中，这个字段的格式并没有统一。在许多Linux系统中，这个字段存放的是一段任意的注释性描述文字，用做finger命令的输出。</p>
+</li>
+<li>“主目录”，也就是用户的起始工作目录，它是用户在登录到系统之后所处的目录。在大多数系统中，各用户的主目录都被组织在同一个特定的目录下，而用户主目录的名称就是该用户的登录名。各用户对自己的主目录有读、写、执行（搜索）权限，其他用户对此目录的访问权限则根据具体情况设置。</li>
+<li><p>用户登录后，要启动一个进程，负责将用户的操作传给内核，这个进程是用户登录到系统后运行的命令解释器或某个特定的程序，即Shell。Shell是用户与Linux系统之间的接口。Linux的Shell有许多种，每种都有不同的特点，常用的有sh(BourneShell), csh(CShell), ksh(KornShell), tcsh(TENEX/TOPS-20typeCShell), bash(BourneAgainShell)等。系统管理员可以根据系统情况和用户习惯为用户指定某个Shell。如果不指定Shell，那么系统使用sh为默认的登录Shell，即这个字段的值为/bin/sh。用户的登录Shell也可以指定为某个特定的程序（此程序不是一个命令解释器）。利用这一特点，我们可以限制用户只能运行指定的应用程序，在该应用程序运行结束后，用户就自动退出了系统。有些Linux系统要求只有那些在系统中登记了的程序才能出现在这个字段中。</p>
+</li>
+<li><p>系统中有一类用户称为伪用户（psuedousers），这些用户在Linux /etc/passwd文件中也占有一条记录，但是不能登录，因为它们的登录Shell为空。它们的存在主要是方便系统管理，满足相应的系统进程对文件属主的要求。常见的伪用户如下所示。</p>
+<ul>
+<li>伪用户含义</li>
+<li>bin拥有可执行的用户命令文件</li>
+<li>sys拥有系统文件</li>
+<li>adm拥有帐户文件</li>
+<li>uucpUUCP使用</li>
+<li>lplp或lpd子系统使用</li>
+<li>nobodyNFS使用<br>拥有帐户文件，除了上面列出的伪用户外，还有许多标准的伪用户，例如：audit,cron,mail,usenet等，它们也都各自为相关的进程和文件所需要。</li>
+</ul>
+</li>
+</ul>
+<p><strong>设置用户名</strong></p>
+<p>使用命令<code>adduser &lt;user_name&gt;</code>设置要添加的用户的用户名，然后使用命令<code>passwd &lt;user_name&gt;</code>设定用户密码</p>
+<p>e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-7 ~]# adduser arron</span><br><span class="line">[root@centos-7 ~]# passwd arron</span><br><span class="line">Changing password for user arron.</span><br><span class="line">New password: </span><br><span class="line">Retype new password: </span><br><span class="line">passwd: all authentication tokens updated successfully.</span><br></pre></td></tr></table></figure>
+<p>当看到最后一句话</p>
+<p><code>passwd: all authentication tokens updated successfully.</code></p>
+<p>则表示密码设定成功</p>
+<h4 id="登陆设定的用户"><a href="#登陆设定的用户" class="headerlink" title="登陆设定的用户"></a>登陆设定的用户</h4><p>使用命令<code>su &lt;username&gt;</code>登陆创建的用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-7 ~]# su arron</span><br><span class="line">[arron@centos-7 root]$</span><br></pre></td></tr></table></figure>
+<p>由此，切换用户成功</p>
+<h4 id="查看当前用户"><a href="#查看当前用户" class="headerlink" title="查看当前用户"></a>查看当前用户</h4><p>使用命令<code>who</code>查看当前命令</p>
+<p>e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[arron@centos-7 root]$ who</span><br><span class="line">parallels :0           2018-10-20 20:32 (:0)</span><br><span class="line">parallels pts/0        2018-10-20 20:32 (:0)</span><br><span class="line">You have mail in /var/spool/mail/root</span><br></pre></td></tr></table></figure>
+<h4 id="查明具体用户"><a href="#查明具体用户" class="headerlink" title="查明具体用户"></a>查明具体用户</h4><p>使用命令<code>whoami</code>查看当前登陆的用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-7 ~]# whoami</span><br><span class="line">root</span><br></pre></td></tr></table></figure>
+<h4 id="退出当前用户"><a href="#退出当前用户" class="headerlink" title="退出当前用户"></a>退出当前用户</h4><p>使用命令<code>exit</code>退出当前用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[parallels@centos-7 root]$ exit</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<h4 id="通过命令行关机"><a href="#通过命令行关机" class="headerlink" title="通过命令行关机"></a>通过命令行关机</h4><p>通过<code>shutdown -h &lt;+time&gt;/&lt;clock&gt; &lt;&#39;note&#39;&gt;</code>进行关机操作</p>
+<h4 id="重新启动"><a href="#重新启动" class="headerlink" title="重新启动"></a>重新启动</h4><p>通过<code>reboot</code>命令重新启动</p>
+<ul>
+<li>此命令只有超级用户才拥有执行权限</li>
+</ul>
+<h4 id="几个常用终端命令"><a href="#几个常用终端命令" class="headerlink" title="几个常用终端命令"></a>几个常用终端命令</h4><ol>
+<li>回车键<code>return</code>或者<code>control+m</code>表示输入行结束</li>
+<li><code>control+d</code>表示终端输入结束 <em>测试没有结果</em></li>
+<li><code>control+g</code>控制终端响铃</li>
+<li><code>control+h</code>为退格键，用于改正错误</li>
+<li><code>control+i</code>与tab键功能相似</li>
+<li><code>delete</code>键表示立即终止程序</li>
+<li><code>brake+delete</code>与<code>control+c</code>功能相似</li>
+</ol>
+<h4 id="Linux下的帮助命令"><a href="#Linux下的帮助命令" class="headerlink" title="Linux下的帮助命令"></a>Linux下的帮助命令</h4><ul>
+<li><code>man</code>命令，可以通过此命令，了解命令的具体使用方法</li>
+<li><code>help</code>可以输出常用的命令</li>
+<li>在命令后加<code>--help</code>可以了解功能的简答用法，也可以在<code>--help</code>后加<code>|less</code>或者<code>|more</code>选择命令提示信息的多少</li>
+</ul>
+<h2 id="文件与目录操作"><a href="#文件与目录操作" class="headerlink" title="文件与目录操作"></a>文件与目录操作</h2><h3 id="文件系统简介"><a href="#文件系统简介" class="headerlink" title="文件系统简介"></a>文件系统简介</h3><h4 id="什么是文件"><a href="#什么是文件" class="headerlink" title="什么是文件"></a>什么是文件</h4><p>从通常意义上来说，文件是一些数据的集合，这些数据通常是文本或机器操作码。用户所创建的大多数文件都是文本文件， 而在Linux上运行的大多数程序则是机器操作码文件。每当执行一条Linux命令时，就是告诉计算机去执行某个文件或某组文件中的命令 ，这样的文件以半永久的形式存储在像磁盘或磁带这样的稳定介质中。</p>
+<p>在Linux中，除了通常意义上的文件外，每个物理实体都是被看作文件，在Linux中，系统将所有的文件看作简单的数据字节序列，但是用户或者应用程序可以对文件内容附加特定的结构</p>
+<h4 id="什么是目录"><a href="#什么是目录" class="headerlink" title="什么是目录"></a>什么是目录</h4><p>目录是文件系统中的一个单元，它存放着各种文件。事实上，Linux系统中 的每个文件都是包含在某个目录中的。 这样的安排保持了文件的组织，并减少系统寻找某一特定文件所花的时间。</p>
+<p>在Linux系统中，目录实际上也是一种文件。它不包含文本或可执行的机器 操作码，但它具有文件名列表和有关这些文件的其它信息。</p>
+<p>由于目录也是一种文件，因此也可以把一个目录放到另一个目录中。这有 助于作为整体解释文件系统，因为系统实际上是目录和文件组成的层次结构。</p>
+<h4 id="文件的命名规则"><a href="#文件的命名规则" class="headerlink" title="文件的命名规则"></a>文件的命名规则</h4><p>为了区别各个文件，必须给每个文件取个名字。在Linux系统中，一个合格的文件名由字母、数字和某些特殊符号组成。文件名中不应该包含空格、制表符 、换行符和退格符，也不应该包含任何 对shell有特定含义的字符，这些特定字符包括：<code>!@#$%^&amp;*()|\[]{}&#39;&quot;;&lt;&gt;/</code></p>
+<h4 id="文件系统的层次结构"><a href="#文件系统的层次结构" class="headerlink" title="文件系统的层次结构"></a>文件系统的层次结构</h4><p>Linux的文件系统是一个包含文件和目录的层次结构，被称为目录树。目录 树的最顶端只有一个目录，被称为根（ root）目录。根目录以斜线字符（/）表示，由它再分支出若干其他目录和文件。这些目录中的每一个又可能再分支出其他的一些目录和文件。</p>
+<p><strong>Linux的一些标准目录</strong></p>
+<ul>
+<li>/bin目录保存引导系统所需要的全部可执行程序以及最常用的Linux命令 </li>
+<li>/boot目录用来存放Linux启动时所需要的一些数据和文件 </li>
+<li>/dev目录包含有链接硬件设备的文件 </li>
+<li>/etc目录含用于管理Linux系统的文件和工具 </li>
+<li>/home目录用来存放各个用户的主目录 </li>
+<li>/lib目录含有C编译程序所需要的函数库 </li>
+<li>/usr目录包含X Windows系统的可执行程序、 函数库以及游戏等</li>
+</ul>
+<h3 id="操作实例"><a href="#操作实例" class="headerlink" title="操作实例"></a>操作实例</h3><h4 id="显示当前的目录名"><a href="#显示当前的目录名" class="headerlink" title="显示当前的目录名"></a>显示当前的目录名</h4><p>使用命令<code>pwd</code>显示当前所处的目录</p>
+<p>e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[parallels@centos-7 ~]$ pwd</span><br><span class="line">/home/parallels</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">#### 改变当前目录</span><br><span class="line"></span><br><span class="line">可以使用`cd [目录路径名]`命令，变换目录到指定目录，`[目录路径名]`可以是相对路径，也可以是绝对路径</span><br><span class="line"></span><br><span class="line">- 跳到`usr/bin`：</span><br></pre></td></tr></table></figure>
+<p>[parallels@centos-7 ~]$ cd /usr/bin<br>[parallels@centos-7 bin]$ pwd<br>/usr/bin<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 跳到自己的home directory,使用命令`cd ~ `或者`$ cd`</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 bin]$ cd<br>[parallels@centos-7 ~]$ pwd<br>/home/parallels<br>[parallels@centos-7 ~]$ cd ~<br>[parallels@centos-7 ~]$ pwd<br>/home/parallels<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 将当前目录修改为根目录</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ cd /<br>[parallels@centos-7 /]$ pwd<br>/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 使用ls命令</span><br><span class="line"></span><br><span class="line">- 不带有任何其他选项的`ls`命令可以以字母顺序列出当前目录中的所有文件和子目录的名字</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 /]$ ls<br>1    boot  etc   lib    media  opt   root  sbin  sys  usr<br>bin  dev   home  lib64  mnt    proc  run   srv   tmp  var<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 显示当前文件目录下文件的具体属性使用命令`ls -l`或者`ll`命令</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 /]$ ls -l<br>total 24<br>-rw-r–r–.   1 root root    0 Aug 10  2017 1<br>lrwxrwxrwx.   1 root root    7 Aug 10  2017 bin -&gt; usr/bin<br>dr-xr-xr-x.   5 root root 4096 Sep 27 12:36 boot<br>drwxr-xr-x.  21 root root 3260 Oct 20 21:31 dev<br>drwxr-xr-x. 139 root root 8192 Oct 21 01:33 etc<br>drwxr-xr-x.   4 root root   36 Oct 20 20:53 home<br>lrwxrwxrwx.   1 root root    7 Aug 10  2017 lib -&gt; usr/lib<br>lrwxrwxrwx.   1 root root    9 Aug 10  2017 lib64 -&gt; usr/lib64<br>drwxr-xr-x.   3 root root   17 Sep 27 11:43 media<br>drwxr-xr-x.   2 root root    6 Nov  5  2016 mnt<br>drwxr-xr-x.   3 root root   16 Aug 10  2017 opt<br>dr-xr-xr-x. 217 root root    0 Oct 20 21:31 proc<br>dr-xr-x—.   7 root root  265 Oct 20 20:42 root<br>drwxr-xr-x.  39 root root 1200 Oct 21 11:09 run<br>lrwxrwxrwx.   1 root root    8 Aug 10  2017 sbin -&gt; usr/sbin<br>drwxr-xr-x.   2 root root    6 Nov  5  2016 srv<br>dr-xr-xr-x.  13 root root    0 Oct 20 21:31 sys<br>drwxrwxrwt.  18 root root 4096 Oct 21 01:34 tmp<br>drwxr-xr-x.  13 root root  155 Aug 10  2017 usr<br>drwxr-xr-x.  21 root root 4096 Oct 31  2017 var</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">- 第一个字符`d`:第一个字符d代表这是一个目录。`-`：则代表这是一个文件。`l`：则代表这是一个超链接。</span><br><span class="line">- 在之后的九位字符需要分为3个3位看待</span><br><span class="line">	- 第一个三位表示文件拥有者的权限</span><br><span class="line">	- 第二个三位表示同群组的权限</span><br><span class="line">	- 第三个三位表示其他人的操作权限</span><br><span class="line">		- 其中每一三位分别表示：</span><br><span class="line">			- 第一位代表读权限：`r`代表可读，`-`代表不可读</span><br><span class="line">			- 第二位代表写权限：`w`表示可写，`-`表示不可写</span><br><span class="line">			- 第三位代表执行权限：`x`表示可以执行，`-`表示不可执行</span><br><span class="line">- 在第二列的数字表示的是文件的硬连接数：</span><br><span class="line"></span><br><span class="line">	*索引节点inode*：Linux为每个文件分配一个称为索引节点的编号，可以将inode简单理解成一个指针，它永远指向本文件在物理磁盘上的具体存储位置。系统是通过索引节点(而不是文件名)来定位每一个文件的。</span><br><span class="line">	</span><br><span class="line">	*硬连接*:1个inode编号肯定和一个文件的数据存储区一一对应。。有几个目录项具有相同的inode号，我们就说这个文件有几个硬连接(hardlink)，对于普通文件，ls -l命令的连接计数count域的数值就是本文件拥有的硬连接数。</span><br><span class="line">	</span><br><span class="line">- 紧接着后面两列表示了文件的拥有者和文件的所属的群组</span><br><span class="line">- 再后面一列则表明了文件的大小，默认单位是byte</span><br><span class="line">- 再往后的时间是文档最后被修改的时间</span><br><span class="line">- 最后一列则是该文档的名字</span><br><span class="line"></span><br><span class="line">#### 显示隐含文件</span><br><span class="line"></span><br><span class="line">显示当前目录下的隐含文件或者目录可以使用命令`ls -a`实现，在返回列表中，带有`.`的为当前目录的隐藏文件，如果带有`..`则为上一目录中的隐藏文件</span><br></pre></td></tr></table></figure>
+<p>[root@centos-7 ~]# ls -a<br>.                .bash_logout   .config               .local      .viminfo<br>..               .bash_profile  .cshrc                .parallels<br>anaconda-ks.cfg  .bashrc        .dbus                 .rnd<br>.bash_history    .cache         initial-setup-ks.cfg  .tcshrc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 显示所有文件及其所有子文件</span><br><span class="line"></span><br><span class="line">采用`ls -R`命令</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ ls -R<br>.:<br>Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos</p>
+<p>./Desktop:<br>Parallels Shared Folders</p>
+<p>./Documents:</p>
+<p>./Downloads:</p>
+<p>./Music:</p>
+<p>./Pictures:</p>
+<p>./Public:</p>
+<p>./Templates:</p>
+<p>./Videos:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 创建目录</span><br><span class="line"></span><br><span class="line">使用命令`mkdir [-p] &lt;dirName&gt;`创建一个目录</span><br><span class="line">例如在工作目录Dir下创建一个名为test的目录，通过-p命令确保目录名称Dir存在，如果不存在则创建一个</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ ls<br>Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos<br>[parallels@centos-7 ~]$ mkdir -p Dir/test<br>[parallels@centos-7 ~]$ ls<br>Desktop  Dir  Documents  Downloads  Music  Pictures  Public  Templates  Videos<br>[parallels@centos-7 ~]$ cd Dir<br>[parallels@centos-7 Dir]$ ls<br>test<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 删除目录</span><br><span class="line"></span><br><span class="line">通过命令`rmdir &lt;dir_Name&gt;`删除目录,但是`rmdir`不能删除一个非空的目录</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ rmdir Dir<br>rmdir: failed to remove ‘Dir’: Directory not empty<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 创建长度为0的文件</span><br><span class="line"></span><br><span class="line">`touch`命令有两个功能：</span><br><span class="line"></span><br><span class="line">1. 用于把已存在文件的时间标签更新为系统当前的时间（默认方式），它们的数据将原封不动地保留下来；</span><br><span class="line">	</span><br><span class="line">	- -a：或--time=atime或--time=access或--time=use  只更改存取时间；</span><br><span class="line">	- -c：或--no-create  不建立任何文件；</span><br><span class="line">	- -d/-t：&lt;时间日期&gt; 使用指定的日期时间，而非现在的时间；</span><br><span class="line">	- -m：或--time=mtime或--time=modify  只更改变动时间；</span><br><span class="line">	- -r：&lt;参考文件或目录&gt;  把指定文件或目录的日期时间，统统设成和参考文件或目录的日期时间相同；</span><br><span class="line"></span><br><span class="line">2. 用来创建新的空文件。使用命令`touch &lt;file_name&gt;`创建长度为0的文件</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ touch helloworld</p>
+<p>-rw-rw-r–. 1 parallels parallels  0 Oct 21 11:54 helloworld<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#### 文件的拷贝</span><br><span class="line"></span><br><span class="line">可以通过`cp`命令实现文件的拷贝，`cp`命令的一般语法是`cp &lt;原文件路径&gt; &lt;新文件路径&gt;`</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ cp Dir/test/test_copy test<br>[parallels@centos-7 ~]$ ls test<br>test_copy<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 文件的移动</span><br><span class="line"></span><br><span class="line">可以使用命令`mv [-i] &lt;文件原路径&gt; &lt;文件新路径&gt;`,其中命令选项`-i`表示如果目的地有同名档案，则先询问是否覆盖旧档案</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ mv Dir/test test<br>[parallels@centos-7 ~]$ ls test<br>test  test_copy<br>[parallels@centos-7 ~]$ ls Dir<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 删除文件</span><br><span class="line"></span><br><span class="line">删除命令使用命令`rm [-options] &lt;filename&gt;`进行删除</span><br><span class="line">其中[option]的参数有：</span><br><span class="line"></span><br><span class="line">- -i 删除之前逐一询问确定</span><br><span class="line">- -f 直接删除，无需质疑确认</span><br><span class="line">- -r 将目录及以下的档案逐一确认</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ rm -i test/test_copy<br>rm: remove regular empty file ‘test/test_copy’? y<br>[parallels@centos-7 ~]$ ls test<br>test<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">#### 查看文件的内容</span><br><span class="line"></span><br><span class="line">**`cat`命令**</span><br><span class="line"></span><br><span class="line">可以使用命令`cat [-option] file_name`查看文件的内容</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ cat helloworld</p>
+<p>#include<iostream><br>using namespace std;</iostream></p>
+<p>int main()<br>{<br>    cout&lt;&lt;”hello wordl”&lt;&lt;endl;<br>    return 0;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">其中文件的参数[option]为：</span><br><span class="line"></span><br><span class="line">- -n从1开始对所有输出的行数编号</span><br><span class="line">- -b与-n相似,但是对空白行不进行编号</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ cat -n helloworld<br>     1    #include<iostream><br>     2    using namespace std;<br>     3<br>     4    int main()<br>     5    {<br>     6        cout&lt;&lt;”hello wordl”&lt;&lt;endl;<br>     7        return 0;<br>     8    }<br>[parallels@centos-7 ~]$ cat -b helloworld<br>     1    #include<iostream><br>     2    using namespace std;</iostream></iostream></p>
+<pre><code>3    int main()
+4    {
+5        cout&lt;&lt;&quot;hello wordl&quot;&lt;&lt;endl;
+6        return 0;
+7    }
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">也可以将编号后的结果输出到另一个文件中:</span><br><span class="line">`cat [-option] sourcefile&gt;targetfile`，其中&lt;targetfile&gt;可以是不存在的文件，此时系统会自动创建一个文件</span><br></pre></td></tr></table></figure>
+<p>[parallels@centos-7 ~]$ cat -n helloworld&gt;line<br>[parallels@centos-7 ~]$ cat line<br>     1    #include<iostream><br>     2    using namespace std;<br>     3<br>     4    int main()<br>     5    {<br>     6        cout&lt;&lt;”hello wordl”&lt;&lt;endl;<br>     7        return 0;<br>     8    }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**more命令**</span><br><span class="line"></span><br><span class="line">对于`more`命令的使用语法为`more [-option] [+/pattern] [+linenum] [filename]`</span><br><span class="line"></span><br><span class="line">其中[option]选项：</span><br><span class="line"></span><br><span class="line">- -num 一次显示的行数</span><br><span class="line">- -d 提示使用者，在画面下方显示 [Press space to continue, &apos;q&apos; to quit.] ，如果使用者按错键，则会显示 [Press &apos;h&apos; for instructions.] 而不是 &apos;哔&apos; 声</span><br><span class="line">- -l 取消遇见特殊字元 ^L（送纸字元）时会暂停的功能</span><br><span class="line">- -f 计算行数时，以实际上的行数，而非自动换行过后的行数（有些单行字数太长的会被扩展为两行或两行以上）</span><br><span class="line">- -p 不以卷动的方式显示每一页，而是先清除萤幕后再显示内容</span><br><span class="line">- -c 跟 -p 相似，不同的是先显示内容再清除其他旧资料</span><br><span class="line">- -s 当遇到有连续两行以上的空白行，就代换为一行的空白行</span><br><span class="line">- -u 不显示下引号 （根据环境变数 TERM 指定的 terminal 而有所不同）</span><br><span class="line"></span><br><span class="line">[+/pattern] 在每个文档显示前搜寻该字串（pattern），然后从该字串之后开始显示</span><br><span class="line"></span><br><span class="line">[linenum] 从第 num 行开始显示</span><br><span class="line">[fileNames] 欲显示内容的文档，可为复数个数</span><br></pre></td></tr></table></figure></iostream></p>
+<p>[parallels@centos-7 ~]$ more -1 +2 line1<br>     2    using namespace std;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 对文件和目录进行压缩和解压缩</span><br><span class="line"></span><br><span class="line">在这里，我们介绍比较常用的`gzip`指令，`gzip`指令的使用语法为`gzip [-option] [-S&lt;压缩字尾字符串&gt;] [-&lt;压缩效率&gt;] [--best/fast] [文件]`,经过`gzip`压缩指令得到的文件在之后会显示&apos;.gz&apos;的文件扩展名</span><br><span class="line"></span><br><span class="line">- `gizp &lt;filename&gt;`对文件filename进行压缩</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ gzip helloworld<br>[parallels@centos-7 ~]$ ls<br>Desktop  Documents  helloworld.gz  line1  Pictures  Templates  Videos<br>Dir      Downloads  line           Music  Public    test<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">- 将`gzip`压缩的文件进行解压缩</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ gzip -dv helloworld.gz<br>helloworld.gz:      9.5% – replaced with helloworld<br>[parallels@centos-7 ~]$ ls<br>Desktop  Documents  helloworld  line1  Pictures  Templates  Videos<br>Dir      Downloads  line        Music  Public    test<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 将目录文件下所有文件进行压缩</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ ls test<br>test  tg1  tg2  tg3<br>[parallels@centos-7 ~]$ gzip -r test<br>[parallels@centos-7 ~]$ ls test<br>test  tg1.gz  tg2.gz  tg3.gz<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 将文件目录下的所有压缩文件进行解压缩</span><br></pre></td></tr></table></figure></p>
+<p>[parallels@centos-7 ~]$ ls test<br>test  tg1.gz  tg2.gz  tg3.gz<br>[parallels@centos-7 ~]$ gzip -dr test<br>[parallels@centos-7 ~]$ ls test<br>test  tg1  tg2  tg3<br><code>`</code></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OperatingSystem/" rel="tag"># OperatingSystem</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/18/线程/" rel="next" title="线程">
+                <i class="fa fa-chevron-left"></i> 线程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Arron Tao" />
+            
+              <p class="site-author-name" itemprop="name">Arron Tao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/arrontaoyr" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/rong-ye-43-55" target="_blank" title="知乎"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统实验1"><span class="nav-number">1.</span> <span class="nav-text">操作系统实验1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux系统安装及初级命令熟悉"><span class="nav-number">1.1.</span> <span class="nav-text">Linux系统安装及初级命令熟悉</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux发行版"><span class="nav-number">1.1.1.</span> <span class="nav-text">Linux发行版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux初级命令"><span class="nav-number">1.1.2.</span> <span class="nav-text">Linux初级命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在终端中创建一个新用户"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">在终端中创建一个新用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登陆设定的用户"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">登陆设定的用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看当前用户"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">查看当前用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查明具体用户"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">查明具体用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#退出当前用户"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">退出当前用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过命令行关机"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">通过命令行关机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重新启动"><span class="nav-number">1.1.2.7.</span> <span class="nav-text">重新启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几个常用终端命令"><span class="nav-number">1.1.2.8.</span> <span class="nav-text">几个常用终端命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux下的帮助命令"><span class="nav-number">1.1.2.9.</span> <span class="nav-text">Linux下的帮助命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件与目录操作"><span class="nav-number">1.2.</span> <span class="nav-text">文件与目录操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件系统简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">文件系统简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是文件"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">什么是文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是目录"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">什么是目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件的命名规则"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">文件的命名规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件系统的层次结构"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">文件系统的层次结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作实例"><span class="nav-number">1.2.2.</span> <span class="nav-text">操作实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#显示当前的目录名"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">显示当前的目录名</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arron Tao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
