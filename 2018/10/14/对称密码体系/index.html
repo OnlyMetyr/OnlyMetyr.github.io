@@ -126,7 +126,9 @@
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/OFB解密.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/DES算法处理流程.png">
 <meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/DES.png">
-<meta property="og:updated_time" content="2018-10-17T17:00:12.480Z">
+<meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/轮次数.png">
+<meta property="og:image" content="http://arrontao.vip/2018/10/14/对称密码体系/AES.png">
+<meta property="og:updated_time" content="2018-10-27T06:54:29.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对称密码体系">
 <meta name="twitter:description" content="对称密码体系主要特征：加密密钥和解密密钥相同主要研究课题：密钥的产生/管理 流密码流密码的安全强度完全取决于密钥的随机性和不可预测性核心问题是：密钥流的产生保持收发两端密钥流的精确同步是关键问题 基本思想：利用密钥k和密钥流发生器f生成一个密钥流密钥流：Zi = f(k,δi)，δi是加密器中的记忆元件在时刻i的状态，f是以密钥k和δi作为输入参数的函数； 同步流密码加密器中记忆元件的存储状态δi">
@@ -371,7 +373,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-10-18 01:00:12" itemprop="dateModified" datetime="2018-10-18T01:00:12+08:00">2018-10-18</time>
+                <time title="Modified: 2018-10-27 14:54:29" itemprop="dateModified" datetime="2018-10-27T14:54:29+08:00">2018-10-27</time>
               
             
           </span>
@@ -542,6 +544,37 @@
 <h4 id="ShiftRows"><a href="#ShiftRows" class="headerlink" title="ShiftRows"></a>ShiftRows</h4><p><strong>ShiftRows</strong>就是将行按照一定的规则向左平移，并且每一行平移的字节数是不同的。</p>
 <h4 id="MixColumns"><a href="#MixColumns" class="headerlink" title="MixColumns"></a>MixColumns</h4><p><strong>MixColumns</strong>是将一个4byte的值进行bit运算，将其变为另一个4字节的值。</p>
 <h4 id="AddRoundKey"><a href="#AddRoundKey" class="headerlink" title="AddRoundKey"></a>AddRoundKey</h4><p><strong>AddRoundKey</strong>就是将<em>MixColumns</em>的输出值与轮密钥进行XOR</p>
+<h3 id="AES算法简介"><a href="#AES算法简介" class="headerlink" title="AES算法简介"></a>AES算法简介</h3><ul>
+<li>AES是分组密码，但是AES并不具有Feistel结构，具有Square结构</li>
+<li>加密与解密相似但是不对称</li>
+<li>密钥长度和分组长度可变，可以被分别的指定为：128bit,192bit,256bit</li>
+<li>基于较好的数学理论，例如：伽罗瓦域</li>
+<li>结构简单，速度较快</li>
+<li>能在多种平台上以较快的速度实现</li>
+</ul>
+<h3 id="AES消息分组与密钥分组"><a href="#AES消息分组与密钥分组" class="headerlink" title="AES消息分组与密钥分组"></a>AES消息分组与密钥分组</h3><p><strong>在本文接下来的讨论中，分组长度确定为128bit,密钥长度为256bit</strong></p>
+<p>对于明文：以1byte(8bit)为一个单位，处理为4*4的矩阵<br>对于密文：四行保持不变，根据不同的密钥长度确定不同的列数</p>
+<p>根据不同的消息列和密钥列，在AES算法中，对密钥进行的轮操作的次数也是不同的：</p>
+<img src="/2018/10/14/对称密码体系/轮次数.png" title="轮次数">
+<p>AES算法流程为：</p>
+<img src="/2018/10/14/对称密码体系/AES.png" title="AES">
+<h3 id="AES加密变换"><a href="#AES加密变换" class="headerlink" title="AES加密变换"></a>AES加密变换</h3><p>下面我们进行详细的解释</p>
+<h4 id="字节替换"><a href="#字节替换" class="headerlink" title="字节替换"></a>字节替换</h4><p>SubBytes为State的每一个字节提供一个非线形变换，任一非零字节x∈GF(28)被下面的变换所代换(仿射变换)</p>
+<p>与DES算法中的S盒变化基本相同，区别之处在于，DES中采用了8个不同的S盒而在AES中只存在了1个S盒，并且AES中的S盒并不是随机选取的，而是采用了数学公式进行推导得到的</p>
+<h4 id="ShiftRow"><a href="#ShiftRow" class="headerlink" title="ShiftRow"></a>ShiftRow</h4><p>在字节替换结束后得到的表进行移位变化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Nb	C1	C2	C3</span><br><span class="line">4	3	2	1</span><br><span class="line">6	3	2	1</span><br><span class="line">8	3	1	4</span><br></pre></td></tr></table></figure>
+<h4 id="MixColumn"><a href="#MixColumn" class="headerlink" title="MixColumn"></a>MixColumn</h4><p>通过特定的矩阵乘法得到转换后的值：</p>
+<p>其中为了简化计算用到了伽罗凡域中的相关技巧以及同模的相关定义</p>
+<h4 id="AddRoundKey-1"><a href="#AddRoundKey-1" class="headerlink" title="AddRoundKey"></a>AddRoundKey</h4><p>将MixColumn后得到的值与此轮的轮密钥进行XOR操作得到此轮的输出</p>
+<h3 id="AES密钥"><a href="#AES密钥" class="headerlink" title="AES密钥"></a>AES密钥</h3><p>第0轮的轮密钥就是种子密钥，没有进行变换就直接进行与密文的XOR操作</p>
+<p><strong>对于下标不为4的倍数元素：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w[i] = w[i-1] XOR w[i-4]</span><br></pre></td></tr></table></figure>
+<p><strong>对于下标为4的倍数的元素</strong></p>
+<ul>
+<li>将一个字的四个字节循环左移一个字节，即将[b0, b1, b2, b3]变为[b1, b2, b3, b0]；</li>
+<li>基于SubBytes对输入字中的每个字节进行代替；——S盒</li>
+<li>将步骤1和步骤2的结果再与轮常量Rcon[i]相异或。(此处存疑，也有说法是：将步骤2的结果与W[i-4]以及轮常量Rcon[i]进行异或)</li>
+</ul>
 
       
     </div>
@@ -747,7 +780,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对称密码体系"><span class="nav-number">1.</span> <span class="nav-text">对称密码体系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流密码"><span class="nav-number">1.1.</span> <span class="nav-text">流密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列密码算法RC4"><span class="nav-number">1.2.</span> <span class="nav-text">序列密码算法RC4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DES（Data-Encryption-Standard）"><span class="nav-number">1.3.</span> <span class="nav-text">DES（Data Encryption Standard）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DES：加解密流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">DES：加解密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DES-初始置换"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">DES:初始置换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DES-乘积变换"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">DES:乘积变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子密钥产生器"><span class="nav-number">1.3.2.</span> <span class="nav-text">子密钥产生器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DES的结构-Feistel网络"><span class="nav-number">1.3.3.</span> <span class="nav-text">DES的结构(Feistel网络)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SubBytes"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">SubBytes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ShiftRows"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">ShiftRows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MixColumns"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">MixColumns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AddRoundKey"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">AddRoundKey</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对称密码体系"><span class="nav-number">1.</span> <span class="nav-text">对称密码体系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流密码"><span class="nav-number">1.1.</span> <span class="nav-text">流密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列密码算法RC4"><span class="nav-number">1.2.</span> <span class="nav-text">序列密码算法RC4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DES（Data-Encryption-Standard）"><span class="nav-number">1.3.</span> <span class="nav-text">DES（Data Encryption Standard）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DES：加解密流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">DES：加解密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DES-初始置换"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">DES:初始置换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DES-乘积变换"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">DES:乘积变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子密钥产生器"><span class="nav-number">1.3.2.</span> <span class="nav-text">子密钥产生器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DES的结构-Feistel网络"><span class="nav-number">1.3.3.</span> <span class="nav-text">DES的结构(Feistel网络)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SubBytes"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">SubBytes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ShiftRows"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">ShiftRows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MixColumns"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">MixColumns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AddRoundKey"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">AddRoundKey</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES算法简介"><span class="nav-number">1.3.4.</span> <span class="nav-text">AES算法简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES消息分组与密钥分组"><span class="nav-number">1.3.5.</span> <span class="nav-text">AES消息分组与密钥分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES加密变换"><span class="nav-number">1.3.6.</span> <span class="nav-text">AES加密变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字节替换"><span class="nav-number">1.3.6.1.</span> <span class="nav-text">字节替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ShiftRow"><span class="nav-number">1.3.6.2.</span> <span class="nav-text">ShiftRow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MixColumn"><span class="nav-number">1.3.6.3.</span> <span class="nav-text">MixColumn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AddRoundKey-1"><span class="nav-number">1.3.6.4.</span> <span class="nav-text">AddRoundKey</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES密钥"><span class="nav-number">1.3.7.</span> <span class="nav-text">AES密钥</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
