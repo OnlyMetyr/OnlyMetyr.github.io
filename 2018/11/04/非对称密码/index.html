@@ -108,28 +108,30 @@
 
 
 
-  <meta name="description" content="进程顺序执行： 执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  并发执行： 执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTerminated  有">
-<meta name="keywords" content="OperatingSystem">
+  <meta name="description" content="非对称密码体制基本概念对称密码的局限性  密钥管理的困难性问题（密钥数目太大） 陌生人间的保密通信问题（首次握手） 数字签名问题（不可否认性）  非对称密码(1976年由W. Diffie和M. Hellman提出)与对称密码的几点区别：  双钥——双钥密码、公钥密码 基于数学函数，而非替换和换位（大整数分解/离散对数/椭圆曲线） 解决了对称密码的诸多局限性（上述局限性的内容）   PK：公钥(P">
+<meta name="keywords" content="cipher">
 <meta property="og:type" content="article">
-<meta property="og:title" content="进程">
-<meta property="og:url" content="http://arrontao.vip/2018/10/14/进程/index.html">
+<meta property="og:title" content="非对称密码">
+<meta property="og:url" content="http://arrontao.vip/2018/11/04/非对称密码/index.html">
 <meta property="og:site_name" content="Chaotic&#39;s Blogs">
-<meta property="og:description" content="进程顺序执行： 执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  并发执行： 执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTerminated  有">
+<meta property="og:description" content="非对称密码体制基本概念对称密码的局限性  密钥管理的困难性问题（密钥数目太大） 陌生人间的保密通信问题（首次握手） 数字签名问题（不可否认性）  非对称密码(1976年由W. Diffie和M. Hellman提出)与对称密码的几点区别：  双钥——双钥密码、公钥密码 基于数学函数，而非替换和换位（大整数分解/离散对数/椭圆曲线） 解决了对称密码的诸多局限性（上述局限性的内容）   PK：公钥(P">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://arrontao.vip/2018/10/14/进程/进程状态转换.png">
-<meta property="og:image" content="http://arrontao.vip/2018/10/14/进程/PCB内存映像.png">
-<meta property="og:updated_time" content="2018-10-14T09:48:21.635Z">
+<meta property="og:image" content="http://arrontao.vip/2018/11/04/非对称密码/基本原理.png">
+<meta property="og:image" content="http://arrontao.vip/2018/11/04/非对称密码/DF算法.png">
+<meta property="og:image" content="http://arrontao.vip/2018/11/04/非对称密码/DF实例.png">
+<meta property="og:image" content="http://arrontao.vip/2018/11/04/非对称密码/RSA正确性.png">
+<meta property="og:updated_time" content="2018-11-04T10:58:40.918Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进程">
-<meta name="twitter:description" content="进程顺序执行： 执行的顺序性 资源占用的封闭性(程序运行的时候独占资源) 执行结果的可再现性  并发执行： 执行的间断性 资源占用的非封闭性 结果的不可再现性（银行余额问题）  进程：进程强调的是:  执行过程，它动态的被创建/执行/消亡 进程作为资源申请和调度的单位存在 不同的进程可以来自同一个程序  进程的状态： 12345NewReadyRunningWaitingTerminated  有">
-<meta name="twitter:image" content="http://arrontao.vip/2018/10/14/进程/进程状态转换.png">
+<meta name="twitter:title" content="非对称密码">
+<meta name="twitter:description" content="非对称密码体制基本概念对称密码的局限性  密钥管理的困难性问题（密钥数目太大） 陌生人间的保密通信问题（首次握手） 数字签名问题（不可否认性）  非对称密码(1976年由W. Diffie和M. Hellman提出)与对称密码的几点区别：  双钥——双钥密码、公钥密码 基于数学函数，而非替换和换位（大整数分解/离散对数/椭圆曲线） 解决了对称密码的诸多局限性（上述局限性的内容）   PK：公钥(P">
+<meta name="twitter:image" content="http://arrontao.vip/2018/11/04/非对称密码/基本原理.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://arrontao.vip/2018/10/14/进程/"/>
+  <link rel="canonical" href="http://arrontao.vip/2018/11/04/非对称密码/"/>
 
 
 
@@ -139,7 +141,7 @@
   };
 </script>
 
-  <title>进程 | Chaotic's Blogs</title>
+  <title>非对称密码 | Chaotic's Blogs</title>
   
 
 
@@ -304,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/14/进程/">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/11/04/非对称密码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Arron Tao">
@@ -321,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">进程
+          <h1 class="post-title" itemprop="name headline">非对称密码
               
             
           </h1>
@@ -346,7 +348,7 @@
                 
               
 
-              <time title="Created: 2018-10-14 16:31:55 / Modified: 17:48:21" itemprop="dateCreated datePublished" datetime="2018-10-14T16:31:55+08:00">2018-10-14</time>
+              <time title="Created: 2018-11-04 18:42:41 / Modified: 18:58:40" itemprop="dateCreated datePublished" datetime="2018-11-04T18:42:41+08:00">2018-11-04</time>
             
 
             
@@ -402,100 +404,83 @@
       
 
       
-        <h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h3 id="顺序执行："><a href="#顺序执行：" class="headerlink" title="顺序执行："></a>顺序执行：</h3><ul>
-<li>执行的<strong>顺序性</strong></li>
-<li>资源占用的<strong>封闭性</strong>(程序运行的时候独占资源)</li>
-<li>执行结果的<strong>可再现性</strong></li>
-</ul>
-<h3 id="并发执行："><a href="#并发执行：" class="headerlink" title="并发执行："></a>并发执行：</h3><ul>
-<li>执行的<strong>间断性</strong></li>
-<li>资源占用的<strong>非封闭性</strong></li>
-<li>结果的<strong>不可再现性</strong>（银行余额问题）</li>
-</ul>
-<h3 id="进程："><a href="#进程：" class="headerlink" title="进程："></a>进程：</h3><p>进程强调的是:</p>
+        <h1 id="非对称密码体制基本概念"><a href="#非对称密码体制基本概念" class="headerlink" title="非对称密码体制基本概念"></a>非对称密码体制基本概念</h1><p><strong>对称密码的局限性</strong></p>
 <ul>
-<li>执行过程，它动态的被创建/执行/消亡</li>
-<li>进程作为资源申请和调度的单位存在</li>
-<li>不同的进程可以来自同一个程序</li>
+<li>密钥管理的困难性问题（密钥数目太大）</li>
+<li>陌生人间的保密通信问题（首次握手）</li>
+<li>数字签名问题（不可否认性）</li>
 </ul>
-<p>进程的状态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">New</span><br><span class="line">Ready</span><br><span class="line">Running</span><br><span class="line">Waiting</span><br><span class="line">Terminated</span><br></pre></td></tr></table></figure>
-<img src="/2018/10/14/进程/进程状态转换.png" title="进程状态转换">
-<p><strong>有两种转换是不正确的：</strong></p>
-<ol>
-<li>就绪 -&gt; 阻塞 </li>
-<li>阻塞 -&gt; 执行</li>
-</ol>
-<p><strong>队列类型</strong></p>
+<p><strong>非对称密码(1976年由W. Diffie和M. Hellman提出)与对称密码的几点区别：</strong></p>
 <ul>
-<li>作业队列：在系统中所以进程的集合</li>
-<li>就绪队列：在主内存中，就绪并且等待执行的所有进程的集合</li>
-<li>设备队列：等待某一个I/O设备的队列</li>
+<li>双钥——双钥密码、公钥密码</li>
+<li>基于数学函数，而非替换和换位（大整数分解/离散对数/椭圆曲线）</li>
+<li>解决了对称密码的诸多局限性（上述局限性的内容）</li>
 </ul>
-<p><em>？操作系统如何感知进程，控制进程以及其所使用的系统资源：</em><br><strong>PCB：Process Control Block</strong></p>
-<p><em>PCB结构：</em></p>
-<ol>
-<li>进程标识信息：内部标识+外部标识</li>
-<li>进程现场信息：通用寄存器，PSW寄存器，指令计数器，各种指针</li>
-<li>进程控制信息：状态、优先级、阻塞原因、进程和数据地址、资源清单、进程同步和通信机制等信息</li>
-</ol>
-<p><em>PCB的作用</em>：</p>
-<ol>
-<li>PCB可以唯一的标识一个进程</li>
-<li>PCB中的信息为进程的控制提供依据</li>
-<li>PCB将程序变成了进程</li>
-<li>PCB是进程在操作系统中存在的唯一标志</li>
-<li><strong>进程的内存映像</strong></li>
-</ol>
-<img src="/2018/10/14/进程/PCB内存映像.png" title="PCB内存映像">
-<p><em>NEW得到的结果一般放在heap里面，heap中的内容由程序员自行控制</em></p>
-<h3 id="PCB表："><a href="#PCB表：" class="headerlink" title="PCB表："></a><strong>PCB表</strong>：</h3><p>操作系统把PCB组织在一起，放在内存的固定区域决定的系统的并发数</p>
-<p><strong>两种组织方式：</strong></p>
-<ol>
-<li>链表结构，相同状态的进程PCB组成一个链表，不同状态对应多个不同的链表</li>
-<li>索引结构：对具有相同状态的进程，分别设置各自的PCB索引表，表明PCB在PCB表中的地址</li>
-</ol>
-<p><strong>三种调度方式</strong></p>
+<img src="/2018/11/04/非对称密码/基本原理.png" title="基本原理">
+<p><strong>PK</strong>：公钥(Public Key)，通常公钥是公开的，可以被任何实体通过有效渠道获取；</p>
+<p><strong>SK</strong>：俗称私钥(Secret Key)，通常私钥是保密的，不能被任何实体通过非法渠道获取；</p>
+<p><strong>基本原理</strong></p>
+<p>非对称密码、认证系统的的安全性主要取决于构造非对称算法所依赖的数学问题。要求加密函数具有单向性，即求逆的困难性。因此，设计双钥体制的关键是先要寻求一个合适的单向函数</p>
+<p><em>单向陷门函数</em></p>
+<p>满足下列条件的函数f称为单向陷门函数：</p>
 <ul>
-<li><p>Long-term scheduler( or job scheduler ) ：select which processes should be brought into the ready queue</p>
-</li>
-<li><p>Short-term scheduler( or CPU scheduler)：select which process should be executed next and allocated CPU </p>
-</li>
-<li><p>Medium Term Scheduler:将进程从内存中移除，降低多道程序度，稍后在把进程重新载入内存并且从停止的地方继续运行，这被称为交换<br>在硬盘上单独开辟一段空间，绕过文件系统 -&gt;  从内存中，按位拷贝速度更快</p>
-</li>
+<li>给定x，计算y = f(x)是容易的；</li>
+<li>给定y，计算x使y = f(x)是困难的；</li>
+<li>存在z，已知z时, 对给定的任何y，若相应的x存在，则计算x使y = f(x)是容易的。</li>
 </ul>
-<p>Context Switch<br>save state of the old process and load the saved state for the new process<br>Context-Switch time is Overhead<br>Time dependent no hardware support</p>
-<h3 id="进程的控制："><a href="#进程的控制：" class="headerlink" title="进程的控制："></a>进程的控制：</h3><ol>
-<li>进程的创建和终止</li>
-<li>进程的调度</li>
-<li>进程的阻塞与唤醒</li>
-</ol>
-<p><strong>进程的创建过程：</strong>//实质上就是创建PCB</p>
+<p>但是存在着两个问题：</p>
 <ul>
-<li>申请空白PCB</li>
-<li>分配资源</li>
-<li>初始化PCB</li>
-<li>插入到就绪队列</li>
+<li>陷门函数其实就不是单向函数，因为单向函数是在任何条件下求逆都是困难的；</li>
+<li>陷门可能不止一个，通过试验,一个陷门就可容易地找到逆。如果陷门信息的保密性不强，求逆也就不难。</li>
 </ul>
-<p><strong>进程的终止：</strong></p>
+<h1 id="Diffie-Hellman密码体制"><a href="#Diffie-Hellman密码体制" class="headerlink" title="Diffie-Hellman密码体制"></a>Diffie-Hellman密码体制</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Diffie和Hellman在《密码学新方向》一文中给出了非对称密码算法的思想</span><br><span class="line">它不是真正意义上的非对称密码实例，仅仅是一个单向函数；</span><br><span class="line">算法的目的是使得两个用户安全地交换一个会话密钥。</span><br></pre></td></tr></table></figure>
+<p><em>即 Alice &amp; Bob 想要传递一个消息，他们将使用对称加密算法对消息进行加密（在实际的使用中，没有人会选择非对称加密算法加密所要传递的消息，因为非对称加密算法往往会带来难以忍受的时间开销）,Alice将对称加密密钥确定为<code>SYK</code>，为了将<code>SYK</code>传递给Bob而不必两个人进行其他方式的接触来传递密钥，Alice可以将<code>SYK</code>通过Bob的<code>PK</code>将消息进行解密，Bob接收到消息后，可以通过自己的<code>SK</code>进行解密，从而得到了<code>SYK</code>，则两个人确定对称加密密钥成功，可以通过对称加密算法进行秘密消息的传递</em></p>
+<p><strong>Diffie-Hellman密码体制所基于的数学难题是：离散对数问题</strong></p>
+<p><strong>本原元</strong>：对于一个素数q</p>
 <ul>
-<li>查找PCB</li>
-<li>中止执行</li>
-<li>归还资源</li>
-<li>移除PCB</li>
-<li>释放PCB</li>
+<li>如果数值amodq, a^2modq,…,a^(q-1)modq是各不相同的整数；并且以某种排列方式组成了从1到q-1的所有整数；则称整数a是素数q的一个本原元。</li>
+<li>离散对数：对于一个整数b和素数q的一个本原元a，可以找到一个唯一的指数i，使得<code>b ≡ a^imodq (0≤i ≤q-1)</code>成立，则指数i称为b的以a为基数的模q的离散对数</li>
 </ul>
-<p><strong>Linux中3个特殊的进程：</strong></p>
-<ol>
-<li>idle进程：自动创建，在kernel态，唯一没有通过fork/kernel_thread创建的进程</li>
-<li>init进程：idle进程通过kernel_thread创建，系统中用户进程的祖先进程，守护进程监视系统中的其他进程</li>
-<li>Kthreadd进程：idle进程通过kernel_thread创建，负责所有内核进程的调度和管理</li>
-</ol>
-<p><strong>Create Process：</strong></p>
-<ol>
-<li>复制一个与父进程相同的暂存进程，PID不同，PPID指向父进程</li>
-<li>暂存进程以exec方式加载，覆盖其地址空间，加载实际上要执行的程序</li>
-</ol>
+<img src="/2018/11/04/非对称密码/DF算法.png" title="DF算法">
+<img src="/2018/11/04/非对称密码/DF实例.png" title="DF实例">
+<p>对于Diffie-Hellman体系：存在的最大问题是可能存在中间人攻击</p>
+<h1 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h1><h2 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h2><ul>
+<li>首先选取两个大素数p和q，计算n = pq；</li>
+<li>随机选取加密密钥e，使e和(p - 1)(q - 1)互素；</li>
+<li>用扩展欧几里德算法计算解密密钥d，以满足：ed = 1mod(p - 1)(q - 1)，即 d = e-1mod(p - 1)(q - 1)；</li>
+<li>公开钥为(e, n)，秘密钥为(d, n)。</li>
+</ul>
+<h2 id="加密-解密"><a href="#加密-解密" class="headerlink" title="加密/解密"></a>加密/解密</h2><p><strong>加密过程</strong></p>
+<ul>
+<li>加密的数学变换：C = M^emodn</li>
+</ul>
+<p><strong>解密过程</strong></p>
+<ul>
+<li>解密的数学变换： M = C^d modn</li>
+</ul>
+<h2 id="正确性验证"><a href="#正确性验证" class="headerlink" title="正确性验证"></a>正确性验证</h2><img src="/2018/11/04/非对称密码/RSA正确性.png" title="RSA正确性">
+<p>RSA算法的安全性完全依赖于分解大整数的难度</p>
+<ul>
+<li>从数学上从未证明过需要分解n才能从c和e中计算出m；</li>
+<li>可通过猜测(p-1)(q-1)的值来攻击RSA，但这种攻击没有分解n容易；</li>
+<li>可尝试每一种可能的d，直到获得正确的一个，这种穷举攻击还没有试图分解n更有效；</li>
+<li>129位十进制数字的模数是能分解的临界数，n应该大于这个数。</li>
+</ul>
+<h2 id="RSA面临的安全性风险："><a href="#RSA面临的安全性风险：" class="headerlink" title="RSA面临的安全性风险："></a>RSA面临的安全性风险：</h2><h3 id="针对协议的攻击"><a href="#针对协议的攻击" class="headerlink" title="针对协议的攻击"></a>针对协议的攻击</h3><h4 id="E-g-1"><a href="#E-g-1" class="headerlink" title="E.g. 1"></a>E.g. 1</h4><p>Eve想要窃听Alice发布的消息M，首先他截获了Alice发布的密文C</p>
+<p><code>C= M^e mod n(e是Alice的PK)</code></p>
+<p>这时，Eve只需要选择一个随机数：<code>R</code>，确定<code>X = R mod n</code>,确定<code>Y = X C mod n</code>,同时<code>t = R^-1 mod n</code></p>
+<p>Eve 可以要求Alice对<code>Y</code>进行签名，得到<code>U =  Y ^ d mod n(d是Alice的密钥)</code></p>
+<p>通过计算<code>tU = R^-1 * X^d * C^d = R^-1 * R^e^d * M^e^d  = M</code>从而得到密文</p>
+<h4 id="E-g-2"><a href="#E-g-2" class="headerlink" title="E.g. 2"></a>E.g. 2</h4><p>Eve想要让Alice对她不想要签名的M1进行签名，首先计算<code>M1 = M2 * M3 mod n</code>然后让Alice分别对M2和M3签名</p>
+<h3 id="公共模数攻击"><a href="#公共模数攻击" class="headerlink" title="公共模数攻击"></a>公共模数攻击</h3><p>不同的使用者选择了相同的n,那么即使选择的e和d不同，只要两个e互素，那么不需要任何的解密算法就可以破解</p>
+<p>设m位明文，两个公钥为e1和e2，模数为n，两个密文为：</p>
+<p><code>c1 ≡ m^e1 modn     c2 ≡m^e2 modn</code></p>
+<p>由于e1和e2互素，根据扩展欧几里德算法找出r和s，满足：</p>
+<p><code>re1 + se2 = 1</code></p>
+<p>假定r是负数(r或s中有一个必须是负数)，用欧几里德算法可计算c1-1：</p>
+<p><code>(c1^-1)^-r c2^s = m modn</code></p>
+<h2 id="关于RSA中素性检测的问题"><a href="#关于RSA中素性检测的问题" class="headerlink" title="关于RSA中素性检测的问题"></a>关于RSA中素性检测的问题</h2><p><strong>Miller Rabin算法</strong></p>
+<p><a href="https://blog.csdn.net/zengaming/article/details/51867240" target="_blank" rel="noopener">Miller Rabin算法</a></p>
 
       
     </div>
@@ -516,7 +501,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OperatingSystem/" rel="tag"># OperatingSystem</a>
+            <a href="/tags/cipher/" rel="tag"># cipher</a>
           
         </div>
       
@@ -529,8 +514,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/14/对称密码体系/" rel="next" title="对称密码体系">
-                <i class="fa fa-chevron-left"></i> 对称密码体系
+              <a href="/2018/10/27/CPU-Schdule/" rel="next" title="CPU_Schdule">
+                <i class="fa fa-chevron-left"></i> CPU_Schdule
               </a>
             
           </div>
@@ -538,10 +523,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/14/分组密码/" rel="prev" title="分组密码">
-                分组密码 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -705,7 +686,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">1.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序执行："><span class="nav-number">1.0.1.</span> <span class="nav-text">顺序执行：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发执行："><span class="nav-number">1.0.2.</span> <span class="nav-text">并发执行：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程："><span class="nav-number">1.0.3.</span> <span class="nav-text">进程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCB表："><span class="nav-number">1.0.4.</span> <span class="nav-text">PCB表：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的控制："><span class="nav-number">1.0.5.</span> <span class="nav-text">进程的控制：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#非对称密码体制基本概念"><span class="nav-number">1.</span> <span class="nav-text">非对称密码体制基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Diffie-Hellman密码体制"><span class="nav-number">2.</span> <span class="nav-text">Diffie-Hellman密码体制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA"><span class="nav-number">3.</span> <span class="nav-text">RSA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥生成"><span class="nav-number">3.1.</span> <span class="nav-text">密钥生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密-解密"><span class="nav-number">3.2.</span> <span class="nav-text">加密/解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确性验证"><span class="nav-number">3.3.</span> <span class="nav-text">正确性验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA面临的安全性风险："><span class="nav-number">3.4.</span> <span class="nav-text">RSA面临的安全性风险：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#针对协议的攻击"><span class="nav-number">3.4.1.</span> <span class="nav-text">针对协议的攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#E-g-1"><span class="nav-number">3.4.1.1.</span> <span class="nav-text">E.g. 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#E-g-2"><span class="nav-number">3.4.1.2.</span> <span class="nav-text">E.g. 2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公共模数攻击"><span class="nav-number">3.4.2.</span> <span class="nav-text">公共模数攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于RSA中素性检测的问题"><span class="nav-number">3.5.</span> <span class="nav-text">关于RSA中素性检测的问题</span></a></li></ol></li></ol></div>
             
 
           </div>
