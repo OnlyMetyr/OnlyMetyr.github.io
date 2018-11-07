@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="临界区问题临界区：在每个进程中，有一段代码，成为临界区，在该区中进程可能改变共同变量、更新一个表和写一个文件  这种系统的一个重要特征是：当一个进程进入临界区，没有其他进程可被允许在临界区执行">
+<meta name="keywords" content="OperatingSystem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程同步">
+<meta property="og:url" content="http://arrontao.vip/2018/11/07/进程同步/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="临界区问题临界区：在每个进程中，有一段代码，成为临界区，在该区中进程可能改变共同变量、更新一个表和写一个文件  这种系统的一个重要特征是：当一个进程进入临界区，没有其他进程可被允许在临界区执行">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-07T13:33:36.431Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进程同步">
+<meta name="twitter:description" content="临界区问题临界区：在每个进程中，有一段代码，成为临界区，在该区中进程可能改变共同变量、更新一个表和写一个文件  这种系统的一个重要特征是：当一个进程进入临界区，没有其他进程可被允许在临界区执行">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2018/11/07/进程同步/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>进程同步 | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/11/07/进程同步/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arron Tao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">进程同步
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-07 21:32:14 / Modified: 21:33:36" itemprop="dateCreated datePublished" datetime="2018-11-07T21:32:14+08:00">2018-11-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/experiment/" itemprop="url" rel="index"><span itemprop="name">experiment</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="临界区问题"><a href="#临界区问题" class="headerlink" title="临界区问题"></a>临界区问题</h1><p><strong>临界区：</strong>在每个进程中，有一段代码，成为临界区，在该区中进程可能改变共同变量、更新一个表和写一个文件</p>
+<ul>
+<li>这种系统的一个重要特征是：当一个进程进入临界区，没有其他进程可被允许在临界区执行</li>
+</ul>
+<a id="more"></a>
+<p><em>临界区问题是设计一个以便达到的协议：</em>每个进程必须请求允许进入临界区</p>
+<ul>
+<li>进入区：实现请求</li>
+<li>退出区：临界区之后</li>
+<li>剩余区：其他部分</li>
+</ul>
+<p><strong>临界区问题的解答必须满足以下三个条件：</strong></p>
+<ol>
+<li>互斥:同一时刻只能有一个进程在临界区内执行</li>
+<li>前进：如果没有进程在临界区内执行，且有进程需要进入临界区，只有那些不在剩余区的进程可以参见选择，确定下一个进入临界区的进程</li>
+<li>有限等待：从一个进程作出进入临界区的请求到进入，其他进程允许进入临界区的次数有上限</li>
+</ol>
+<p><strong>处理操作区内临界区问题方法：</strong></p>
+<ol>
+<li>抢占内核：允许内核模式的进程被抢占</li>
+<li>非抢占内核：不允许位于内核模式的进程被抢占</li>
+</ol>
+<h1 id="软件同步"><a href="#软件同步" class="headerlink" title="软件同步"></a>软件同步</h1><h2 id="Peterson算法"><a href="#Peterson算法" class="headerlink" title="Peterson算法"></a>Peterson算法</h2><p>Peterson算法用于两个进程在临界区和剩余区之间交替执行，两个进程为P0和P1：</p>
+<ul>
+<li>当使用Pi的时候，用Pj来表示另一个进程，j == 1 - i，</li>
+<li>Peterson算法需要共享两个数据项<code>int ture</code>和<code>boolean flag[2]</code></li>
+<li><code>turn</code>表示哪个进程可以进入临界区，flag表示哪个进程想要进入临界区</li>
+</ul>
+<p>伪代码表示如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">	<span class="comment">//进入区</span></span><br><span class="line">	flag[i] = Ture;<span class="comment">//进程i想要进入临界区</span></span><br><span class="line">	turn = j;<span class="comment">//先进行谦让</span></span><br><span class="line">	<span class="keyword">while</span>(flag[j] &amp;&amp; turn == j)<span class="comment">//如果j恰好需要执行的话，那么等待j先执行</span></span><br><span class="line">	<span class="comment">//临界区代码</span></span><br><span class="line">	<span class="comment">//退出区</span></span><br><span class="line">	flag[i] = False;<span class="comment">//进程i离开临界区</span></span><br><span class="line">&#125;<span class="keyword">while</span>(True);</span><br></pre></td></tr></table></figure>
+<h2 id="面包师算法-Bakery-Algorithm"><a href="#面包师算法-Bakery-Algorithm" class="headerlink" title="面包师算法(Bakery Algorithm)"></a>面包师算法(Bakery Algorithm)</h2><p>面包师算法是n个进程进入临界区的算法</p>
+<ol>
+<li>每个进程进入临界区之前，进程接收到一个数字，最小数字的临界区进入</li>
+<li>如果Pi和Pj收到了相同的数字，那个i和j中小的那个进程先进入临界区</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">	choosing[i] = <span class="literal">true</span>;<span class="comment">//进程i正在选号</span></span><br><span class="line">	number[i] = max(number[<span class="number">0</span>],number[<span class="number">1</span>],...,number[n<span class="number">-1</span>])+<span class="number">1</span><span class="comment">//进程i取当前最大的号</span></span><br><span class="line">	choosing[i] = flase;<span class="comment">//进程i取号完毕</span></span><br><span class="line">	<span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">	&#123;<span class="comment">//轮询检查是否有优先级更高的进程</span></span><br><span class="line">		<span class="keyword">while</span>(choosing[j]);<span class="comment">//如果有进程在取号则等待，防止出现两个进程有相同的优先级进入</span></span><br><span class="line">		<span class="keyword">while</span>((number[j]!=<span class="number">0</span>)&amp;&amp;((number[j],j)&lt;(number[i],i)));<span class="comment">//如果进程j要进入临界区，并且进程j的优先级比自己高，那么等待</span></span><br><span class="line">	&#125;</span><br><span class="line">	ciritcal section<span class="comment">//临界区代码</span></span><br><span class="line">	number[i] = <span class="number">0</span>;<span class="comment">//退出区代码</span></span><br><span class="line">	remainder section<span class="comment">//剩余区代码</span></span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="硬件同步"><a href="#硬件同步" class="headerlink" title="硬件同步"></a>硬件同步</h1><p>软件方法解决临界区问题时，修改变量通过禁止中断来实现</p>
+<ul>
+<li>使用于单处理机</li>
+<li>不适合多处理系统（禁止中断可能会大幅度降低系统效率）</li>
+</ul>
+<p>可以利用某些硬件指令－－其读写操作由一条指令完成，因而保证读操作与写操作不被打断（原子指令）</p>
+<ul>
+<li>TestAndSet</li>
+<li>Swap</li>
+</ul>
+<h2 id="Test-And-Set"><a href="#Test-And-Set" class="headerlink" title="Test And Set"></a>Test And Set</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">boolean <span class="title">TestAndSet</span><span class="params">(boolean &amp;target)</span> </span>&#123;</span><br><span class="line">			boolean rv = target;</span><br><span class="line">			tqrget = <span class="literal">true</span>;</span><br><span class="line">			<span class="keyword">return</span> rv;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>TS的逻辑：<br>如果测试值为false，则返回false，并把测试值置为true。<br>如果测试值为true，则返回true，测试值仍然为true</p>
+<p>为每一个临界区资源设置一个公共布尔变量lock,初始值为FALSE<br>在进入区利用TS进行检查：有进程在临界区时，重复检查；直到其它进程退出时，检查通过</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">boolean lock = FALSE;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Process Pi</span></span><br><span class="line">		<span class="keyword">do</span> &#123;</span><br><span class="line">			<span class="keyword">while</span> (TestAndSet(lock)) ;</span><br><span class="line">				critical section</span><br><span class="line">			lock = <span class="literal">false</span>;</span><br><span class="line">				remainder section</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>多进程相互实现代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">boolean waiting[n] = FALSE;</span><br><span class="line">lock = FALSE;</span><br><span class="line"><span class="comment">//各项参数初始化</span></span><br><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">	waiting[i] = ture;<span class="comment">//i进程进入等待队列</span></span><br><span class="line">	key = <span class="literal">true</span>;<span class="comment">//将key保存为ture</span></span><br><span class="line">	<span class="keyword">while</span>(waiting[i] &amp;&amp; key) key = TestAndSet(lock);<span class="comment">//通过TS操作，如果lock是false则返回false并且将lock设置为true，否则将返回true，并且将lock设置为true，除非有有其他代码将lock=false，则永远返回false</span></span><br><span class="line">	waiting[i] = FALSE;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//critical section</span></span><br><span class="line">	</span><br><span class="line">	j = (i+<span class="number">1</span>)%n;</span><br><span class="line">	whilie(j!=<span class="number">1</span> &amp;&amp; !waiting[j])j=(j+<span class="number">1</span>)%n;</span><br><span class="line">	<span class="keyword">if</span>(j == i)lock = FALSE;</span><br><span class="line">	<span class="keyword">else</span> waiting[j] = FALSE;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//reminder section</span></span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>整个代码想要从while循环中跳出有两个条件：1、进程i从等待队列中被取出，或者lock被设置为false，如果等待队列中有多个进程，那么则按照顺序从小到大被从等待队列中取出，如果只有一个进程在等待队列中，那么将lock设置为false。</p>
+<ul>
+<li><p>有空让进：任何一个已经进入CS的进程在“exit section” 时，设置：lock =false 或 waiting[ j ]= false，确保了至少可以让一个进程进入CS</p>
+</li>
+<li><p>有限等待：任何一个已经进入CS的进程Pi在“exit section” 时， 将会依次扫描waiting 数组（i+1,i+2,…n-1,0,…i-1)，并仅将Pi后面最先找到的进程j的waiting[ j]设置为false<br>这就使进程能依此循环进入CS</p>
+</li>
+</ul>
+<h2 id="SWAP"><a href="#SWAP" class="headerlink" title="SWAP"></a>SWAP</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Swap</span><span class="params">(boolean &amp;a, boolean &amp;b)</span> </span>&#123;</span><br><span class="line">			boolean temp = a;</span><br><span class="line">			a = b;</span><br><span class="line">			b = temp;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>具体实现的代码为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Process Pi</span></span><br><span class="line">		<span class="keyword">do</span> &#123;</span><br><span class="line">			key = <span class="literal">true</span>;   <span class="comment">//   ( a local variable)</span></span><br><span class="line">			<span class="keyword">while</span> (key == <span class="literal">true</span>) </span><br><span class="line">				Swap(lock,key);</span><br><span class="line">				</span><br><span class="line">				critical section</span><br><span class="line">			lock = <span class="literal">false</span>;</span><br><span class="line">				remainder section</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>缺点：</strong>硬件指令虽然可以有效地保证进程间互斥，但有一个缺点，就是当进程正在临界段中执行时，其它想进入临界段的进程必须不断地测试布尔变量lock的值，这就造成了处理机机时的浪费，我们常称这种情况为“忙等待”</p>
+<p>可能“饥饿”：如果从等待进程中随机选择一个进入临界区，有的进程可能一直选不上。</p>
+<h1 id="信号量和P操作"><a href="#信号量和P操作" class="headerlink" title="信号量和P操作"></a>信号量和P操作</h1><p>对于软件同步和硬件同步：</p>
+<ol>
+<li>对不能进入临界区的进程，采用忙等待测试法，浪费CPU时间。</li>
+<li>将测试能否进入临界区的责任推给各个竞争的进程会削弱系统的可靠性，加重了用户编程负担</li>
+</ol>
+<h2 id="P-V操作"><a href="#P-V操作" class="headerlink" title="P-V操作"></a>P-V操作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Define a semaphore as a record</span><br><span class="line">		<span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">		   <span class="keyword">int</span> value;</span><br><span class="line">		   <span class="class"><span class="keyword">struct</span> <span class="title">process</span> *<span class="title">Q</span>;</span></span><br><span class="line">		&#125; semaphore;</span><br></pre></td></tr></table></figure>
+<p><strong>实现时的数据结构：</strong></p>
+<p>信号量是一种记录型数据结构，有两个分量：一个是信号量的值，另一个是信号量队列的队列指针。</p>
+<p><strong>信号量的值的含义：</strong></p>
+<ol>
+<li>如果S.value≥0,则表明系统有多少个临界资源可以分配给请求的进程。</li>
+<li>如果S.value&lt;0,表示等待使用该临界资源的进程数。</li>
+</ol>
+<p><strong>P和V操作原语定义：</strong></p>
+<p> P(s)等待（wait）操作：将信号量s.value减1，若结果小于0，则调用P(s)的进程被置成等待信号量s的状态,并把该进程挂到信号量的等待队列上。</p>
+<p> V(s)信号（signal）操作：将信号量s.value加1，若结果不大于0，则释放一个等待信号量s的进程</p>
+<h3 id="P操作"><a href="#P操作" class="headerlink" title="P操作"></a>P操作</h3><p>根据定义：进程每执行一次P操作，信号量的数值S.value便减1,表示现行进程在向系统申请资源，申请资源的数量为1。</p>
+<p>此时，如果S.value≥0,则表明系统有此类资源可以分配给请求的进程，该进程便可以从系统中获得其所需的资源，继续执行；</p>
+<p>否则，认为系统已无法满足申请资源的进程的要求，则应将该进程阻塞，并将其插入等待该项资源的队列Q中，系统再调度新的进程执行。</p>
+<h3 id="V操作"><a href="#V操作" class="headerlink" title="V操作"></a>V操作</h3><p>根据定义：进程每执行一次V操作，信号量的数值S.value便加1,表示现行进程因使用该项资源结束而释放了一个此类资源。因而系统拥有的可用的资源便又增加了1个。</p>
+<p>此时，如果S.value&gt;0,则表明系统拥有可分配的资源，不可能有等待该资源的进程，此时，该进程可继续执行；</p>
+<p>否则（ S.value≤0），表明等待此资源的进程队列中有等待的进程，应从等待队列中唤醒其中的一个进程，将此释放的资源分配给它，使其获得所需的资源，而现行的进程可以继续执行下去。</p>
+<h3 id="用P、V原语实现进程互斥"><a href="#用P、V原语实现进程互斥" class="headerlink" title="用P、V原语实现进程互斥"></a>用P、V原语实现进程互斥</h3><p>通过我们对临界区访问过程的分析，信号量机制中P原语相当于进入区操作，V原语相当于退出区操作。</p>
+<p>用P、V原语实现进程互斥就是将临界区置于P和V两个原语操作之间。</p>
+<p>进入时执行P操作，使信号量S.value减1，如果S.value&gt;=0,则进入临界区，否则不可进入。进程退出临界区时，执行V操作，使信号量S.value+1，表示释放临界资源。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Shared data:</span></span><br><span class="line">	semaphore mutex; <span class="comment">//initially mutex = 1</span></span><br><span class="line"><span class="comment">//Process Pi: do &#123;    P(mutex);              //即wait(mutex)          critical section</span></span><br><span class="line"> 	    V(mutex);             <span class="comment">//即signal(mutex)</span></span><br><span class="line">          remainder section&#125; <span class="keyword">while</span> (<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="死锁和饥饿"><a href="#死锁和饥饿" class="headerlink" title="死锁和饥饿"></a>死锁和饥饿</h3><p><strong>死锁：</strong><br>Deadlock – two or more processes are waiting indefinitely for an event that can be caused by only one of the waiting processes.死锁 – 两个或多个进程无限期地等待一个事件的发生，而该事件正是由其中的一个等待进程引起的.</p>
+<p><strong>饥饿：</strong><br>Starvation  – indefinite blocking.  A process may never be removed from the semaphore queue in which it is suspended.饥饿 – 无限期地阻塞。进程可能永远无法从它等待的信号量队列中移去</p>
+<h1 id="经典进程同步问题"><a href="#经典进程同步问题" class="headerlink" title="经典进程同步问题"></a>经典进程同步问题</h1>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OperatingSystem/" rel="tag"># OperatingSystem</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/04/非对称密码/" rel="next" title="非对称密码">
+                <i class="fa fa-chevron-left"></i> 非对称密码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Arron Tao" />
+            
+              <p class="site-author-name" itemprop="name">Arron Tao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/arrontaoyr" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/rong-ye-43-55" target="_blank" title="知乎"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#临界区问题"><span class="nav-number">1.</span> <span class="nav-text">临界区问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软件同步"><span class="nav-number">2.</span> <span class="nav-text">软件同步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Peterson算法"><span class="nav-number">2.1.</span> <span class="nav-text">Peterson算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面包师算法-Bakery-Algorithm"><span class="nav-number">2.2.</span> <span class="nav-text">面包师算法(Bakery Algorithm)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件同步"><span class="nav-number">3.</span> <span class="nav-text">硬件同步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Test-And-Set"><span class="nav-number">3.1.</span> <span class="nav-text">Test And Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SWAP"><span class="nav-number">3.2.</span> <span class="nav-text">SWAP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#信号量和P操作"><span class="nav-number">4.</span> <span class="nav-text">信号量和P操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#P-V操作"><span class="nav-number">4.1.</span> <span class="nav-text">P-V操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#P操作"><span class="nav-number">4.1.1.</span> <span class="nav-text">P操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V操作"><span class="nav-number">4.1.2.</span> <span class="nav-text">V操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用P、V原语实现进程互斥"><span class="nav-number">4.1.3.</span> <span class="nav-text">用P、V原语实现进程互斥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁和饥饿"><span class="nav-number">4.1.4.</span> <span class="nav-text">死锁和饥饿</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#经典进程同步问题"><span class="nav-number">5.</span> <span class="nav-text">经典进程同步问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arron Tao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
