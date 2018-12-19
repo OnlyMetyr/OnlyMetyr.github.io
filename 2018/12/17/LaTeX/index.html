@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="LaTeX入门LateX基本介绍LaTex分为导言区和正文区，一个latex文本有且只能有一个正文区 1234567891011\documentclass&amp;#123;article&amp;#125;%book report letter\title&amp;#123;My First Document&amp;#125;\author&amp;#123;Arron Tao&amp;#125;\date&amp;#123;\today&amp;#12">
+<meta name="keywords" content="LaTeX">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX">
+<meta property="og:url" content="http://arrontao.vip/2018/12/17/LaTeX/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="LaTeX入门LateX基本介绍LaTex分为导言区和正文区，一个latex文本有且只能有一个正文区 1234567891011\documentclass&amp;#123;article&amp;#125;%book report letter\title&amp;#123;My First Document&amp;#125;\author&amp;#123;Arron Tao&amp;#125;\date&amp;#123;\today&amp;#12">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-19T07:22:38.810Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LaTeX">
+<meta name="twitter:description" content="LaTeX入门LateX基本介绍LaTex分为导言区和正文区，一个latex文本有且只能有一个正文区 1234567891011\documentclass&amp;#123;article&amp;#125;%book report letter\title&amp;#123;My First Document&amp;#125;\author&amp;#123;Arron Tao&amp;#125;\date&amp;#123;\today&amp;#12">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2018/12/17/LaTeX/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>LaTeX | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/12/17/LaTeX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arron Tao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LaTeX
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-17 15:56:53" itemprop="dateCreated datePublished" datetime="2018-12-17T15:56:53+08:00">2018-12-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-19 15:22:38" itemprop="dateModified" datetime="2018-12-19T15:22:38+08:00">2018-12-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/summaries/" itemprop="url" rel="index"><span itemprop="name">summaries</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="LaTeX入门"><a href="#LaTeX入门" class="headerlink" title="LaTeX入门"></a>LaTeX入门</h1><h2 id="LateX基本介绍"><a href="#LateX基本介绍" class="headerlink" title="LateX基本介绍"></a>LateX基本介绍</h2><p>LaTex分为导言区和正文区，一个latex文本有且只能有一个正文区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">\documentclass&#123;article&#125;%book report letter</span><br><span class="line"></span><br><span class="line">\title&#123;My First Document&#125;</span><br><span class="line">\author&#123;Arron Tao&#125;</span><br><span class="line">\date&#123;\today&#125;</span><br><span class="line"></span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">	\maketitle</span><br><span class="line">	Hello world</span><br><span class="line">	Let $f(x)$ is defined by the formula $f(x) = 3x^2 + x -1$.//在$$中为数学模式</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p><code>\quad</code>可以实现空格命令</p>
+<h2 id="Latex中中文处理"><a href="#Latex中中文处理" class="headerlink" title="Latex中中文处理"></a>Latex中中文处理</h2><p>在设置中查看是否存在XeLatex宏包以及UTF-8编码形式</p>
+<p>在源文件中引入代码<code>\usepackage{ctex}</code>实现中文处理</p>
+<p>如果饮用的是<code>\documentclass{ctexart}%ctexbook,ctexrep</code>文章的提纲是剧中排版</p>
+<h2 id="Latex中命令的定义"><a href="#Latex中命令的定义" class="headerlink" title="Latex中命令的定义"></a>Latex中命令的定义</h2><p>在导言区进行命令的定义<code>newcommand\degree{^\circ}</code>定义了一个新的命令<code>\degree</code></p>
+<h2 id="LateX中的公式定义（带编号）"><a href="#LateX中的公式定义（带编号）" class="headerlink" title="LateX中的公式定义（带编号）"></a>LateX中的公式定义（带编号）</h2><p>可以通过命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;equation&#125;</span><br><span class="line"></span><br><span class="line">\end&#123;equation&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="LateX中字体和字号设置"><a href="#LateX中字体和字号设置" class="headerlink" title="LateX中字体和字号设置"></a>LateX中字体和字号设置</h2><h3 id="LateX中字体属性"><a href="#LateX中字体属性" class="headerlink" title="LateX中字体属性"></a>LateX中字体属性</h3><ol>
+<li>字体编码<ol>
+<li>正文字体编码</li>
+<li>数字字体编码</li>
+</ol>
+</li>
+<li>字体族(可以使用大括号声明)<ol>
+<li>罗马字体</li>
+<li>无衬线字体</li>
+<li>打印机字体</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">\textrm&#123;Roman Family&#125;罗马字体</span><br><span class="line">\rmfamily Roman Family</span><br><span class="line"></span><br><span class="line">\textsf&#123;Sans Serif Family&#125;无衬线字体</span><br><span class="line">\sffamily SansSerif Family</span><br><span class="line"></span><br><span class="line">\texttt&#123;Typewriter Family&#125;打印机字体</span><br><span class="line">\ttfamily Typewriter Family</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>字体系列<ol>
+<li>粗细</li>
+<li>宽度</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\textmd&#123;Medium Series&#125;</span><br><span class="line">\mdseries Medium Series</span><br><span class="line"></span><br><span class="line">\textbf&#123;Boldface Series&#125;</span><br><span class="line">\bfseries Boldface Series</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>字体形状<ol>
+<li>直立</li>
+<li>斜体</li>
+<li>伪斜体</li>
+<li>小型大写</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">\textup&#123;Upright Shape&#125;</span><br><span class="line">\upshape Upright Shape</span><br><span class="line"></span><br><span class="line">\textit&#123;Italic Shape&#125;</span><br><span class="line">\itshape Italic Shape</span><br><span class="line"></span><br><span class="line">\textsl &#123;Slanted Shape&#125;</span><br><span class="line">\slshape Slanted Shape</span><br><span class="line"></span><br><span class="line">\testsc&#123;Small Caps Shape&#125;</span><br><span class="line">\scshape Small Caps Shape</span><br><span class="line"></span><br><span class="line">%中文字体</span><br><span class="line">\songti 宋体 </span><br><span class="line">\heiti</span><br><span class="line">\fangsong</span><br><span class="line">\kaishu</span><br><span class="line"></span><br><span class="line">%中文的粗体是使用黑体表示，斜体用楷书表示</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>字体大小</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">\tiny</span><br><span class="line">\scriptsize</span><br><span class="line">\footnotesize</span><br><span class="line">\small</span><br><span class="line">\normalsize</span><br><span class="line">\large</span><br><span class="line">\Large</span><br><span class="line">\LARGE</span><br><span class="line">\huge</span><br><span class="line">\Huge</span><br><span class="line"></span><br><span class="line">%在ctex中引入了中文字号设置</span><br><span class="line">\zihao&#123;字号&#125; 你好！</span><br></pre></td></tr></table></figure>
+<h2 id="LateX文档的结构"><a href="#LateX文档的结构" class="headerlink" title="LateX文档的结构"></a>LateX文档的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">\chapter&#123;绪论&#125;//只存在于book/ctexbook</span><br><span class="line">\section&#123;引言&#125;</span><br><span class="line">	\section&#123;第一章&#125;</span><br><span class="line">	\subsection&#123;第一节&#125;</span><br><span class="line">	\subsubsection&#123;第一讲&#125;</span><br><span class="line">	\subsubsection&#123;第二讲&#125;</span><br><span class="line">	\subsection&#123;第二节&#125;</span><br><span class="line">	\section&#123;第二章&#125;</span><br><span class="line">	\section&#123;结论&#125;</span><br></pre></td></tr></table></figure>
+<p>可以通过命令<code>\tableofcontents</code>生成目录</p>
+<h2 id="LateX中的特殊字符"><a href="#LateX中的特殊字符" class="headerlink" title="LateX中的特殊字符"></a>LateX中的特殊字符</h2><h2 id="LateX中插入图片"><a href="#LateX中插入图片" class="headerlink" title="LateX中插入图片"></a>LateX中插入图片</h2><p>使用命令<code>usepackage{graphicx}</code>在导言区引入<br>通过命令制定当前文件路径，在当前目录下的figures文件夹下<br>在正文区使用<code>\includegraphics[&lt;选项&gt;]{&lt;文件名&gt;}</code>文件名不需要后缀，添加也可以</p>
+<p>关于可选参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scale = //缩放因子</span><br><span class="line">height = //高度</span><br><span class="line">width = //宽度</span><br><span class="line">\textwidth 版型文本</span><br><span class="line">%不同参数之间用逗号分隔</span><br></pre></td></tr></table></figure>
+<p>支持的格式为<code>EPS PDF PNG JPEG BMP</code></p>
+<h2 id="LateX中插入表格"><a href="#LateX中插入表格" class="headerlink" title="LateX中插入表格"></a>LateX中插入表格</h2><p>通过命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;tabular&#125;&#123; | l | c | p&#123;1.5cm&#125; |&#125; %l左对齐，c剧中对齐，r右对齐，p制定表格宽度</span><br><span class="line">	\hline</span><br><span class="line">	姓名 &amp; 性别 &amp; 年龄 \\%双反斜杠表示换行</span><br><span class="line">	\hline</span><br><span class="line">	a &amp; m &amp; 10\\</span><br><span class="line">	\hline</span><br><span class="line">	b &amp; f &amp; 17\\</span><br><span class="line">	\hline</span><br><span class="line">	\end&#123;tabular&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="LateX中插入代码块"><a href="#LateX中插入代码块" class="headerlink" title="LateX中插入代码块"></a>LateX中插入代码块</h2><p><a href="https://blog.csdn.net/Mrx_Nh/article/details/75105031" target="_blank" rel="noopener">友情链接-如何插入代码</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LaTeX/" rel="tag"># LaTeX</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/07/进程同步/" rel="next" title="进程同步">
+                <i class="fa fa-chevron-left"></i> 进程同步
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Arron Tao" />
+            
+              <p class="site-author-name" itemprop="name">Arron Tao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/arrontaoyr" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/rong-ye-43-55" target="_blank" title="知乎"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LaTeX入门"><span class="nav-number">1.</span> <span class="nav-text">LaTeX入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX基本介绍"><span class="nav-number">1.1.</span> <span class="nav-text">LateX基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Latex中中文处理"><span class="nav-number">1.2.</span> <span class="nav-text">Latex中中文处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Latex中命令的定义"><span class="nav-number">1.3.</span> <span class="nav-text">Latex中命令的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX中的公式定义（带编号）"><span class="nav-number">1.4.</span> <span class="nav-text">LateX中的公式定义（带编号）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX中字体和字号设置"><span class="nav-number">1.5.</span> <span class="nav-text">LateX中字体和字号设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LateX中字体属性"><span class="nav-number">1.5.1.</span> <span class="nav-text">LateX中字体属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX文档的结构"><span class="nav-number">1.6.</span> <span class="nav-text">LateX文档的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX中的特殊字符"><span class="nav-number">1.7.</span> <span class="nav-text">LateX中的特殊字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX中插入图片"><span class="nav-number">1.8.</span> <span class="nav-text">LateX中插入图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX中插入表格"><span class="nav-number">1.9.</span> <span class="nav-text">LateX中插入表格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LateX中插入代码块"><span class="nav-number">1.10.</span> <span class="nav-text">LateX中插入代码块</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arron Tao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
