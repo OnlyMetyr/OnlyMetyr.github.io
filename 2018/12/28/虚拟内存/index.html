@@ -108,27 +108,27 @@
 
 
 
-  <meta name="description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
+  <meta name="description" content="背景将整个程序放入物理内存中，是不合理的：  程序通常有处理异常错误条件的代码，而这些代码几乎不执行 数组，链表和表通常分配了比实际所需要的更多的内存。 程序的某些选项和功能可能很少使用  只有部分在内存中的程序可以带来很多好处：  程序不再受到物理内存空间的限制（解决装入作业受限） 每个用户程序使用了更少的内存，更多的程序可以同时执行（提高内存利用率） 载入和交换每个用户程序到内存所需要的I/O">
 <meta name="keywords" content="OperatingSystem">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线程">
-<meta property="og:url" content="http://arrontao.vip/2018/10/18/线程/index.html">
+<meta property="og:title" content="虚拟内存">
+<meta property="og:url" content="http://arrontao.vip/2018/12/28/虚拟内存/index.html">
 <meta property="og:site_name" content="Chaotic&#39;s Blogs">
-<meta property="og:description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
+<meta property="og:description" content="背景将整个程序放入物理内存中，是不合理的：  程序通常有处理异常错误条件的代码，而这些代码几乎不执行 数组，链表和表通常分配了比实际所需要的更多的内存。 程序的某些选项和功能可能很少使用  只有部分在内存中的程序可以带来很多好处：  程序不再受到物理内存空间的限制（解决装入作业受限） 每个用户程序使用了更少的内存，更多的程序可以同时执行（提高内存利用率） 载入和交换每个用户程序到内存所需要的I/O">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://arrontao.vip/2018/10/18/线程/线程状态.png">
-<meta property="og:updated_time" content="2018-11-04T10:45:08.997Z">
+<meta property="og:image" content="http://arrontao.vip/2018/12/28/虚拟内存/按需调度.png">
+<meta property="og:updated_time" content="2018-12-29T08:50:08.156Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线程">
-<meta name="twitter:description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
-<meta name="twitter:image" content="http://arrontao.vip/2018/10/18/线程/线程状态.png">
+<meta name="twitter:title" content="虚拟内存">
+<meta name="twitter:description" content="背景将整个程序放入物理内存中，是不合理的：  程序通常有处理异常错误条件的代码，而这些代码几乎不执行 数组，链表和表通常分配了比实际所需要的更多的内存。 程序的某些选项和功能可能很少使用  只有部分在内存中的程序可以带来很多好处：  程序不再受到物理内存空间的限制（解决装入作业受限） 每个用户程序使用了更少的内存，更多的程序可以同时执行（提高内存利用率） 载入和交换每个用户程序到内存所需要的I/O">
+<meta name="twitter:image" content="http://arrontao.vip/2018/12/28/虚拟内存/按需调度.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://arrontao.vip/2018/10/18/线程/"/>
+  <link rel="canonical" href="http://arrontao.vip/2018/12/28/虚拟内存/"/>
 
 
 
@@ -138,7 +138,7 @@
   };
 </script>
 
-  <title>线程 | Chaotic's Blogs</title>
+  <title>虚拟内存 | Chaotic's Blogs</title>
   
 
 
@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/18/线程/">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/12/28/虚拟内存/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Arron Tao">
@@ -320,7 +320,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">线程
+          <h1 class="post-title" itemprop="name headline">虚拟内存
               
             
           </h1>
@@ -345,7 +345,7 @@
                 
               
 
-              <time title="Created: 2018-10-18 18:13:58" itemprop="dateCreated datePublished" datetime="2018-10-18T18:13:58+08:00">2018-10-18</time>
+              <time title="Created: 2018-12-28 10:04:36" itemprop="dateCreated datePublished" datetime="2018-12-28T10:04:36+08:00">2018-12-28</time>
             
 
             
@@ -362,7 +362,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-11-04 18:45:08" itemprop="dateModified" datetime="2018-11-04T18:45:08+08:00">2018-11-04</time>
+                <time title="Modified: 2018-12-29 16:50:08" itemprop="dateModified" datetime="2018-12-29T16:50:08+08:00">2018-12-29</time>
               
             
           </span>
@@ -413,79 +413,101 @@
       
 
       
-        <h1 id="线程-Threads"><a href="#线程-Threads" class="headerlink" title="线程(Threads)"></a>线程(Threads)</h1><h2 id="线程的基本介绍"><a href="#线程的基本介绍" class="headerlink" title="线程的基本介绍"></a>线程的基本介绍</h2><p><strong>线程的特性:</strong></p>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>将整个程序放入物理内存中，是不合理的：</p>
+<ol>
+<li>程序通常有处理异常错误条件的代码，而这些代码几乎不执行</li>
+<li>数组，链表和表通常分配了比实际所需要的更多的内存。</li>
+<li>程序的某些选项和功能可能很少使用</li>
+</ol>
+<p>只有部分在内存中的程序可以带来很多好处：</p>
+<ol>
+<li>程序不再受到物理内存空间的限制（解决装入作业受限）</li>
+<li>每个用户程序使用了更少的内存，更多的程序可以同时执行（提高内存利用率）</li>
+<li>载入和交换每个用户程序到内存所需要的I/O会更少，用户程序会运行的更快（提高系统吞吐量）</li>
+</ol>
+<p>虚拟内存技术的可行性：局部性规律</p>
+<ol>
+<li>顺序执行规律</li>
+<li>跳转的局部性</li>
+<li>数据访问的局部性</li>
+</ol>
+<p><strong>局部性：</strong></p>
 <ul>
-<li>同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈</li>
-<li>线程是CPU使用的基本单位 </li>
+<li>时间局部性：短时间内被多次访问</li>
+<li>空间局部性：在较短程序范围内多次访问</li>
 </ul>
-<p><em>进程是资源申请和调度的基本单位</em></p>
-<ul>
-<li>（线程是进程的一个属性，是被系统独立调度的基本单位）<ul>
-<li>一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源</li>
-<li>多个线程之间并发执行，切换速度快</li>
-</ul>
+<p><strong>稀地址空间</strong>：包括空白的虚拟地址空间</p>
+<h1 id="虚空间"><a href="#虚空间" class="headerlink" title="虚空间"></a>虚空间</h1><p>虚空间的逻辑大小：系统的可寻址范围</p>
+<p>虚空间的实际大小：内存+外存对换区</p>
+<h1 id="请求式分页存储管理"><a href="#请求式分页存储管理" class="headerlink" title="请求式分页存储管理"></a>请求式分页存储管理</h1><ul>
+<li>以分页存储管理为基础<ol>
+<li>解决地址空间的映射问题</li>
+<li>地址的转换</li>
+</ol>
 </li>
 </ul>
-<p><strong>线程的特点</strong></p>
+<h2 id="请求分页方式的实现"><a href="#请求分页方式的实现" class="headerlink" title="请求分页方式的实现"></a>请求分页方式的实现</h2><ol>
+<li>对页表进行扩充：增加了<strong>状态位、引用位、修改位、外存地址</strong>状态位为0:不在内存中/为1在内存中</li>
+<li>缺页中断：当发现将要用到的页面不在主存中的时候，产生缺页中断，由缺页中断来完成页面的调入</li>
+</ol>
+<p><em>具体操作：</em></p>
+<ol>
+<li>比较页号和页表大小判断是否越界</li>
+<li>如果不越界那么在页表中找到相应的项</li>
+<li>根据存在位判断是否在内存中</li>
+<li>如果在内存中那么跳转</li>
+<li>否则产生缺页中断，调入内存</li>
+</ol>
+<img src="/2018/12/28/虚拟内存/按需调度.png" title="按需调度">
+<p>请求式调度的特点：</p>
+<ol>
+<li>离散分配：效率高/复杂</li>
+<li>虚拟存储管理：部分装入/请求调入/页面置换</li>
+<li>缺页率是影响系统效率的主要因素</li>
+<li><strong>缺页率：</strong>需要访问的页面不在内存中的次数与总页面访问次数的比率，缺页率与程序实际使用的内存块的数量有关</li>
+</ol>
+<h2 id="请求式分页系统的策略"><a href="#请求式分页系统的策略" class="headerlink" title="请求式分页系统的策略"></a>请求式分页系统的策略</h2><ol>
+<li>分配策略：装入的时候分配多少个内存块</li>
+<li>页面调入策略：不是所有页面都在内存中，哪些页面应该在内存中</li>
+<li>页面置换策略：如何选取要置换的页面</li>
+</ol>
+<h3 id="分配策略"><a href="#分配策略" class="headerlink" title="分配策略"></a>分配策略</h3><h4 id="平均分配策略"><a href="#平均分配策略" class="headerlink" title="平均分配策略"></a>平均分配策略</h4><p>将系统中所有的可供分配的物理块平均分配给各个进程</p>
+<p>但是，导致需要内存大的进程缺页率高</p>
+<h4 id="按比例分配算法"><a href="#按比例分配算法" class="headerlink" title="按比例分配算法"></a>按比例分配算法</h4><p>根据进程的大小按比例分配物理块</p>
+<h4 id="考虑优先权的分配算法"><a href="#考虑优先权的分配算法" class="headerlink" title="考虑优先权的分配算法"></a>考虑优先权的分配算法</h4><ul>
+<li>一部分按比例分配给进程</li>
+<li>另一部分则根据进程的优先权分配给进程</li>
+</ul>
+<h4 id="全局分配-局部分配"><a href="#全局分配-局部分配" class="headerlink" title="全局分配/局部分配"></a>全局分配/局部分配</h4><p>全局置换：允许一个进程从所有帧集合中选择一个置换帧</p>
+<p>局部置换：每个进程仅从其自己的分配帧中进行选择</p>
+<h3 id="页面置换算法"><a href="#页面置换算法" class="headerlink" title="页面置换算法"></a>页面置换算法</h3><p>当需要访问的页面不在内存，同时没有多余的空白内存块，这时需要将已经装入页面中的一页置换到外存对换区</p>
+<h4 id="页面置换带来的问题"><a href="#页面置换带来的问题" class="headerlink" title="页面置换带来的问题"></a>页面置换带来的问题</h4><ol>
+<li>抖动问题：系统频繁的调进和调入页面，特别是被换出的页面在短时间内又要被换入，系统开销显著增加，</li>
+<li>置换算法的目标就是：减少抖动，降低同一页面的重复置换</li>
+</ol>
+<h4 id="工作集合策略检查"><a href="#工作集合策略检查" class="headerlink" title="工作集合策略检查"></a>工作集合策略检查</h4><p>这种方法定义了进程执行的局部模型：当进程执行的时候，它从一个局部移动到另一个局部，局部是一个经常使用页的集合，一个程序通常有多个不同局部组成</p>
+<p>思想：找到最近一段时间内需要用到的页面集合，保证这个工作集在内存中，那么就保证了这一段时间内不会抖动</p>
+<p><strong>一些定义：</strong></p>
 <ul>
-<li>动态性</li>
-<li>并发性</li>
-<li>独立性</li>
-<li>异步性</li>
+<li>工作集窗口：最近n个页面的引用，这n个引用的页集合称为工作集合</li>
+<li>WSSi，最近所引用的所有页面的总数</li>
+<li>D=SUM（WSSi）表示总的帧需求量。如果D大于可用帧数量，</li>
 </ul>
-<h2 id="线程与进程的比较"><a href="#线程与进程的比较" class="headerlink" title="线程与进程的比较"></a>线程与进程的比较</h2><h3 id="调度"><a href="#调度" class="headerlink" title="调度"></a>调度</h3><ul>
-<li>统一进程的多个线程之间的调度，不引起进程的切换</li>
-<li>不同进程的进程间的调度，需要进程的切换<ul>
-<li>线程上下文的切换和进程上下文的切换最重要的区别是线程的切换虚拟内存空间依然是相同的，但是进程的切换则是不同的。</li>
-<li>进程的切换需要切换页目录以使用新的地址空间，但是线程的切换并不需要</li>
-</ul>
+<h4 id="一些算法"><a href="#一些算法" class="headerlink" title="一些算法"></a>一些算法</h4><h5 id="最佳置换策略"><a href="#最佳置换策略" class="headerlink" title="最佳置换策略"></a>最佳置换策略</h5><p>必须淘汰的页，必须是以后不再访问的页或者距离现在最长时间后再访问的页</p>
+<p>特点：理想算法，可以作为衡量标准</p>
+<h5 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h5><h5 id="LRU（最近最少用页面替换算法）"><a href="#LRU（最近最少用页面替换算法）" class="headerlink" title="LRU（最近最少用页面替换算法）"></a>LRU（最近最少用页面替换算法）</h5><p>最近一段时间里，较长时间里未被用到的页面</p>
+<p>算法实现：</p>
+<ol>
+<li>每个页表项有一个计数器，每次页通过这个表项被访问，就把当前的系统时间拷贝到计数器中，当一个页需要改变的时候，查看计数器来得到改变页</li>
+<li>栈实现：每当页调用，就将其移动到栈顶</li>
+</ol>
+<p><em>无论是计数器还是堆栈的方式，如果没有硬件的支持，那么内存引用会慢10倍</em></p>
+<ol start="3">
+<li>在时间间隔范围内，当页被访问的时候设置为1</li>
+<li>二次机会：如果以顺时针交换的访问位是1，那么把访问位设置为0，把页留在内存中，以同样的规则，操作下一个页</li>
+<li>访问位A和修改位M可以组合成下面四种类型的页面：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">访问位：A = 0/1 未被访问/被访问</span><br><span class="line">修改位：M = 0/1 未被修改/被修改</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<h3 id="并发性"><a href="#并发性" class="headerlink" title="并发性"></a>并发性</h3><p>一个进程拥有多个线程</p>
-<h3 id="资源的拥有"><a href="#资源的拥有" class="headerlink" title="资源的拥有"></a>资源的拥有</h3><p>线程不拥有系统资源，不拥有代码段和数据段</p>
-<h2 id="Thread-Control-Block-TCB"><a href="#Thread-Control-Block-TCB" class="headerlink" title="Thread Control Block(TCB)"></a>Thread Control Block(TCB)</h2><p><strong>包含</strong></p>
-<ul>
-<li>Thread ID</li>
-<li>Execution State:CPU registers, program counter, pointer to stack space for saving registers</li>
-<li>Scheduling info: State, Priority, CPU time</li>
-<li>Various Pointer</li>
-</ul>
-<h2 id="User-vs-Kernel-Threads"><a href="#User-vs-Kernel-Threads" class="headerlink" title="User vs. Kernel Threads"></a>User vs. Kernel Threads</h2><h3 id="User-Level-Threads-Liberary"><a href="#User-Level-Threads-Liberary" class="headerlink" title="User-Level Threads Liberary"></a>User-Level Threads Liberary</h3><ul>
-<li>对用户线程的支持通常在用户态实现</li>
-<li>通过用户级线程库实现，对线程进行创建，调度和处理</li>
-<li>不需要内核的支持</li>
-</ul>
-<p><strong>the advantages of user threads</strong></p>
-<ul>
-<li>performance: low cost thread operation(do not need require crossing protection domains)</li>
-<li>Flexible:scheduling can be application specific</li>
-<li>Portability:user thread library easy to port.</li>
-</ul>
-<p><strong>disadvantage of uesr threads</strong></p>
-<ul>
-<li>if a user_level thread is blocked by kernel the entire process are blocked</li>
-<li>cannot take advantage of multiprocessing(the kernel only assigns one process to only one processor)</li>
-</ul>
-<h3 id="Thread-Management-Supported-by-the-Kernal"><a href="#Thread-Management-Supported-by-the-Kernal" class="headerlink" title="Thread Management Supported by the Kernal"></a>Thread Management Supported by the Kernal</h3><ul>
-<li>由操作系统直接支持</li>
-<li>内核在内核空间实现线程的创建、调度和管理</li>
-</ul>
-<h3 id="多线程模型"><a href="#多线程模型" class="headerlink" title="多线程模型"></a>多线程模型</h3><h4 id="Many-to-One"><a href="#Many-to-One" class="headerlink" title="Many-to-One"></a>Many-to-One</h4><p>多个用户线程对应一个内核线程</p>
-<ul>
-<li>线程在用户空间进行管理，效率高</li>
-<li>一个线程被阻塞，整个进程被阻塞</li>
-</ul>
-<h4 id="One-to-One"><a href="#One-to-One" class="headerlink" title="One-to-One"></a>One-to-One</h4><p>一个用户进程对应一个内核进程</p>
-<p>为创建内核进程的开销会加重应用程序的负担，所以这种模型的大多数实现都会限制系统支持的线程数量</p>
-<h4 id="Many-to-Many"><a href="#Many-to-Many" class="headerlink" title="Many-to-Many"></a>Many-to-Many</h4><p><strong>Advantage</strong></p>
-<p>开发者可以创建所需的用户线程，并且对应的内核线程能够在多处理机环境中并行运行，当一个线程执行导致阻塞的系统调用的时候，内核能够调度其他的线程运行</p>
-<h2 id="Pthreads"><a href="#Pthreads" class="headerlink" title="Pthreads"></a>Pthreads</h2><ul>
-<li>POSIX standard(IEEE 1003.1c)API for thread</li>
-<li>API</li>
-<li>UNIX</li>
-</ul>
-<h2 id="Java中的线程实现"><a href="#Java中的线程实现" class="headerlink" title="Java中的线程实现"></a>Java中的线程实现</h2><p>此处由于笔者不会Java语言，故略去不讲</p>
-<h2 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h2><img src="/2018/10/18/线程/线程状态.png" title="线程状态">
+</ol>
 
       
     </div>
@@ -519,8 +541,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/16/Mysql简单总结/" rel="next" title="Mysql简单总结">
-                <i class="fa fa-chevron-left"></i> Mysql简单总结
+              <a href="/2018/12/27/tools/" rel="next" title="tools">
+                <i class="fa fa-chevron-left"></i> tools
               </a>
             
           </div>
@@ -528,10 +550,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/21/操作系统实验：Linux初步与文件系统/" rel="prev" title="操作系统实验：Linux初步与文件系统">
-                操作系统实验：Linux初步与文件系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -703,7 +721,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程-Threads"><span class="nav-number">1.</span> <span class="nav-text">线程(Threads)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的基本介绍"><span class="nav-number">1.1.</span> <span class="nav-text">线程的基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程与进程的比较"><span class="nav-number">1.2.</span> <span class="nav-text">线程与进程的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调度"><span class="nav-number">1.2.1.</span> <span class="nav-text">调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发性"><span class="nav-number">1.2.2.</span> <span class="nav-text">并发性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源的拥有"><span class="nav-number">1.2.3.</span> <span class="nav-text">资源的拥有</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-Control-Block-TCB"><span class="nav-number">1.3.</span> <span class="nav-text">Thread Control Block(TCB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-vs-Kernel-Threads"><span class="nav-number">1.4.</span> <span class="nav-text">User vs. Kernel Threads</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Level-Threads-Liberary"><span class="nav-number">1.4.1.</span> <span class="nav-text">User-Level Threads Liberary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-Management-Supported-by-the-Kernal"><span class="nav-number">1.4.2.</span> <span class="nav-text">Thread Management Supported by the Kernal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程模型"><span class="nav-number">1.4.3.</span> <span class="nav-text">多线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Many-to-One"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">Many-to-One</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#One-to-One"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">One-to-One</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Many-to-Many"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">Many-to-Many</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pthreads"><span class="nav-number">1.5.</span> <span class="nav-text">Pthreads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中的线程实现"><span class="nav-number">1.6.</span> <span class="nav-text">Java中的线程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的状态"><span class="nav-number">1.7.</span> <span class="nav-text">线程的状态</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚空间"><span class="nav-number">2.</span> <span class="nav-text">虚空间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请求式分页存储管理"><span class="nav-number">3.</span> <span class="nav-text">请求式分页存储管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求分页方式的实现"><span class="nav-number">3.1.</span> <span class="nav-text">请求分页方式的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求式分页系统的策略"><span class="nav-number">3.2.</span> <span class="nav-text">请求式分页系统的策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分配策略"><span class="nav-number">3.2.1.</span> <span class="nav-text">分配策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平均分配策略"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">平均分配策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按比例分配算法"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">按比例分配算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#考虑优先权的分配算法"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">考虑优先权的分配算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全局分配-局部分配"><span class="nav-number">3.2.1.4.</span> <span class="nav-text">全局分配/局部分配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面置换算法"><span class="nav-number">3.2.2.</span> <span class="nav-text">页面置换算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#页面置换带来的问题"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">页面置换带来的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作集合策略检查"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">工作集合策略检查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一些算法"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">一些算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#最佳置换策略"><span class="nav-number">3.2.2.3.1.</span> <span class="nav-text">最佳置换策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FIFO"><span class="nav-number">3.2.2.3.2.</span> <span class="nav-text">FIFO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LRU（最近最少用页面替换算法）"><span class="nav-number">3.2.2.3.3.</span> <span class="nav-text">LRU（最近最少用页面替换算法）</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
