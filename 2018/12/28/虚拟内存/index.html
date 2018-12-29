@@ -108,19 +108,19 @@
 
 
 
-  <meta name="description" content="背景将整个程序放入物理内存中，是不合理的：  程序通常有处理异常错误条件的代码，而这些代码几乎不执行 数组，链表和表通常分配了比实际所需要的更多的内存。 程序的某些选项和功能可能很少使用  只有部分在内存中的程序可以带来很多好处：  程序不再受到物理内存空间的限制（解决装入作业受限） 每个用户程序使用了更少的内存，更多的程序可以同时执行（提高内存利用率） 载入和交换每个用户程序到内存所需要的I/O">
+  <meta name="description" content="将整个程序放入物理内存中，是不合理的：">
 <meta name="keywords" content="OperatingSystem">
 <meta property="og:type" content="article">
 <meta property="og:title" content="虚拟内存">
 <meta property="og:url" content="http://arrontao.vip/2018/12/28/虚拟内存/index.html">
 <meta property="og:site_name" content="Chaotic&#39;s Blogs">
-<meta property="og:description" content="背景将整个程序放入物理内存中，是不合理的：  程序通常有处理异常错误条件的代码，而这些代码几乎不执行 数组，链表和表通常分配了比实际所需要的更多的内存。 程序的某些选项和功能可能很少使用  只有部分在内存中的程序可以带来很多好处：  程序不再受到物理内存空间的限制（解决装入作业受限） 每个用户程序使用了更少的内存，更多的程序可以同时执行（提高内存利用率） 载入和交换每个用户程序到内存所需要的I/O">
+<meta property="og:description" content="将整个程序放入物理内存中，是不合理的：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://arrontao.vip/2018/12/28/虚拟内存/按需调度.png">
-<meta property="og:updated_time" content="2018-12-29T08:50:08.156Z">
+<meta property="og:updated_time" content="2018-12-29T08:51:49.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="虚拟内存">
-<meta name="twitter:description" content="背景将整个程序放入物理内存中，是不合理的：  程序通常有处理异常错误条件的代码，而这些代码几乎不执行 数组，链表和表通常分配了比实际所需要的更多的内存。 程序的某些选项和功能可能很少使用  只有部分在内存中的程序可以带来很多好处：  程序不再受到物理内存空间的限制（解决装入作业受限） 每个用户程序使用了更少的内存，更多的程序可以同时执行（提高内存利用率） 载入和交换每个用户程序到内存所需要的I/O">
+<meta name="twitter:description" content="将整个程序放入物理内存中，是不合理的：">
 <meta name="twitter:image" content="http://arrontao.vip/2018/12/28/虚拟内存/按需调度.png">
 
 
@@ -362,7 +362,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-12-29 16:50:08" itemprop="dateModified" datetime="2018-12-29T16:50:08+08:00">2018-12-29</time>
+                <time title="Modified: 2018-12-29 16:51:49" itemprop="dateModified" datetime="2018-12-29T16:51:49+08:00">2018-12-29</time>
               
             
           </span>
@@ -413,7 +413,8 @@
       
 
       
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>将整个程序放入物理内存中，是不合理的：</p>
+        <p>将整个程序放入物理内存中，是不合理的：<br><a id="more"></a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>将整个程序放入物理内存中，是不合理的：</p>
 <ol>
 <li>程序通常有处理异常错误条件的代码，而这些代码几乎不执行</li>
 <li>数组，链表和表通常分配了比实际所需要的更多的内存。</li>
