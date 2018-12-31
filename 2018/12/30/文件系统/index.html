@@ -108,27 +108,27 @@
 
 
 
-  <meta name="description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
-<meta name="keywords" content="OperatingSystem">
+  <meta name="description" content="文件系统操作系统中，与文件有关的部分是文件管理系统，简称文件系统：  与文件管理有关的软件 被管理的文件 实施文件管理需要的数据结构  文件系统是对文件存储器空间进行组织和分配，负责文件存储并对存入的文件进行保护和检索 文件系统的实现文件系统结构 磁盘提供了大量的外存空间，且具有两个特性： 可以原地重写 可以直接访问   为了提供对磁盘高效且便捷的访问，操作系统通过文件系统来轻松的存储、定位、提取">
+<meta name="keywords" content="HelloWorld">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线程">
-<meta property="og:url" content="http://arrontao.vip/2018/10/18/线程/index.html">
+<meta property="og:title" content="文件系统">
+<meta property="og:url" content="http://arrontao.vip/2018/12/30/文件系统/index.html">
 <meta property="og:site_name" content="Chaotic&#39;s Blogs">
-<meta property="og:description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
+<meta property="og:description" content="文件系统操作系统中，与文件有关的部分是文件管理系统，简称文件系统：  与文件管理有关的软件 被管理的文件 实施文件管理需要的数据结构  文件系统是对文件存储器空间进行组织和分配，负责文件存储并对存入的文件进行保护和检索 文件系统的实现文件系统结构 磁盘提供了大量的外存空间，且具有两个特性： 可以原地重写 可以直接访问   为了提供对磁盘高效且便捷的访问，操作系统通过文件系统来轻松的存储、定位、提取">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://arrontao.vip/2018/10/18/线程/线程状态.png">
-<meta property="og:updated_time" content="2018-11-04T10:45:08.997Z">
+<meta property="og:image" content="http://arrontao.vip/2018/12/30/文件系统/磁盘布局.png">
+<meta property="og:updated_time" content="2018-12-31T05:27:01.343Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线程">
-<meta name="twitter:description" content="线程(Threads)线程的基本介绍线程的特性:  同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈 线程是CPU使用的基本单位   进程是资源申请和调度的基本单位  （线程是进程的一个属性，是被系统独立调度的基本单位） 一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源 多个线程之间并发执行，切换速度快    线程的">
-<meta name="twitter:image" content="http://arrontao.vip/2018/10/18/线程/线程状态.png">
+<meta name="twitter:title" content="文件系统">
+<meta name="twitter:description" content="文件系统操作系统中，与文件有关的部分是文件管理系统，简称文件系统：  与文件管理有关的软件 被管理的文件 实施文件管理需要的数据结构  文件系统是对文件存储器空间进行组织和分配，负责文件存储并对存入的文件进行保护和检索 文件系统的实现文件系统结构 磁盘提供了大量的外存空间，且具有两个特性： 可以原地重写 可以直接访问   为了提供对磁盘高效且便捷的访问，操作系统通过文件系统来轻松的存储、定位、提取">
+<meta name="twitter:image" content="http://arrontao.vip/2018/12/30/文件系统/磁盘布局.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://arrontao.vip/2018/10/18/线程/"/>
+  <link rel="canonical" href="http://arrontao.vip/2018/12/30/文件系统/"/>
 
 
 
@@ -138,7 +138,7 @@
   };
 </script>
 
-  <title>线程 | Chaotic's Blogs</title>
+  <title>文件系统 | Chaotic's Blogs</title>
   
 
 
@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/10/18/线程/">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/12/30/文件系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Arron Tao">
@@ -320,7 +320,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">线程
+          <h1 class="post-title" itemprop="name headline">文件系统
               
             
           </h1>
@@ -345,7 +345,7 @@
                 
               
 
-              <time title="Created: 2018-10-18 18:13:58" itemprop="dateCreated datePublished" datetime="2018-10-18T18:13:58+08:00">2018-10-18</time>
+              <time title="Created: 2018-12-30 18:17:43" itemprop="dateCreated datePublished" datetime="2018-12-30T18:17:43+08:00">2018-12-30</time>
             
 
             
@@ -362,29 +362,11 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-11-04 18:45:08" itemprop="dateModified" datetime="2018-11-04T18:45:08+08:00">2018-11-04</time>
+                <time title="Modified: 2018-12-31 13:27:01" itemprop="dateModified" datetime="2018-12-31T13:27:01+08:00">2018-12-31</time>
               
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/note/" itemprop="url" rel="index"><span itemprop="name">note</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -413,79 +395,137 @@
       
 
       
-        <h1 id="线程-Threads"><a href="#线程-Threads" class="headerlink" title="线程(Threads)"></a>线程(Threads)</h1><h2 id="线程的基本介绍"><a href="#线程的基本介绍" class="headerlink" title="线程的基本介绍"></a>线程的基本介绍</h2><p><strong>线程的特性:</strong></p>
+        <h1 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h1><p>操作系统中，与文件有关的部分是文件管理系统，简称文件系统：</p>
 <ul>
-<li>同一个进程的线程共享相同的地址空间（代码段，数据段，其他操作系统资源），但是它有自己的线程ID、程序计数器、寄存器以及堆栈</li>
-<li>线程是CPU使用的基本单位 </li>
+<li>与文件管理有关的软件</li>
+<li>被管理的文件</li>
+<li>实施文件管理需要的数据结构</li>
 </ul>
-<p><em>进程是资源申请和调度的基本单位</em></p>
+<p>文件系统是对文件存储器空间进行组织和分配，负责文件存储并对存入的文件进行保护和检索</p>
+<h1 id="文件系统的实现"><a href="#文件系统的实现" class="headerlink" title="文件系统的实现"></a>文件系统的实现</h1><h2 id="文件系统结构"><a href="#文件系统结构" class="headerlink" title="文件系统结构"></a>文件系统结构</h2><ul>
+<li>磁盘提供了大量的外存空间，且具有两个特性：<ol>
+<li>可以原地重写</li>
+<li>可以直接访问</li>
+</ol>
+</li>
+<li>为了提供对磁盘高效且便捷的访问，操作系统通过文件系统来轻松的存储、定位、提取数据</li>
+</ul>
+<p><strong>文件：</strong>逻辑存储单元，具有相关信息的集合</p>
+<p>文件系统驻留在外存上，文件系统中存在的两个设计问题：</p>
+<ol>
+<li>如何定义文件系统对用户的接口</li>
+<li>如果创建数据结构和算法将逻辑文件系统映射到物理外存设备上</li>
+</ol>
+<p><strong>文件系统分层设计：</strong></p>
+<ol>
+<li>I/O控制，实现由设备驱动程序和中断处理程序组成，实现内存与磁盘之间的信息转移</li>
+<li>基本文件系统，向合适的设备驱动程序发送一般命令 就可以对磁盘上的物理块进行读写</li>
+<li>文件组织模块，知道文件及逻辑块和物理块，可以完成逻辑块到物理块的映射，同时进行空闲空间的管理</li>
+<li>逻辑文件系统，管理元数据，管理目录结构，通过FCB文件控制块维护文件结构</li>
+</ol>
+<h2 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h2><h3 id="文件系统布局"><a href="#文件系统布局" class="headerlink" title="文件系统布局"></a>文件系统布局</h3><p>磁盘可以看作是以块为单位的连续存储空间：</p>
 <ul>
-<li>（线程是进程的一个属性，是被系统独立调度的基本单位）<ul>
-<li>一个进程可以拥有多个线程，这些线程共享进程拥有的全部资源</li>
-<li>多个线程之间并发执行，切换速度快</li>
+<li>MBR：主引导记录，记录了整个硬盘的分区信息，在硬盘做分区动作是，保存被激活的分区</li>
+<li>每个分区：<ul>
+<li>引导块</li>
+<li>超级块</li>
+<li>空闲空间管理</li>
+<li>i节点</li>
+<li>根目录</li>
+<li>文件和目录</li>
 </ul>
 </li>
 </ul>
-<p><strong>线程的特点</strong></p>
+<img src="/2018/12/30/文件系统/磁盘布局.png" title="磁盘布局">
+<h3 id="磁盘结构"><a href="#磁盘结构" class="headerlink" title="磁盘结构"></a>磁盘结构</h3><p>在磁盘上， 文件系统包括如下信息：</p>
 <ul>
-<li>动态性</li>
-<li>并发性</li>
-<li>独立性</li>
-<li>异步性</li>
+<li>如何启动所存储的操作系统</li>
+<li>总的块数</li>
+<li>空闲块的数目和位置</li>
+<li>目录结构以及各个具体文件</li>
 </ul>
-<h2 id="线程与进程的比较"><a href="#线程与进程的比较" class="headerlink" title="线程与进程的比较"></a>线程与进程的比较</h2><h3 id="调度"><a href="#调度" class="headerlink" title="调度"></a>调度</h3><ul>
-<li>统一进程的多个线程之间的调度，不引起进程的切换</li>
-<li>不同进程的进程间的调度，需要进程的切换<ul>
-<li>线程上下文的切换和进程上下文的切换最重要的区别是线程的切换虚拟内存空间依然是相同的，但是进程的切换则是不同的。</li>
-<li>进程的切换需要切换页目录以使用新的地址空间，但是线程的切换并不需要</li>
+<p>磁盘结构包括：</p>
+<ul>
+<li>引导控制块：分区的第一块，如果该分区没有OS则为空</li>
+<li>分区控制块：分区详细信息，块数、大小、数量、指针</li>
+<li>目录：组织文件</li>
+<li>文件控制块：FCB，文件信息，文件许可，拥有者，大小和数据块的位置</li>
+</ul>
+<h3 id="内存中的相关结构"><a href="#内存中的相关结构" class="headerlink" title="内存中的相关结构"></a>内存中的相关结构</h3><ul>
+<li>内存分区表：包含所有安装分区的信息</li>
+<li>内存目录结构： 保存近来访问过的目录信息</li>
+<li>系统范围内的打开文件表：包括每个打开文件的FCB拷贝和其他信息</li>
+<li>单个进程的打开文件表：<ul>
+<li>文件描述符：文件描述符表的数组下标</li>
+<li>文件句柄</li>
 </ul>
 </li>
 </ul>
-<h3 id="并发性"><a href="#并发性" class="headerlink" title="并发性"></a>并发性</h3><p>一个进程拥有多个线程</p>
-<h3 id="资源的拥有"><a href="#资源的拥有" class="headerlink" title="资源的拥有"></a>资源的拥有</h3><p>线程不拥有系统资源，不拥有代码段和数据段</p>
-<h2 id="Thread-Control-Block-TCB"><a href="#Thread-Control-Block-TCB" class="headerlink" title="Thread Control Block(TCB)"></a>Thread Control Block(TCB)</h2><p><strong>包含</strong></p>
+<p><strong>对inode的理解</strong></p>
+<p>inode是帮助Linux快速定位到指定文件而创建的特殊文件</p>
+<p>流程：</p>
+<ol>
+<li>根据dictionary的对应关系找到文件的inode(dictionary简单理解就是一张表，存储文件到inode号的映射)</li>
+<li>根据inode号找到inodeTable</li>
+<li>根据inodeTable找到对应的block</li>
+<li>读取文件</li>
+</ol>
+<h2 id="分区与安装"><a href="#分区与安装" class="headerlink" title="分区与安装"></a>分区与安装</h2><p>raw:生的，即没有文件系统的地方</p>
+<p>cooked：熟的，即有文件系统的地方</p>
+<h2 id="目录实现"><a href="#目录实现" class="headerlink" title="目录实现"></a>目录实现</h2><h3 id="线性列表"><a href="#线性列表" class="headerlink" title="线性列表"></a>线性列表</h3><p>使用存储文件名和数据块指针的线性列表实现：</p>
 <ul>
-<li>Thread ID</li>
-<li>Execution State:CPU registers, program counter, pointer to stack space for saving registers</li>
-<li>Scheduling info: State, Priority, CPU time</li>
-<li>Various Pointer</li>
+<li>容易实现</li>
+<li>运行费时</li>
 </ul>
-<h2 id="User-vs-Kernel-Threads"><a href="#User-vs-Kernel-Threads" class="headerlink" title="User vs. Kernel Threads"></a>User vs. Kernel Threads</h2><h3 id="User-Level-Threads-Liberary"><a href="#User-Level-Threads-Liberary" class="headerlink" title="User-Level Threads Liberary"></a>User-Level Threads Liberary</h3><ul>
-<li>对用户线程的支持通常在用户态实现</li>
-<li>通过用户级线程库实现，对线程进行创建，调度和处理</li>
-<li>不需要内核的支持</li>
-</ul>
-<p><strong>the advantages of user threads</strong></p>
+<p>使用Hash表实现：</p>
 <ul>
-<li>performance: low cost thread operation(do not need require crossing protection domains)</li>
-<li>Flexible:scheduling can be application specific</li>
-<li>Portability:user thread library easy to port.</li>
+<li>减少了搜索时间</li>
+<li>产生碰撞</li>
+<li>通常是固定的大小，对哈希函数有依赖性</li>
 </ul>
-<p><strong>disadvantage of uesr threads</strong></p>
+<h2 id="分配方法"><a href="#分配方法" class="headerlink" title="分配方法"></a>分配方法</h2><h3 id="连续分配"><a href="#连续分配" class="headerlink" title="连续分配"></a>连续分配</h3><p>每个文件占据一组连续的块</p>
+<ol>
+<li>访问简单，寻道时间少</li>
+<li>新文件找空间比较困难，文件很难增长</li>
+</ol>
+<p><strong>基于扩展的连续分配方法：</strong>当最初为文件分配的空间不足的时候，另一块被称为扩展的连续空间会添加到原来的分配中。</p>
+<h3 id="链接分配"><a href="#链接分配" class="headerlink" title="链接分配"></a>链接分配</h3><p>整个文件是磁盘块的链表，磁盘块分布在磁盘的任何地方</p>
 <ul>
-<li>if a user_level thread is blocked by kernel the entire process are blocked</li>
-<li>cannot take advantage of multiprocessing(the kernel only assigns one process to only one processor)</li>
+<li>简单，只需要起始位置，文件的创建与增长容易</li>
+<li>不能随机访问，空间复杂度高，存在可靠性问题</li>
 </ul>
-<h3 id="Thread-Management-Supported-by-the-Kernal"><a href="#Thread-Management-Supported-by-the-Kernal" class="headerlink" title="Thread Management Supported by the Kernal"></a>Thread Management Supported by the Kernal</h3><ul>
-<li>由操作系统直接支持</li>
-<li>内核在内核空间实现线程的创建、调度和管理</li>
-</ul>
-<h3 id="多线程模型"><a href="#多线程模型" class="headerlink" title="多线程模型"></a>多线程模型</h3><h4 id="Many-to-One"><a href="#Many-to-One" class="headerlink" title="Many-to-One"></a>Many-to-One</h4><p>多个用户线程对应一个内核线程</p>
+<p><strong>链接分配方法的变种：</strong></p>
 <ul>
-<li>线程在用户空间进行管理，效率高</li>
-<li>一个线程被阻塞，整个进程被阻塞</li>
+<li>每个分区的开始部分用于存储FAT表</li>
+<li>每个磁盘块在该表有一项，可以通过块号来索引</li>
+<li>目录条目下有含有文件首块的块号码，根据块号码索引的FAT条目包含文件下一块的号码，这种链表会一直继续到最后一块，该块对应的FAT文件结束符，未使用的用0表示</li>
+<li>为文件分配一个新的块只要简单地找到第一个值为０的FAT条目，用新块的地址替换前面文件结束值，用文件结束值替代0</li>
 </ul>
-<h4 id="One-to-One"><a href="#One-to-One" class="headerlink" title="One-to-One"></a>One-to-One</h4><p>一个用户进程对应一个内核进程</p>
-<p>为创建内核进程的开销会加重应用程序的负担，所以这种模型的大多数实现都会限制系统支持的线程数量</p>
-<h4 id="Many-to-Many"><a href="#Many-to-Many" class="headerlink" title="Many-to-Many"></a>Many-to-Many</h4><p><strong>Advantage</strong></p>
-<p>开发者可以创建所需的用户线程，并且对应的内核线程能够在多处理机环境中并行运行，当一个线程执行导致阻塞的系统调用的时候，内核能够调度其他的线程运行</p>
-<h2 id="Pthreads"><a href="#Pthreads" class="headerlink" title="Pthreads"></a>Pthreads</h2><ul>
-<li>POSIX standard(IEEE 1003.1c)API for thread</li>
-<li>API</li>
-<li>UNIX</li>
+<h3 id="索引分配"><a href="#索引分配" class="headerlink" title="索引分配"></a>索引分配</h3><ul>
+<li>将所有的数据块指针集中到索引块中：</li>
+<li>索引分配支持直接访问，且没有外部碎片问题</li>
+<li>索引块本身可能会浪费空间</li>
 </ul>
-<h2 id="Java中的线程实现"><a href="#Java中的线程实现" class="headerlink" title="Java中的线程实现"></a>Java中的线程实现</h2><p>此处由于笔者不会Java语言，故略去不讲</p>
-<h2 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h2><img src="/2018/10/18/线程/线程状态.png" title="线程状态">
+<p>特点：</p>
+<ul>
+<li>能顺序存取又能随机存取，满足了文件动态增长和插入、删除的要求，能充分利用外存空间</li>
+<li>本身带来了系统开销</li>
+</ul>
+<h2 id="空闲空间管理"><a href="#空闲空间管理" class="headerlink" title="空闲空间管理"></a>空闲空间管理</h2><h3 id="位向量"><a href="#位向量" class="headerlink" title="位向量"></a>位向量</h3><p>bit[i] = 0:free 1:occupied</p>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><ul>
+<li>分组：将n个空闲块存在第一个空闲块中</li>
+<li>计数：记录紧跟第一块的连续空闲块的数量</li>
+</ul>
+<p>效率与性能：</p>
+<ul>
+<li>磁盘分配和目录管理算法</li>
+<li>保存在目录项中的数据类型</li>
+</ul>
+<p>性能：</p>
+<ul>
+<li>磁盘缓存</li>
+<li>马上释放和预先读取</li>
+</ul>
 
       
     </div>
@@ -504,12 +544,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/OperatingSystem/" rel="tag"># OperatingSystem</a>
-          
-        </div>
-      
 
       
       
@@ -519,8 +553,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/16/Mysql简单总结/" rel="next" title="Mysql简单总结">
-                <i class="fa fa-chevron-left"></i> Mysql简单总结
+              <a href="/2018/12/29/数字签名/" rel="next" title="数字签名">
+                <i class="fa fa-chevron-left"></i> 数字签名
               </a>
             
           </div>
@@ -528,10 +562,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/21/操作系统实验：Linux初步与文件系统/" rel="prev" title="操作系统实验：Linux初步与文件系统">
-                操作系统实验：Linux初步与文件系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -703,7 +733,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程-Threads"><span class="nav-number">1.</span> <span class="nav-text">线程(Threads)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的基本介绍"><span class="nav-number">1.1.</span> <span class="nav-text">线程的基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程与进程的比较"><span class="nav-number">1.2.</span> <span class="nav-text">线程与进程的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调度"><span class="nav-number">1.2.1.</span> <span class="nav-text">调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发性"><span class="nav-number">1.2.2.</span> <span class="nav-text">并发性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源的拥有"><span class="nav-number">1.2.3.</span> <span class="nav-text">资源的拥有</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-Control-Block-TCB"><span class="nav-number">1.3.</span> <span class="nav-text">Thread Control Block(TCB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-vs-Kernel-Threads"><span class="nav-number">1.4.</span> <span class="nav-text">User vs. Kernel Threads</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Level-Threads-Liberary"><span class="nav-number">1.4.1.</span> <span class="nav-text">User-Level Threads Liberary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-Management-Supported-by-the-Kernal"><span class="nav-number">1.4.2.</span> <span class="nav-text">Thread Management Supported by the Kernal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程模型"><span class="nav-number">1.4.3.</span> <span class="nav-text">多线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Many-to-One"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">Many-to-One</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#One-to-One"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">One-to-One</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Many-to-Many"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">Many-to-Many</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pthreads"><span class="nav-number">1.5.</span> <span class="nav-text">Pthreads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中的线程实现"><span class="nav-number">1.6.</span> <span class="nav-text">Java中的线程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的状态"><span class="nav-number">1.7.</span> <span class="nav-text">线程的状态</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件系统"><span class="nav-number">1.</span> <span class="nav-text">文件系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件系统的实现"><span class="nav-number">2.</span> <span class="nav-text">文件系统的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统结构"><span class="nav-number">2.1.</span> <span class="nav-text">文件系统结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘"><span class="nav-number">2.2.</span> <span class="nav-text">磁盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件系统布局"><span class="nav-number">2.2.1.</span> <span class="nav-text">文件系统布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#磁盘结构"><span class="nav-number">2.2.2.</span> <span class="nav-text">磁盘结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存中的相关结构"><span class="nav-number">2.2.3.</span> <span class="nav-text">内存中的相关结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分区与安装"><span class="nav-number">2.3.</span> <span class="nav-text">分区与安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录实现"><span class="nav-number">2.4.</span> <span class="nav-text">目录实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性列表"><span class="nav-number">2.4.1.</span> <span class="nav-text">线性列表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分配方法"><span class="nav-number">2.5.</span> <span class="nav-text">分配方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连续分配"><span class="nav-number">2.5.1.</span> <span class="nav-text">连续分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接分配"><span class="nav-number">2.5.2.</span> <span class="nav-text">链接分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引分配"><span class="nav-number">2.5.3.</span> <span class="nav-text">索引分配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空闲空间管理"><span class="nav-number">2.6.</span> <span class="nav-text">空闲空间管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#位向量"><span class="nav-number">2.6.1.</span> <span class="nav-text">位向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链表"><span class="nav-number">2.6.2.</span> <span class="nav-text">链表</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

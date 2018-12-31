@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="身份认证身份是实体的一种计算机表达，表现为一个整数/一个字符串 通过确定身份可以确定资源的访问者是谁：  确定受控的主体 提高服务接入门槛，阻挡一些不合法的访问  认证基础主体：代表外部实体在信息系统进行操作实体：实体的额身份控制了与其关联的主体的行为认证：将某个实体的身份与某个实体进行绑定 认证信息的类型：  实体知道什么 实体拥有什么 实体的生物特征 实体的行为特征  1获取认证信息-&amp;gt;">
+<meta name="keywords" content="HelloWorld">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字签名">
+<meta property="og:url" content="http://arrontao.vip/2018/12/29/数字签名/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="身份认证身份是实体的一种计算机表达，表现为一个整数/一个字符串 通过确定身份可以确定资源的访问者是谁：  确定受控的主体 提高服务接入门槛，阻挡一些不合法的访问  认证基础主体：代表外部实体在信息系统进行操作实体：实体的额身份控制了与其关联的主体的行为认证：将某个实体的身份与某个实体进行绑定 认证信息的类型：  实体知道什么 实体拥有什么 实体的生物特征 实体的行为特征  1获取认证信息-&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://arrontao.vip/2018/12/29/数字签名/挑战回答.png">
+<meta property="og:updated_time" content="2018-12-30T01:17:39.485Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数字签名">
+<meta name="twitter:description" content="身份认证身份是实体的一种计算机表达，表现为一个整数/一个字符串 通过确定身份可以确定资源的访问者是谁：  确定受控的主体 提高服务接入门槛，阻挡一些不合法的访问  认证基础主体：代表外部实体在信息系统进行操作实体：实体的额身份控制了与其关联的主体的行为认证：将某个实体的身份与某个实体进行绑定 认证信息的类型：  实体知道什么 实体拥有什么 实体的生物特征 实体的行为特征  1获取认证信息-&amp;gt;">
+<meta name="twitter:image" content="http://arrontao.vip/2018/12/29/数字签名/挑战回答.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2018/12/29/数字签名/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数字签名 | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2018/12/29/数字签名/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arron Tao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数字签名
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-29 22:28:34" itemprop="dateCreated datePublished" datetime="2018-12-29T22:28:34+08:00">2018-12-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-30 09:17:39" itemprop="dateModified" datetime="2018-12-30T09:17:39+08:00">2018-12-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h1><p>身份是实体的一种计算机表达，表现为一个整数/一个字符串</p>
+<p>通过确定身份可以确定资源的访问者是谁：</p>
+<ol>
+<li>确定受控的主体</li>
+<li>提高服务接入门槛，阻挡一些不合法的访问</li>
+</ol>
+<h2 id="认证基础"><a href="#认证基础" class="headerlink" title="认证基础"></a>认证基础</h2><p>主体：代表外部实体在信息系统进行操作<br>实体：实体的额身份控制了与其关联的主体的行为<br>认证：将某个实体的身份与某个实体进行绑定</p>
+<p><strong>认证信息的类型：</strong></p>
+<ol>
+<li>实体知道什么</li>
+<li>实体拥有什么</li>
+<li>实体的生物特征</li>
+<li>实体的行为特征</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">获取认证信息-&gt;分析数据-&gt;认证响应</span><br></pre></td></tr></table></figure>
+<h3 id="认证系统的基本构成"><a href="#认证系统的基本构成" class="headerlink" title="认证系统的基本构成"></a>认证系统的基本构成</h3><ol>
+<li>认证信息集合A：实体提交给认证系统的信息</li>
+<li>补充信息集合C：认证系统预知的信息</li>
+<li>补充函数集合：通过A得到C的函数</li>
+<li>认证函数集合：验证身份的函数集合</li>
+<li>选择函数集合：使得一个实体可以创建/修改认证信息和补充信息</li>
+</ol>
+<h2 id="认证依据"><a href="#认证依据" class="headerlink" title="认证依据"></a>认证依据</h2><h3 id="口令"><a href="#口令" class="headerlink" title="口令"></a>口令</h3><p>前提：口令确定身份</p>
+<ul>
+<li>将口令存放在一个受保护的文件中</li>
+<li>以密文形式保存</li>
+<li>基于单向函数的口令加密</li>
+</ul>
+<h4 id="安全威胁"><a href="#安全威胁" class="headerlink" title="安全威胁"></a>安全威胁</h4><ol>
+<li>如果一个实体知道另一个实体的口令，那么就可以冒充他人</li>
+<li>可以通过认证函数，找到一个a使得队友认证函数F，得到有效的C</li>
+</ol>
+<p>保护方案：</p>
+<ol>
+<li>隐藏足够多的信息</li>
+<li>保密认证函数</li>
+</ol>
+<p><strong>攻击方法：</strong></p>
+<ol>
+<li>字典攻击：猜测口令<ul>
+<li>如果A和C是可以获得的，那么可以猜测每一个g对应f得到的f(g) = E的补充信息</li>
+<li>通过认证函数，若一次猜测g在认证函数中返回值是true，则g是正确的口令</li>
+</ul>
+</li>
+</ol>
+<p>防御：</p>
+<ol>
+<li>最大限度的增加猜测口令的时间</li>
+<li>随机口令</li>
+<li>后退技术：增加认证的时间成本</li>
+<li>断开链接</li>
+<li>禁用</li>
+<li>监禁，植入假数据</li>
+</ol>
+<h4 id="基于挑战-回答的身份认证"><a href="#基于挑战-回答的身份认证" class="headerlink" title="基于挑战-回答的身份认证"></a>基于挑战-回答的身份认证</h4><ul>
+<li>用户U与系统S预先协商好一个秘密函数F</li>
+<li>S发送一个随机消息m给U</li>
+<li>U计算r = f(m)，然后发送给S</li>
+<li>S独立计算r来验证</li>
+</ul>
+<p>例子：</p>
+<img src="/2018/12/29/数字签名/挑战回答.png" title="挑战回答">
+<h3 id="某个东西的持有性的身份认证"><a href="#某个东西的持有性的身份认证" class="headerlink" title="某个东西的持有性的身份认证"></a>某个东西的持有性的身份认证</h3><p>磁卡/PIN/智能卡</p>
+<h3 id="生物特征"><a href="#生物特征" class="headerlink" title="生物特征"></a>生物特征</h3><ul>
+<li>普遍性</li>
+<li>唯一性</li>
+<li>稳定性</li>
+<li>可采集</li>
+<li>性能好/可接受/难欺骗</li>
+</ul>
+<h2 id="认证协议"><a href="#认证协议" class="headerlink" title="认证协议"></a>认证协议</h2><h3 id="认证协议的分类"><a href="#认证协议的分类" class="headerlink" title="认证协议的分类"></a>认证协议的分类</h3><ol>
+<li>按方向：双向/单项</li>
+<li>按密码技术：对称/公钥</li>
+</ol>
+<h3 id="一次性认证口令（OTP）"><a href="#一次性认证口令（OTP）" class="headerlink" title="一次性认证口令（OTP）"></a>一次性认证口令（OTP）</h3><p>基本思路：登陆密码=Hash(用户名+口令+不确定因素)</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ol>
+<li>口令序列：系统记录第N个口令，下一次登陆的时候，用单向算法计算第N个口令，并进行匹配</li>
+<li>挑战-回答：发送随机数，用户用单向函数将自己的密码口令和随机数混合起来，计算一个Hash值</li>
+<li>时间同步：身份令牌每隔一段时间产生新的口令</li>
+<li>事件同步：挑战回答为基础，将单向的前后相关序列作为系统的挑战信息，避免反复输入挑战信息</li>
+</ol>
+<h1 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h1><h1 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h1><p>消息认证可以阻挡第三人的攻击，但是不能阻止通信双方中的欺骗和伪造</p>
+<p><strong>数字签名的特点</strong></p>
+<ol>
+<li>精确性</li>
+<li>唯一性</li>
+<li>时效性</li>
+</ol>
+<p><strong>数字签名的要求：</strong></p>
+<ol>
+<li>使用发送方独有的信息防伪造和否认</li>
+<li>产生，验证，识别很容易</li>
+<li>假冒签名不可行</li>
+</ol>
+<p>在互联网中，凡是需要解决伪造、抵赖、冒充与身份鉴别的问题，都可以通过数字签名来处理</p>
+<h2 id="数字签名的产生方式"><a href="#数字签名的产生方式" class="headerlink" title="数字签名的产生方式"></a>数字签名的产生方式</h2><h3 id="由加密算法产生数字签名"><a href="#由加密算法产生数字签名" class="headerlink" title="由加密算法产生数字签名"></a>由加密算法产生数字签名</h3><ol>
+<li>单钥加密：保密/认证</li>
+<li>公钥加密：<ol>
+<li>发送方用私钥加密，接收方用公钥解密</li>
+<li>发送方用自己的私钥签名用接收方的公钥加密</li>
+</ol>
+</li>
+</ol>
+<h3 id="由签名算法产生数字签名"><a href="#由签名算法产生数字签名" class="headerlink" title="由签名算法产生数字签名"></a>由签名算法产生数字签名</h3><p>输入消息M和密钥K</p>
+<p>输出数字签名S=sigk(M)</p>
+<p>验证算法：Verk(M,S)=true/false</p>
+<h4 id="直接执行的数字签名"><a href="#直接执行的数字签名" class="headerlink" title="直接执行的数字签名"></a>直接执行的数字签名</h4><ol>
+<li>直接明文签名：发送方用私钥加密，接收方用死要公钥加密：只有A知道自己的私钥，无法被篡改，任何第三方可以验证</li>
+<li>消息摘要签名：对M进行HASH函数的结果进行签名</li>
+</ol>
+<p><strong>直接执行的数字签名的不足：</strong></p>
+<ol>
+<li>验证依赖发送方的私有密钥：发送方可能生成私有密钥丢失/被窃，被签名的消息包含一个时间戳，密钥一旦泄漏立刻报告CRL</li>
+<li>前向不安全：密钥在时间T被窃取，敌手可以伪造早于或者等于时间T的时间戳</li>
+</ol>
+<h4 id="可仲裁数字签名"><a href="#可仲裁数字签名" class="headerlink" title="可仲裁数字签名"></a>可仲裁数字签名</h4><p>前提条件：所有参与者必须绝对相信仲裁者</p>
+<ol>
+<li>发送者将签名消息发送给仲裁者</li>
+<li>仲裁者进行一系列的测试，检查真实性和完整性</li>
+<li>附加时间戳</li>
+<li>将签名||时间戳发给接受者</li>
+</ol>
+<h5 id="单密钥可仲裁数字签名（仲裁者可以得到消息）"><a href="#单密钥可仲裁数字签名（仲裁者可以得到消息）" class="headerlink" title="单密钥可仲裁数字签名（仲裁者可以得到消息）"></a>单密钥可仲裁数字签名（仲裁者可以得到消息）</h5><p>发送者，接收者共享密钥Ka和Kb</p>
+<ol>
+<li>Alice计算H(m)和S=Eka[IDAlice||H(m)],将m||S发送给仲裁者</li>
+<li>仲裁者X解密S，用H（m）验证m</li>
+<li>仲裁者X计算Ekb(IDAlice||m||Eka[IDAlice||H(m)]||T)发送给Bob，</li>
+<li>Bob解密，将m和签名保存起来</li>
+</ol>
+<h5 id="单密钥可仲裁数字签名（仲裁者不可以得到消息）"><a href="#单密钥可仲裁数字签名（仲裁者不可以得到消息）" class="headerlink" title="单密钥可仲裁数字签名（仲裁者不可以得到消息）"></a>单密钥可仲裁数字签名（仲裁者不可以得到消息）</h5><ol>
+<li>发送者接收者共享Kab,发送者接收者共享Kax,Kbx</li>
+<li>Alice计算Ekab[m]、Ekax[IDAlice||H(Ekab(m))],将如下消息发送IDAlice||Ekab[m]||Ekax[IDAlice||H(Ekab(m))]</li>
+<li>仲裁者验证Ekax[IDAlice||H(Ekab(m))]的准确性</li>
+<li>仲裁者将Ekbx[IDAlice||Ekab[m]||Ekax[IDAlice||H(Ekab(m))]||T]发送给Bob</li>
+</ol>
+<p>单密钥签名方式的弊端：仲裁方可以联手否认或者伪造</p>
+<h5 id="双密钥可仲裁数字签名（仲裁者不能获知消息）"><a href="#双密钥可仲裁数字签名（仲裁者不能获知消息）" class="headerlink" title="双密钥可仲裁数字签名（仲裁者不能获知消息）"></a>双密钥可仲裁数字签名（仲裁者不能获知消息）</h5><p>发送方和接收方分别拥有（skAlice,pkAlic）(skBob,pkBob)</p>
+<ol>
+<li>Alice 计算S = Esk[IDAlice||Epkbob(EskAlice(m))]</li>
+<li>发送给仲裁者X，X检查Alice公私钥对的有效性</li>
+<li>X计算Eskx[IDAlice||Epkbob(EskAlice(m))]</li>
+<li>Bob接收到消息</li>
+</ol>
+<p>优点：</p>
+<ol>
+<li>在通信之前各方无需共享任何信息，避免了合谋攻击</li>
+<li>Alice私钥被窃取时间戳也不能被伪造</li>
+<li>消息对除了Alice和Bob之后的人保持机密性</li>
+</ol>
+<h2 id="DSS与DSA：数字签名算法"><a href="#DSS与DSA：数字签名算法" class="headerlink" title="DSS与DSA：数字签名算法"></a>DSS与DSA：数字签名算法</h2><p>DSA是EIGamal公钥算法变体，其安全性基于离散对数的难度</p>
+<p>m -&gt; SHA-1 -&gt;DSA+秘密密钥 -&gt; 数字签名</p>
+<p>m -&gt; SHA-1 -&gt;公开密钥+数字签名+DSA验证机制 -&gt;结果</p>
+<h3 id="EIGamal算法工作原理"><a href="#EIGamal算法工作原理" class="headerlink" title="EIGamal算法工作原理"></a>EIGamal算法工作原理</h3><p>选择一个素数P，两个随机数g和x，计算y = g ^ x mod p<br>公开密钥是y,g,p私钥是x.</p>
+<p><strong>加密：</strong>选择随机数r，(r,p-1)互素，计算a = g^r mod p,b = (y^r)m mod p, a 和 b是密文对，密文长度是明文的两倍</p>
+<p><strong>解密：</strong> m = b/a^x mod p</p>
+<h3 id="DSA工作原理"><a href="#DSA工作原理" class="headerlink" title="DSA工作原理"></a>DSA工作原理</h3><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><ol>
+<li>选择一个素数P，2^(L-1) &lt; P &lt; 2^L，512&lt;L&lt;1024,同时L%64 = 0</li>
+<li>选择随机数q,q是p-1的素因子，2^159 &lt; q &lt; 2 ^ 160</li>
+<li>g = h^(p-1/q)mod p, h是一个整数， 1&lt;h&lt;p-1, g mod p &gt; 1</li>
+<li>选择公私钥对，SK是随机整数， 0&lt;SK&lt;q, pk = g^SK mod p</li>
+<li>秘密参数K，0 &lt; k &lt; q,每次签名都重新生成K</li>
+</ol>
+<h4 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h4><ol>
+<li>发送方随机选择秘密参数K</li>
+<li>计算r = (g^k mod p)mod q</li>
+<li>计算s = (k^-1(H(m)+SKr))mod q,其中H（m）是使用SHA-1生成的m的散列码</li>
+<li>（r,s）是对消息m的数字签名</li>
+</ol>
+<h4 id="签名验证"><a href="#签名验证" class="headerlink" title="签名验证"></a>签名验证</h4><ol>
+<li>接收者接收到消息&lt;m,r,s&gt;</li>
+<li>接收者验证 0 &lt; r &lt; q, 0 &lt; s &lt; q</li>
+<li>计算：<ul>
+<li>w = s^-1 mod q</li>
+<li>u1 = [H(m)w] mod q</li>
+<li>u2 = [rw] mod q</li>
+<li>v = [[g^u1PK^u2]mod p] mod q</li>
+</ul>
+</li>
+<li>如果v = r,则签名验证通过</li>
+</ol>
+<h3 id="特殊的数字签名"><a href="#特殊的数字签名" class="headerlink" title="特殊的数字签名"></a>特殊的数字签名</h3><p><strong>一般的数字签名：</strong></p>
+<ul>
+<li>利：数字签名能够被复制，任何人都可以验证签名的有效性</li>
+<li>弊：私人信件和商业函件不希望被他人验证</li>
+</ul>
+<p><strong>不可否认数字签名：</strong></p>
+<ul>
+<li>在无签字者配合下不能验证签字的有效性</li>
+<li>应用于电子出版领域的知识产权保护</li>
+</ul>
+<p><strong>不可否认数字签名的应用逻辑：</strong></p>
+<ul>
+<li>签字者的参与就可以验证签名的有效性</li>
+<li>签字者拒绝合作九无法验证签名的有效性</li>
+<li>在签字者不合作的情况下：<ul>
+<li>在可信第三方的监督下，启用否认协议以证明签名的真假</li>
+<li>如果对方拒绝参与否认协议，那么就是他签名的</li>
+<li>如果不是他签名的，那么否认协议可以确认他没有签名</li>
+</ul>
+</li>
+</ul>
+<h3 id="盲签名"><a href="#盲签名" class="headerlink" title="盲签名"></a>盲签名</h3><p>基本思想：</p>
+<ul>
+<li>签名者把明文消息m通过盲变换为m’,隐藏了明文m的内容</li>
+<li>将m’给仲裁者签名，得到结果s(m’)</li>
+<li>签名者取回s(m’)，通过解盲处理得到s(m),即得到m的签名</li>
+</ul>
+<h4 id="RSA模式的盲签名"><a href="#RSA模式的盲签名" class="headerlink" title="RSA模式的盲签名"></a>RSA模式的盲签名</h4><p>Alice,选用盲因子，k, 1&lt;k&lt;m<br>计算 t = m k ^e mod n</p>
+<p>Bob 计算t^d mod n,得到s(t)</p>
+<p>Alice 计算S（t）/k = m^d mod n</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/28/虚拟内存/" rel="next" title="虚拟内存">
+                <i class="fa fa-chevron-left"></i> 虚拟内存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/30/文件系统/" rel="prev" title="文件系统">
+                文件系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Arron Tao" />
+            
+              <p class="site-author-name" itemprop="name">Arron Tao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/arrontaoyr" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/rong-ye-43-55" target="_blank" title="知乎"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#身份认证"><span class="nav-number">1.</span> <span class="nav-text">身份认证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#认证基础"><span class="nav-number">1.1.</span> <span class="nav-text">认证基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#认证系统的基本构成"><span class="nav-number">1.1.1.</span> <span class="nav-text">认证系统的基本构成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认证依据"><span class="nav-number">1.2.</span> <span class="nav-text">认证依据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#口令"><span class="nav-number">1.2.1.</span> <span class="nav-text">口令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安全威胁"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">安全威胁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于挑战-回答的身份认证"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">基于挑战-回答的身份认证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#某个东西的持有性的身份认证"><span class="nav-number">1.2.2.</span> <span class="nav-text">某个东西的持有性的身份认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生物特征"><span class="nav-number">1.2.3.</span> <span class="nav-text">生物特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认证协议"><span class="nav-number">1.3.</span> <span class="nav-text">认证协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#认证协议的分类"><span class="nav-number">1.3.1.</span> <span class="nav-text">认证协议的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一次性认证口令（OTP）"><span class="nav-number">1.3.2.</span> <span class="nav-text">一次性认证口令（OTP）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">分类</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#散列函数"><span class="nav-number">2.</span> <span class="nav-text">散列函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数字签名"><span class="nav-number">3.</span> <span class="nav-text">数字签名</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名的产生方式"><span class="nav-number">3.1.</span> <span class="nav-text">数字签名的产生方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#由加密算法产生数字签名"><span class="nav-number">3.1.1.</span> <span class="nav-text">由加密算法产生数字签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由签名算法产生数字签名"><span class="nav-number">3.1.2.</span> <span class="nav-text">由签名算法产生数字签名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#直接执行的数字签名"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">直接执行的数字签名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可仲裁数字签名"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">可仲裁数字签名</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#单密钥可仲裁数字签名（仲裁者可以得到消息）"><span class="nav-number">3.1.2.2.1.</span> <span class="nav-text">单密钥可仲裁数字签名（仲裁者可以得到消息）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#单密钥可仲裁数字签名（仲裁者不可以得到消息）"><span class="nav-number">3.1.2.2.2.</span> <span class="nav-text">单密钥可仲裁数字签名（仲裁者不可以得到消息）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#双密钥可仲裁数字签名（仲裁者不能获知消息）"><span class="nav-number">3.1.2.2.3.</span> <span class="nav-text">双密钥可仲裁数字签名（仲裁者不能获知消息）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DSS与DSA：数字签名算法"><span class="nav-number">3.2.</span> <span class="nav-text">DSS与DSA：数字签名算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EIGamal算法工作原理"><span class="nav-number">3.2.1.</span> <span class="nav-text">EIGamal算法工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DSA工作原理"><span class="nav-number">3.2.2.</span> <span class="nav-text">DSA工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#签名"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">签名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#签名验证"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">签名验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊的数字签名"><span class="nav-number">3.2.3.</span> <span class="nav-text">特殊的数字签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#盲签名"><span class="nav-number">3.2.4.</span> <span class="nav-text">盲签名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RSA模式的盲签名"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">RSA模式的盲签名</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arron Tao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
