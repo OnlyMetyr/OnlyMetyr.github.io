@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="关系 单一的数据结构——关系 逻辑结构——二维表 建立在集合代数的基础上  域(domain)域是一组具有相同数据类型的值的集合，如：整数、实数等 笛卡尔积给定一组域D1，D2，……，Dn，这些域中可以有相同的。 D1×D2×…×Dn ＝｛（d1，d2，…，dn）｜diDi，i＝1，2，…，n｝  所有域的所有取值的一个组合 不能重复  笛卡尔积可以表示成一个二维表，其中每一行表示一个元组，每一">
+<meta name="keywords" content="HelloWorld">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库第二章">
+<meta property="og:url" content="http://arrontao.vip/2019/03/11/数据库第二章/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="关系 单一的数据结构——关系 逻辑结构——二维表 建立在集合代数的基础上  域(domain)域是一组具有相同数据类型的值的集合，如：整数、实数等 笛卡尔积给定一组域D1，D2，……，Dn，这些域中可以有相同的。 D1×D2×…×Dn ＝｛（d1，d2，…，dn）｜diDi，i＝1，2，…，n｝  所有域的所有取值的一个组合 不能重复  笛卡尔积可以表示成一个二维表，其中每一行表示一个元组，每一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/关系模式.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/关系运算符.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/笛卡尔积.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/关系运算符1.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/记号.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/记号1.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/象集.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/选择.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/选择2.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/投影.png">
+<meta property="og:image" content="http://arrontao.vip/2019/03/11/数据库第二章/除法.png">
+<meta property="og:updated_time" content="2019-03-14T09:37:12.466Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库第二章">
+<meta name="twitter:description" content="关系 单一的数据结构——关系 逻辑结构——二维表 建立在集合代数的基础上  域(domain)域是一组具有相同数据类型的值的集合，如：整数、实数等 笛卡尔积给定一组域D1，D2，……，Dn，这些域中可以有相同的。 D1×D2×…×Dn ＝｛（d1，d2，…，dn）｜diDi，i＝1，2，…，n｝  所有域的所有取值的一个组合 不能重复  笛卡尔积可以表示成一个二维表，其中每一行表示一个元组，每一">
+<meta name="twitter:image" content="http://arrontao.vip/2019/03/11/数据库第二章/关系模式.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2019/03/11/数据库第二章/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据库第二章 | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2019/03/11/数据库第二章/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arron Tao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据库第二章
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-11 19:49:38" itemprop="dateCreated datePublished" datetime="2019-03-11T19:49:38+08:00">2019-03-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 17:37:12" itemprop="dateModified" datetime="2019-03-14T17:37:12+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h1><ul>
+<li>单一的数据结构——关系</li>
+<li>逻辑结构——二维表</li>
+<li>建立在集合代数的基础上</li>
+</ul>
+<p><strong>域(domain)</strong><br>域是一组具有相同数据类型的值的集合，如：整数、实数等</p>
+<p><strong>笛卡尔积</strong><br>给定一组域D1，D2，……，Dn，这些域中可以有相同的。</p>
+<p>D1×D2×…×Dn ＝｛（d1，d2，…，dn）｜diDi，i＝1，2，…，n｝</p>
+<ul>
+<li>所有域的所有取值的一个组合</li>
+<li>不能重复</li>
+</ul>
+<p><strong>笛卡尔积可以表示成一个二维表，其中每一行表示一个元组，每一列对应一个域</strong></p>
+<p><strong>元组(Tuple)</strong>笛卡尔积中每一个元素(d1，d2，…，dn)叫做一个n元组或简称元组(Tuple)</p>
+<p><strong>分量(Component)</strong>笛卡尔积元素中的每一个值di叫做一个分量</p>
+<p><strong>基数(Cardinal number)</strong>如果Di(i = 1,2,…,n)为有限集，其基数为mi（i=1,2,3..,n）则D1×D2×…×Dn的基数M=m1×m2×…×mn</p>
+<h2 id="什么叫关系？"><a href="#什么叫关系？" class="headerlink" title="什么叫关系？"></a>什么叫关系？</h2><p>D1×D2×…×Dn的子集叫做在域D1，D2，…Dn上的关系，表示为R（D1，D2，D3,…,Dn）</p>
+<p><strong>R</strong>关系名</p>
+<p><strong>n</strong>关系的目或者度</p>
+<p><strong>元组</strong>关系中每个关系是关系中的元组，用t表示</p>
+<p><strong>单元关系与二元关系</strong>n=1时候，为单元关系，n=2时，为二元关系</p>
+<p><strong>属性</strong>关系中不同的列对应不同的域，为了加以区分，必须对每列起一个名字，称为属性，n目关系必有n个属性</p>
+<p><strong>码</strong>如果关系中某一个属性组的值能够唯一地标示一个元组，则称该属性组为候选码，最极端的情况下，关系模式的所有属性组是这个关系模式的候选码，称为全码。如果一个关系有多个候选码，则选定其中一个为主码</p>
+<h3 id="三类关系"><a href="#三类关系" class="headerlink" title="三类关系"></a>三类关系</h3><ul>
+<li>基本关系：基本表，实际存在的表，是实际存储数据的逻辑表示</li>
+<li>查询表：查询结果对应的表</li>
+<li>视图表：由基本表或其他视图表导出的表，是虚表不对应实际存储的数据</li>
+</ul>
+<h2 id="关系模式"><a href="#关系模式" class="headerlink" title="关系模式"></a>关系模式</h2><p>关系模式是：型，是对关系的描述：</p>
+<ul>
+<li>元组集合的构成</li>
+<li>语义及完整性约束条件</li>
+<li>属性间的数据依赖关系集合</li>
+</ul>
+<p>关系模式可以形式化的表示为：R（U，D，DOM，F），可以简记为R（U）</p>
+<ul>
+<li>R关系名</li>
+<li>U组成该关系的属性名的集合</li>
+<li>D属性组U中属性所来自的域</li>
+<li>DOM属性向域的映像集合：说明出自哪个域</li>
+<li>F属性间的数据依赖关系集合</li>
+</ul>
+<img src="/2019/03/11/数据库第二章/关系模式.png" title="关系模式">
+<p>关系是：值</p>
+<p>关系模式是对关系的描述，是静态的稳定的，关系是关系模式在某时刻的状态或内容，是动态的、随时间不断变化的</p>
+<h1 id="关系操作"><a href="#关系操作" class="headerlink" title="关系操作"></a>关系操作</h1><p>常有的关系操作：</p>
+<ul>
+<li>查询</li>
+<li>数据更新</li>
+<li>查询的表达能力</li>
+<li>选择、投影、并、差、笛卡尔积</li>
+</ul>
+<p><strong>关系操作的特点是：操作的结果和对象都是集合，一次一集合的方式</strong></p>
+<h1 id="关系的完整性"><a href="#关系的完整性" class="headerlink" title="关系的完整性"></a>关系的完整性</h1><h2 id="关系的三类完整性约束："><a href="#关系的三类完整性约束：" class="headerlink" title="关系的三类完整性约束："></a>关系的三类完整性约束：</h2><ol>
+<li>实体完整性和参照完整性：关系模型必须满足的完整性约束条件，称为关系的两个不变性，应该由关系系统自动支持</li>
+<li>用户定义完整性：应用领域需要遵循的约束条件，体现了具体领域中的语义约束</li>
+</ol>
+<h2 id="实体完整性"><a href="#实体完整性" class="headerlink" title="实体完整性"></a>实体完整性</h2><p>Entity Integrity</p>
+<ol>
+<li>若属性A是基本关系R的主属性，则属性A不能取空值</li>
+</ol>
+<h2 id="参照完整性"><a href="#参照完整性" class="headerlink" title="参照完整性"></a>参照完整性</h2><ul>
+<li>设F是基本关系R的一个或一组属性，但不是关系R的码，如果F与基本关系S的主码Ks相对应，则称F是基本关系R的外码</li>
+<li>关系R被称为参照关系</li>
+<li>关系S被称为被参照关系或目标关系</li>
+<li>关系R和关系S不一定是不同的关系</li>
+<li>目标关系S的主码Ks和参照关系的外码F必须定义在同一个域上</li>
+<li>外码不一定要与相应的主码同名</li>
+</ul>
+<p><strong>参照完整性规则</strong>若属性（或属性组）F是基本关系R的外码它与基本关系S的主码Ks相对应（基本关系R和S不一定是不同的关系），则对于R中每个元组在F上的值必须为：</p>
+<ul>
+<li>或者取空值（F的每个属性值均为空值）</li>
+<li>或者等于S中某个元组的主码值</li>
+</ul>
+<h2 id="用户定义完整性"><a href="#用户定义完整性" class="headerlink" title="用户定义完整性"></a>用户定义完整性</h2><ul>
+<li>针对某一具体关系数据库的约束条件，反映某一具体应用所涉及的数据必须满足的语义要求</li>
+<li>关系模型应提供定义和检验这类完整性的机制，以便用统一的系统的方法处理它们，而不要由应用程序承担这一功能</li>
+</ul>
+<h1 id="关系代数"><a href="#关系代数" class="headerlink" title="关系代数"></a>关系代数</h1><h2 id="传统的关系运算"><a href="#传统的关系运算" class="headerlink" title="传统的关系运算"></a>传统的关系运算</h2><img src="/2019/03/11/数据库第二章/关系运算符.png" title="关系运算符">
+<p>R和S：</p>
+<ol>
+<li>具有相同的目n（都有n个属性）</li>
+<li>相应的属性取自同一个域</li>
+</ol>
+<h3 id="并"><a href="#并" class="headerlink" title="并"></a>并</h3><p>仍为n目关系，由属于R或属于S的元组组成 </p>
+<p>R∪S = { t|t belong R∨t belong S }</p>
+<h3 id="减"><a href="#减" class="headerlink" title="减"></a>减</h3><p>仍为n目关系，由属于R而不属于S的所有元组组成</p>
+<p>R -S = { t|t belong R∧t not belong S }</p>
+<h3 id="交"><a href="#交" class="headerlink" title="交"></a>交</h3><p>仍为n目关系，由既属于R又属于S的元组组成</p>
+<p>R∩S = { t|t belong R∧t belong S }</p>
+<p>R∩S = R –(R-S）</p>
+<h3 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h3><img src="/2019/03/11/数据库第二章/笛卡尔积.png" title="笛卡尔积">
+<h2 id="专门的关系运算"><a href="#专门的关系运算" class="headerlink" title="专门的关系运算"></a>专门的关系运算</h2><img src="/2019/03/11/数据库第二章/关系运算符1.png" title="关系运算符1">
+<h3 id="引入几个记号"><a href="#引入几个记号" class="headerlink" title="引入几个记号"></a>引入几个记号</h3><ul>
+<li>设关系模式为R(A1，A2，…，An),它的一个关系设为R,t belong R表示t是R的一个元组, t[Ai]则表示元组t中相应于属性Ai的一个分量 </li>
+</ul>
+<img src="/2019/03/11/数据库第二章/记号.png" title="记号"> 
+<img src="/2019/03/11/数据库第二章/记号1.png" title="记号1"> 
+<img src="/2019/03/11/数据库第二章/象集.png" title="象集">
+<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><img src="/2019/03/11/数据库第二章/选择.png" title="选择">
+<img src="/2019/03/11/数据库第二章/选择2.png" title="选择2">
+<h3 id="投影"><a href="#投影" class="headerlink" title="投影"></a>投影</h3><p>从R中选择出若干属性列组成新的关系</p>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>连接也称为θ连接<br>2）连接运算的含义</p>
+<ul>
+<li>从两个关系的笛卡尔积中选取属性间满足一定条件的元组</li>
+<li>A和B：分别为R和S上度数相等且可比的属性组</li>
+<li>θ：比较运算符</li>
+<li>连接运算从R和S的广义笛卡尔积R×S中选取（R关系）在A属性组上的值与（S关系）在B属性组上值满足比较关系θ的元组 </li>
+</ul>
+<p>一般的连接操作是从行的角度进行运算。自然连接还需要取消重复列，所以是同时从行和列的角度进行运算。 </p>
+<h4 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h4><p>如果把舍弃的元组也保存在结果关系中，而在其他属性上填空值(Null)，这种连接就叫做外连接（OUTER JOIN）。</p>
+<h4 id="左外连接"><a href="#左外连接" class="headerlink" title="左外连接"></a>左外连接</h4><p>如果只把左边关系R中要舍弃的元组保留就叫做左外连接(LEFT OUTER JOIN或LEFT JOIN)</p>
+<h4 id="右外连接"><a href="#右外连接" class="headerlink" title="右外连接"></a>右外连接</h4><p>如果只把右边关系S中要舍弃的元组保留就叫做右外连接(RIGHT OUTER JOIN或RIGHT JOIN)。 </p>
+<h3 id="除操作"><a href="#除操作" class="headerlink" title="除操作"></a>除操作</h3><img src="/2019/03/11/数据库第二章/投影.png" title="投影">
+<img src="/2019/03/11/数据库第二章/除法.png" title="除法">
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/数据库第一章/" rel="next" title="数据库第一章">
+                <i class="fa fa-chevron-left"></i> 数据库第一章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Arron Tao" />
+            
+              <p class="site-author-name" itemprop="name">Arron Tao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/arrontaoyr" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/rong-ye-43-55" target="_blank" title="知乎"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系"><span class="nav-number">1.</span> <span class="nav-text">关系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么叫关系？"><span class="nav-number">1.1.</span> <span class="nav-text">什么叫关系？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三类关系"><span class="nav-number">1.1.1.</span> <span class="nav-text">三类关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关系模式"><span class="nav-number">1.2.</span> <span class="nav-text">关系模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关系操作"><span class="nav-number">2.</span> <span class="nav-text">关系操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关系的完整性"><span class="nav-number">3.</span> <span class="nav-text">关系的完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关系的三类完整性约束："><span class="nav-number">3.1.</span> <span class="nav-text">关系的三类完整性约束：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体完整性"><span class="nav-number">3.2.</span> <span class="nav-text">实体完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参照完整性"><span class="nav-number">3.3.</span> <span class="nav-text">参照完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户定义完整性"><span class="nav-number">3.4.</span> <span class="nav-text">用户定义完整性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关系代数"><span class="nav-number">4.</span> <span class="nav-text">关系代数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的关系运算"><span class="nav-number">4.1.</span> <span class="nav-text">传统的关系运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#并"><span class="nav-number">4.1.1.</span> <span class="nav-text">并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减"><span class="nav-number">4.1.2.</span> <span class="nav-text">减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交"><span class="nav-number">4.1.3.</span> <span class="nav-text">交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#笛卡尔积"><span class="nav-number">4.1.4.</span> <span class="nav-text">笛卡尔积</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专门的关系运算"><span class="nav-number">4.2.</span> <span class="nav-text">专门的关系运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入几个记号"><span class="nav-number">4.2.1.</span> <span class="nav-text">引入几个记号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择"><span class="nav-number">4.2.2.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#投影"><span class="nav-number">4.2.3.</span> <span class="nav-text">投影</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接"><span class="nav-number">4.2.4.</span> <span class="nav-text">连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#外连接"><span class="nav-number">4.2.4.1.</span> <span class="nav-text">外连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#左外连接"><span class="nav-number">4.2.4.2.</span> <span class="nav-text">左外连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#右外连接"><span class="nav-number">4.2.4.3.</span> <span class="nav-text">右外连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#除操作"><span class="nav-number">4.2.5.</span> <span class="nav-text">除操作</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arron Tao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
