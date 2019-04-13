@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SQL的数据定义功能 模式定义 表定义 视图 索引  模式的定义与删除模式的定义1CREATE SCHEMA &quot;S_T&quot; AUTHORIZATION WANG;  给用户 WANG 定义了一个模式S_T  1CREATE SCHEMA AUTHORIZATION WANG;  给用户 WANG 定义了一个模式 WANG  定义模式实际上是一个命名空间，所有的数据库对象如表、视图、索引，其后可以加C">
+<meta name="keywords" content="Database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据表操作进阶">
+<meta property="og:url" content="http://arrontao.vip/2019/04/13/数据表操作进阶/index.html">
+<meta property="og:site_name" content="Chaotic&#39;s Blogs">
+<meta property="og:description" content="SQL的数据定义功能 模式定义 表定义 视图 索引  模式的定义与删除模式的定义1CREATE SCHEMA &quot;S_T&quot; AUTHORIZATION WANG;  给用户 WANG 定义了一个模式S_T  1CREATE SCHEMA AUTHORIZATION WANG;  给用户 WANG 定义了一个模式 WANG  定义模式实际上是一个命名空间，所有的数据库对象如表、视图、索引，其后可以加C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-13T09:06:28.320Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据表操作进阶">
+<meta name="twitter:description" content="SQL的数据定义功能 模式定义 表定义 视图 索引  模式的定义与删除模式的定义1CREATE SCHEMA &quot;S_T&quot; AUTHORIZATION WANG;  给用户 WANG 定义了一个模式S_T  1CREATE SCHEMA AUTHORIZATION WANG;  给用户 WANG 定义了一个模式 WANG  定义模式实际上是一个命名空间，所有的数据库对象如表、视图、索引，其后可以加C">
+
+
+
+
+
+
+  <link rel="canonical" href="http://arrontao.vip/2019/04/13/数据表操作进阶/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据表操作进阶 | Chaotic's Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaotic's Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">悲欢离合总无情，一任阶前，点滴到天明</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://arrontao.vip/2019/04/13/数据表操作进阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arron Tao">
+      <meta itemprop="description" content="让我们来记录一些东西">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaotic's Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据表操作进阶
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-04-13 17:05:15 / Modified: 17:06:28" itemprop="dateCreated datePublished" datetime="2019-04-13T17:05:15+08:00">2019-04-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/note/" itemprop="url" rel="index"><span itemprop="name">note</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="SQL的数据定义功能"><a href="#SQL的数据定义功能" class="headerlink" title="SQL的数据定义功能"></a>SQL的数据定义功能</h1><ul>
+<li>模式定义</li>
+<li>表定义</li>
+<li>视图</li>
+<li>索引</li>
+</ul>
+<h1 id="模式的定义与删除"><a href="#模式的定义与删除" class="headerlink" title="模式的定义与删除"></a>模式的定义与删除</h1><h2 id="模式的定义"><a href="#模式的定义" class="headerlink" title="模式的定义"></a>模式的定义</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">SCHEMA</span> <span class="string">"S_T"</span> AUTHORIZATION WANG;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>给用户 WANG 定义了一个模式S_T</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE SCHEMA AUTHORIZATION WANG;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>给用户 WANG 定义了一个模式 WANG</li>
+</ul>
+<p>定义模式实际上是一个命名空间，所有的数据库对象如表、视图、索引，其后可以加<code>CREATE TABLE</code>、<code>CREATE VIEW</code>、<code>GRANT</code>（用来进行用户权限管理）</p>
+<h2 id="模式的删除"><a href="#模式的删除" class="headerlink" title="模式的删除"></a>模式的删除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP SCHEMA &lt;schemaName&gt; &lt;CASCADE|RESTRICT&gt;</span><br></pre></td></tr></table></figure>
+<p><code>CASCADE</code>级联，删除模式的同时删除所有的数据库对象</p>
+<p><code>RESTRICT</code>,如果该schema定义了数据库对象则拒绝删除否则执行</p>
+<h1 id="基本表的定义、删除和修改"><a href="#基本表的定义、删除和修改" class="headerlink" title="基本表的定义、删除和修改"></a>基本表的定义、删除和修改</h1><h2 id="定义基本表"><a href="#定义基本表" class="headerlink" title="定义基本表"></a>定义基本表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &lt;NAME&gt;</span><br><span class="line">( &lt;col_name&gt; &lt;数据类型&gt; [&lt;列级完整性约束条件&gt;],</span><br><span class="line">  &lt;col_name&gt; &lt;数据类型&gt; [&lt;列级完整性约束条件&gt;],</span><br><span class="line">  &lt;col_name&gt; &lt;数据类型&gt; [&lt;列级完整性约束条件&gt;],</span><br><span class="line">  ...</span><br><span class="line">  &lt;col_name&gt; &lt;数据类型&gt; [&lt;列级完整性约束条件&gt;],</span><br><span class="line">  &lt;表级完整性约束条件&gt;) 引擎等信息定义;</span><br></pre></td></tr></table></figure>
+<p>如果完整性涉及多个属性列则定义在表级完整性约束条件<br>例如创建一个学生表SC</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE SC</span><br><span class="line">( Sno CHAR(9),</span><br><span class="line">  Cno CHAR(4),</span><br><span class="line">  Grade SMALLINT,</span><br><span class="line">  PRIMARY KEY(Sno,Cno),</span><br><span class="line">  FOREIGN KEY(Sno) REFERENCES Student(Sno),</span><br><span class="line">  FOREIGN KEY(Cno) REFERENCES Course(Cno)</span><br><span class="line"> );</span><br></pre></td></tr></table></figure>
+<p><strong>数据类型</strong></p>
+<ul>
+<li>char(n) : 定长为n的字符串</li>
+<li>varchar(n) : 最大长度为n的变长字符串</li>
+<li>int : 长整数</li>
+<li>smallint :短整数</li>
+<li>numeri(p,d) :定点数，由p位数字组成，小数后有d位数字</li>
+<li>real : 取决于机器精度的浮点数</li>
+<li>double precision :取决于机器精度的双精度浮点数</li>
+<li>float(n) :浮点数，精度至少为n位数字</li>
+<li>date :日期，YYYY-MM-DD</li>
+<li>time :时间，HH：MM：SS</li>
+</ul>
+<p>每一个基本表都属于一个模式，一个模式包含多个基本表</p>
+<ul>
+<li>在表名中明显的给出模式名</li>
+<li>在创建模式的时候同时创建表</li>
+<li>设置所属的模式</li>
+</ul>
+<p>创建基本表的时候，如果没有指定模式、则根据搜索路径来确定其所属的模式</p>
+<p>RDBMS 会使用模式列表第一个存在的模式作为数据库对象的模式名</p>
+<p>如果所有的模式名都不存在，则错误</p>
+<p><code>SHOW search_path;</code></p>
+<p>默认值：$user,PUBLIC</p>
+<p>DBA用户可以设置<br><code>SET search_path to &quot;S_T&quot;, public;</code></p>
+<p><code>create table student(...)</code></p>
+<p>RDBMS会使用第一个模式名S_T</p>
+<h2 id="修改表列信息"><a href="#修改表列信息" class="headerlink" title="修改表列信息"></a>修改表列信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE &lt;表名&gt; </span><br><span class="line">[ADD 新列名 数据类型 列级完整性约束 ]</span><br><span class="line">[DROP 完整性约束名]</span><br><span class="line">[ALTER colomn 列名 数据类型]</span><br></pre></td></tr></table></figure>
+<h2 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h2><p><code>DROP table tablename [RESTRICT|CASCADE]</code></p>
+<h1 id="索引的建立和删除"><a href="#索引的建立和删除" class="headerlink" title="索引的建立和删除"></a>索引的建立和删除</h1><p>建立索引：加快查询速度<br>一般会自动建立 PRIMARY KEY 和 UNIQUE上的索引</p>
+<p>RDBMS中索引一般采用B+树、HASH索引来实现</p>
+<p>B+树具有动态平衡的特点、HASH具有查找快的特点</p>
+<p><code>CREATE CLUSTER INDEX Stusname ON Student(Sname)</code></p>
+<p>在经常查询的列上建立、一个表上最多只能建立一个、经常更新的列不宜建立</p>
+<p><code>CREATE UNIOUE INDEX Stusno ON Student(Sno)</code></p>
+<p>删除<br><code>drop index name</code></p>
+<h1 id="数据查询"><a href="#数据查询" class="headerlink" title="数据查询"></a>数据查询</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT [ALL|DISTINCT] &lt;目标列表达式&gt;</span><br><span class="line">from &lt;表名|视图名&gt;</span><br><span class="line">[where &lt;条件表达式&gt;]</span><br><span class="line">[GROUP &lt;列名&gt; [having &lt;条件表达式&gt;]]</span><br><span class="line">[ORDER by &lt;列名&gt; [ASC|DESC]]</span><br></pre></td></tr></table></figure>
+<h2 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h2><h3 id="选择表中若干列"><a href="#选择表中若干列" class="headerlink" title="选择表中若干列"></a>选择表中若干列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;目标列表达式&gt; from &lt;表名&gt;</span><br></pre></td></tr></table></figure>
+<p>目标列表达式：</p>
+<ul>
+<li><ul>
+<li>：标示全体列</li>
+</ul>
+</li>
+<li>算数表达式</li>
+<li>字符串常量</li>
+<li>函数</li>
+<li>列别名</li>
+</ul>
+<p>e.g. 查询全体学生的姓名、出生年份和所有系，要求用小写字母表示所有系名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT Sname, &apos;year of birth:&apos;, 2004-Sage, LOWER(Sdept)</span><br><span class="line">FROM Student;</span><br></pre></td></tr></table></figure>
+<p>e.g. 使用列别名改变查询结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT Sname NAME, &apos;year of birth&apos; BIRTH, 2000-Sage BIRTHDAY, LOWER(Sdept) DEPARTMENT</span><br><span class="line">FROM Student;</span><br></pre></td></tr></table></figure>
+<h3 id="选择表中若干元组"><a href="#选择表中若干元组" class="headerlink" title="选择表中若干元组"></a>选择表中若干元组</h3><p>消除取值重复的行：如果没有指定为DISTINCT则缺省为ALL，指定了DISTINCT关键词则去掉表中重复行</p>
+<p><strong>常用查询条件：</strong></p>
+<ul>
+<li>=，&gt;，&lt;，&gt;=，&lt;=，!=，&lt;&gt;，!&gt;，!&lt;；NOT+上述比较运算符</li>
+<li>BETWEEN AND，NOT BETWEEN AND</li>
+<li>IN，NOT IN</li>
+<li>LIKE，NOT LIKE</li>
+<li>IS NULL，IS NOT NULL</li>
+<li>AND，OR，NOT</li>
+</ul>
+<h3 id="聚集函数"><a href="#聚集函数" class="headerlink" title="聚集函数"></a>聚集函数</h3><ul>
+<li>计数 COUNT</li>
+<li>计算总和 SUM</li>
+<li>计算平均值 AVG</li>
+<li>最大最小值 MAX，MIN</li>
+</ul>
+<p>查询学生200215012选修课程的总学分数。</p>
+<pre><code>SELECT SUM(Ccredit)
+FROM  SC， Course
+WHERE Sno=&apos;200215012&apos; AND SC.Cno=Course.Cno; 
+</code></pre><h3 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h3><p> 求各个课程号及相应的选课人数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT Cno，COUNT(Sno)FROM  SCGROUP BY Cno</span><br></pre></td></tr></table></figure>
+<h2 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h2><p>连接条件：一般格式为：比较运算符/BETWEEN AND</p>
+<h3 id="等值连接与非等值连接"><a href="#等值连接与非等值连接" class="headerlink" title="等值连接与非等值连接"></a>等值连接与非等值连接</h3><p>等值连接：连接运算符为=</p>
+<p>自然连接：</p>
+<h3 id="自身连接"><a href="#自身连接" class="headerlink" title="自身连接"></a>自身连接</h3><p>自身连接：一个表与其自己进行连接<br>需要给表起别名以示区别<br>由于所有属性名都是同名属性，因此必须使用别名前缀</p>
+<h3 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h3><p>外连接与普通连接的区别</p>
+<ul>
+<li>普通连接操作只输出满足连接条件的元组</li>
+<li><p>外连接操作以指定表为连接主体，将主体表中不满足连接条件的元组一并输出</p>
+</li>
+<li><p>左外连接<br>列出左边关系（如本例Student）中所有的元组 </p>
+</li>
+<li>右外连接<br>列出右边关系中所有的元组 </li>
+</ul>
+<h3 id="复合条件连接"><a href="#复合条件连接" class="headerlink" title="复合条件连接"></a>复合条件连接</h3><p>复合条件连接：WHERE子句中含多个连接条件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">查询选修2号课程且成绩在90分以上的所有学生		SELECT Student.Sno, SnameFROM    Student, SCWHERE Student.Sno = SC.Sno AND   			         /* 连接谓词*/		SC.Cno= ‘2’ AND SC.Grade &gt; 90；       					/* 其他限定条件 */</span><br><span class="line">```## 嵌套查询</span><br><span class="line"></span><br><span class="line">一个SELECT-FROM-WHERE语句称为一个查询块，将一个查询块嵌套在另一个查询块的WHERE子句或HAVING短语的条件中的查询称为嵌套查询**注意：**</span><br><span class="line"></span><br><span class="line">- 子查询的限制：不能使用ORDER BY子句</span><br><span class="line">- 层层嵌套方式反映了 SQL语言的结构化</span><br><span class="line">- 有些嵌套查询可以用连接运算替代</span><br><span class="line"></span><br><span class="line">1. 不相关子查询</span><br><span class="line">子查询的查询条件不依赖于父查询由里向外 逐层处理。即每个子查询在上一级查询处理之前求解，子查询的结果用于建立其父查询的查找条件。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2. 相关子查询首先取外层查询中表的第一个元组，根据它与内层查询相关的属性值处理内层查询，若WHERE子句返回值为真，则取此元组放入结果表然后再取外层表的下一个元组重复这一过程，直至外层表全部检查完为止### 带IN谓词的子查询</span><br><span class="line"></span><br><span class="line">查询与“刘晨”在同一个系学习的学生。</span><br></pre></td></tr></table></figure>
+<p>SELECT Sno,Sname,Sdept<br>from Student<br>where Sdept in<br>(<br>SElECT Sdept<br>from Student<br>where Sname=’刘晨’);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 带比较运算符的查询</span><br><span class="line"></span><br><span class="line">- 当能确切知道内层查询返回单值时，可用比较运算符（&gt;，&lt;，=，&gt;=，&lt;=，!=或&lt; &gt;）。</span><br><span class="line">- 与ANY或ALL谓词配合使用</span><br><span class="line">- 子查询一定要跟在比较符之后###  带有ANY（SOME）或ALL谓词的子查询- ANY：任意一个值- ALL：所有值### 带有EXIST的子查询</span><br><span class="line"></span><br><span class="line">**EXISTS谓词**</span><br><span class="line">- 存在量词</span><br><span class="line">带有EXISTS谓词的子查询不返回任何数据，只产生逻辑真值“true”或逻辑假值“false”。</span><br><span class="line">1. 若内层查询结果非空，则外层的WHERE子句返回真值2. 若内层查询结果为空，则外层的WHERE子句返回假值3. 由EXISTS引出的子查询，其目标列表达式通常都用* ，因为带EXISTS的子查询只返回真值或假值，给出列名无实际意义- NOT EXISTS谓词1. 若内层查询结果非空，则外层的WHERE子句返回假值2. 若内层查询结果为空，则外层的WHERE子句返回真值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">**用EXISTS/NOT EXISTS实现全称量词(难点)**</span><br><span class="line">SQL语言中没有全称量词（For all）可以把带有全称量词的谓词转换为等价的带有存在量词的谓词：        (Vx)P ≡ -| (E x(-| P))    **用EXISTS/NOT EXISTS实现逻辑蕴函(难点)**</span><br><span class="line"></span><br><span class="line">SQL语言中没有蕴函(Implication)逻辑运算可以利用谓词演算将逻辑蕴函谓词等价转换为：                   p -&gt; q ≡ -| p∨q </span><br><span class="line">                   </span><br><span class="line">                   ## 集合查询集合操作的种类- 并操作UNION- 交操作INTERSECT- 差操作EXCEPT</span><br><span class="line">参加集合操作的各查询结果的列数必须相同；对应项的数据类型也必须相同 # 数据更新</span><br><span class="line"></span><br><span class="line">## 插入数据</span><br><span class="line"></span><br><span class="line">### 插入元组</span><br></pre></td></tr></table></figure></p>
+<p>insert into &lt;表名&gt; (属性列)<br>values (插入值)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- INTO子句1. 属性列的顺序可与表定义中的顺序不一致2. 没有指定属性列3. 指定部分属性列</span><br><span class="line"></span><br><span class="line">### 插入子查询结果</span><br><span class="line"></span><br><span class="line">RDBMS在执行插入语句时会检查所插元组是否破坏表上已定义的完整性规则- 实体完整性</span><br><span class="line">- 参照完整性</span><br><span class="line">- 用户定义完整性</span><br><span class="line">	1. NOT NULL约束</span><br><span class="line">	2. UNIQUE约束</span><br><span class="line">	3. 值域约束</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 修改数据</span><br></pre></td></tr></table></figure></p>
+<p>update table_name<br>set columnname=value,columnname=value<br>where condition<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**三种修改方式**</span><br><span class="line"></span><br><span class="line">1. 修改某一个元组的值</span><br><span class="line">2. 修改多个元组的值</span><br><span class="line">3. 带子查询的修改语句</span><br><span class="line"></span><br><span class="line">- 实体完整性</span><br><span class="line">- 主码不允许修改</span><br><span class="line">- 用户定义的完整性 1. NOT NULL约束 2. UNIQUE约束 3. 值域约束</span><br><span class="line"></span><br><span class="line">## 删除数据</span><br></pre></td></tr></table></figure></p>
+<p>DELETE<br>from TABLE<br>WHERE<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">WHERE CLAUSE:指定要删除的元组缺省表示要删除表中的全部元组，表的定义仍在字典中**三种删除方式**</span><br><span class="line"></span><br><span class="line">1. 修改某一个元组的值</span><br><span class="line">2. 修改多个元组的值</span><br><span class="line">3. 带子查询的修改语句</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 视图</span><br><span class="line"></span><br><span class="line">基于视图的操作：</span><br><span class="line"></span><br><span class="line">1. 查询</span><br><span class="line">2. 删除</span><br><span class="line">3. 受限更新</span><br><span class="line">4. 定义基于视图的视图</span><br><span class="line"></span><br><span class="line">## 建立视图</span><br></pre></td></tr></table></figure></p>
+<p>CREATE VIEW name column<br>AS SELECT</p>
+<pre><code>
+- 组成视图的属性列名：全部省略或全部指定
+- 子查询不允许含有ORDER BY子句和DISTINCT短语
+
+## 删除视图
+
+语句的格式：
+
+</code></pre><pre><code>DROP  VIEW  &lt;视图名&gt;；
+</code></pre><p><code>`</code></p>
+<ul>
+<li>该语句从数据字典中删除指定的视图定义</li>
+<li>如果该视图上还导出了其他视图，使用CASCADE级联删除语句，把该视图和由它导出的所有视图一起删除 </li>
+<li>删除基表时，由该基表导出的所有视图定义都必须显式地使用DROP VIEW语句删除 </li>
+</ul>
+<h2 id="查询视图"><a href="#查询视图" class="headerlink" title="查询视图"></a>查询视图</h2><p>类似对基本表的查询</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Database/" rel="tag"># Database</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/数据库第二章/" rel="next" title="数据库第二章">
+                <i class="fa fa-chevron-left"></i> 数据库第二章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Arron Tao" />
+            
+              <p class="site-author-name" itemprop="name">Arron Tao</p>
+              <p class="site-description motion-element" itemprop="description">让我们来记录一些东西</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/arrontaoyr" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/rong-ye-43-55" target="_blank" title="知乎"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL的数据定义功能"><span class="nav-number">1.</span> <span class="nav-text">SQL的数据定义功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模式的定义与删除"><span class="nav-number">2.</span> <span class="nav-text">模式的定义与删除</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模式的定义"><span class="nav-number">2.1.</span> <span class="nav-text">模式的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模式的删除"><span class="nav-number">2.2.</span> <span class="nav-text">模式的删除</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本表的定义、删除和修改"><span class="nav-number">3.</span> <span class="nav-text">基本表的定义、删除和修改</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义基本表"><span class="nav-number">3.1.</span> <span class="nav-text">定义基本表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改表列信息"><span class="nav-number">3.2.</span> <span class="nav-text">修改表列信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除表"><span class="nav-number">3.3.</span> <span class="nav-text">删除表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#索引的建立和删除"><span class="nav-number">4.</span> <span class="nav-text">索引的建立和删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据查询"><span class="nav-number">5.</span> <span class="nav-text">数据查询</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单表查询"><span class="nav-number">5.1.</span> <span class="nav-text">单表查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择表中若干列"><span class="nav-number">5.1.1.</span> <span class="nav-text">选择表中若干列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择表中若干元组"><span class="nav-number">5.1.2.</span> <span class="nav-text">选择表中若干元组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚集函数"><span class="nav-number">5.1.3.</span> <span class="nav-text">聚集函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GROUP-BY"><span class="nav-number">5.1.4.</span> <span class="nav-text">GROUP BY</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接查询"><span class="nav-number">5.2.</span> <span class="nav-text">连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#等值连接与非等值连接"><span class="nav-number">5.2.1.</span> <span class="nav-text">等值连接与非等值连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自身连接"><span class="nav-number">5.2.2.</span> <span class="nav-text">自身连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外连接"><span class="nav-number">5.2.3.</span> <span class="nav-text">外连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复合条件连接"><span class="nav-number">5.2.4.</span> <span class="nav-text">复合条件连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询视图"><span class="nav-number">5.3.</span> <span class="nav-text">查询视图</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arron Tao</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
